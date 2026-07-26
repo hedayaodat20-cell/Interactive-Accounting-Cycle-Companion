@@ -1,1 +1,1902 @@
 
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> - Interactive Accounting Cycle Companion</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts (Cairo) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #f8fafc;
+            font-size: 1.1rem;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 6px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .tab-pane {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .scale-balance {
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col selection:bg-amber-500 selection:text-white">
+    <!-- Header Section -->
+    <header class="bg-gradient-to-r from-slate-900 via-slate-850 to-indigo-950 text-white shadow-2xl sticky top-0 z-50 border-b border-amber-500/20">
+        <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3.5">
+                <div class="p-3 bg-gradient-to-br from-amber-500 to-amber-600 rounded-xl border border-amber-400/40 shadow-lg shadow-amber-500/10">
+                    <svg class="w-8 h-8 text-slate-950" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-xl sm:text-2xl font-black tracking-wide flex items-center gap-2">
+                        Accounting Cycle <span class="text-xs bg-amber-500 text-slate-950 font-bold px-2 py-1 rounded-md">Interactive Tutor</span>
+                    </h1>
+                    <p class="text-xs text-slate-300 font-medium mt-0.5">الدليل التعليمي الشامل لفهم الدورة المحاسبية والمصطلحات</p>
+                </div>
+            </div>
+            
+            <div class="flex flex-wrap items-center gap-3 w-full md:w-auto justify-end">
+                <div class="w-full sm:w-auto">
+                    <label for="scenario-select" class="block text-[11px] text-amber-400 font-bold mb-1">الحالة الدراسية (Select Scenario):</label>
+                    <select id="scenario-select" onchange="changeScenario(this.value)" class="bg-slate-800 border border-slate-700 text-white rounded-lg text-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400 font-bold w-full sm:w-64 cursor-pointer">
+                        <option value="advanced" selected>1. شركة يُسر للاستشارات والتدريب (Consulting Co. - Med)</option>
+                        <option value="custom"> 🛠️  حالة دراسية مخصصة من إنشائك (Custom Builder)</option>
+                    </select>
+                </div>
+                <button onclick="openScenarioBuilder()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs px-3.5 py-2.5 rounded-lg shadow-md transition flex items-center gap-1">
+                    <span>+ أضف مثالك الخاص (Create Case)</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Modes -->
+    <div class="bg-slate-900 border-b border-slate-800 text-white py-3 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-center sm:justify-start gap-3">
+            <button onclick="toggleMasterMode('practical')" id="mode-btn-practical" class="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-base font-black transition-all duration-300 shadow bg-amber-500 text-slate-950 w-full sm:w-auto">
+                <span class="text-lg"> 🛠️ </span>
+                <span>الجانب العملي والتطبيقي (Practical Workspace)</span>
+            </button>
+            <button onclick="toggleMasterMode('theoretical')" id="mode-btn-theoretical" class="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-base font-black transition-all duration-300 text-slate-300 hover:bg-slate-800 hover:text-white w-full sm:w-auto">
+                <span class="text-lg"> 📖 </span>
+                <span>الجانب النظري والأكاديمي (Theory Guide)</span>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Practical Workspace Main Container -->
+    <main id="view-practical-container" class="flex-grow max-w-7xl w-full mx-auto px-4 py-6 sm:px-6 lg:px-8 flex flex-col gap-6">
+        <div class="bg-gradient-to-br from-slate-900 to-indigo-950 text-white p-5 rounded-2xl shadow-xl border border-slate-700 relative overflow-hidden w-full">
+            <div class="absolute -right-10 -bottom-10 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl"></div>
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 bg-amber-500 rounded-full flex items-center justify-center text-xl font-bold shadow-inner text-slate-950">
+                      🎓
+                </div>
+                <div>
+                    <h3 class="font-black text-lg text-amber-400">الكتاب الرقمي المساعد</h3>
+                    <p class="text-xs text-slate-300">مساعدك خطوة بخطوة في بيئة العمل المحاسبية الكاملة</p>
+                </div>
+            </div>
+            <div class="mt-4 border-t border-slate-700 pt-3 text-sm leading-relaxed text-slate-200">
+                <p id="mentor-bubble">أهلاً بكِ  !  رفيقك الرقمي المحترف للفهم الدورة المحاسبية  في بيئة عمل تفاعلية تدمج بين التطبيق العملي، تخصيص الحالات الدراسية، التحليل الفوري للعمليات، وضمان توازن الدفاتر بأسلوب ذكي وسلس. .</p>
+            </div>
+        </div>
+        
+        <!-- Tabs Header -->
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 overflow-x-auto w-full">
+            <div class="flex justify-between items-center min-w-[700px] px-2">
+               <button onclick="switchTab('analysis')" id="btn-tab-analysis" class="flex flex-col items-center gap-2 focus:outline-none transition group text-amber-600 font-bold">
+                    <span id="badge-analysis" class="w-9 h-9 rounded-full bg-amber-500 text-slate-950 text-base font-bold flex items-center justify-center ring-4 ring-amber-100">١</span>
+                    <span class="text-sm text-center">تحليل العمليات والموسوعة<br><span class="text-xs text-slate-400 font-normal">Transaction Analysis</span></span>
+                </button>
+                <div class="flex-grow h-0.5 bg-amber-500 mx-4" id="line-1"></div>
+                
+                <button onclick="switchTab('journal')" id="btn-tab-journal" class="flex flex-col items-center gap-2 focus:outline-none transition group text-slate-400">
+                    <span id="badge-journal" class="w-9 h-9 rounded-full bg-slate-200 text-slate-600 text-base font-bold flex items-center justify-center">٢</span>
+                    <span class="text-sm text-center">قيود اليومية<br><span class="text-xs font-normal">Journal Entries</span></span>
+                </button>
+                <div class="flex-grow h-0.5 bg-slate-200 mx-4" id="line-2"></div>
+                
+                <button onclick="switchTab('ledger')" id="btn-tab-ledger" class="flex flex-col items-center gap-2 focus:outline-none transition group text-slate-400">
+                    <span id="badge-ledger" class="w-9 h-9 rounded-full bg-slate-200 text-slate-600 text-base font-bold flex items-center justify-center">٣</span>
+                    <span class="text-sm text-center">دفتر الأستاذ<br><span class="text-xs font-normal">General Ledger</span></span>
+                </button>
+                <div class="flex-grow h-0.5 bg-slate-200 mx-4" id="line-3"></div>
+                
+                <button onclick="switchTab('trial')" id="btn-tab-trial" class="flex flex-col items-center gap-2 focus:outline-none transition group text-slate-400">
+                    <span id="badge-trial" class="w-9 h-9 rounded-full bg-slate-200 text-slate-600 text-base font-bold flex items-center justify-center">٤</span>
+                    <span class="text-sm text-center">ميزان المراجعة<br><span class="text-xs font-normal">Trial Balance</span></span>
+                </button>
+                <div class="flex-grow h-0.5 bg-slate-200 mx-4" id="line-4"></div>
+                
+                <button onclick="switchTab('statements')" id="btn-tab-statements" class="flex flex-col items-center gap-2 focus:outline-none transition group text-slate-400">
+                    <span id="badge-statements" class="w-9 h-9 rounded-full bg-slate-200 text-slate-600 text-base font-bold flex items-center justify-center">٥</span>
+                    <span class="text-sm text-center">القوائم المالية<br><span class="text-xs font-normal">Financial Statements</span></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Tab 1: Analysis -->
+        <div id="tab-analysis" class="tab-pane bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col gap-5 w-full">
+            <div class="flex justify-between items-start flex-wrap gap-3">
+                <div>
+                    <span class="text-xs font-bold text-amber-700 tracking-wider bg-amber-50 px-2.5 py-1 rounded-md">المرحلة الأولى • Phase 1</span>
+                    <h2 class="text-2xl font-black text-slate-900 mt-2">تحليل العمليات المالية وتخصيص شروحها (Transaction Analysis & Customizing)</h2>
+                    <p class="text-base text-slate-600 mt-1">تحديد الحسابات المتأثرة وطبيعتها وتأثيرها المالي، مع إمكانية إدخال شرح الحدث الخاص بك وإضافته مباشرة للحالة النشطة.</p>
+                </div>
+                <button onclick="openCustomAnalysisEditor()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow transition flex items-center gap-1.5">
+                    <span>+ أضف حدثاً تحليلياً جديداً (Add Custom Analysis)</span>
+                </button>
+            </div>
+            <div class="bg-gradient-to-r from-slate-900 to-slate-800 border border-slate-700 p-4 rounded-xl text-white">
+                <h3 id="scenario-active-title" class="text-base font-bold text-amber-400 mb-1">الحالة الدراسية النشطة</h3>
+                <p id="scenario-active-desc" class="text-sm text-slate-300 leading-relaxed"></p>
+            </div>
+            <div class="grid grid-cols-1 gap-4" id="operations-list"></div>
+        </div>
+
+        <!-- Tab 2: Journal -->
+        <div id="tab-journal" class="tab-pane hidden bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col gap-6 w-full">
+            <div class="flex justify-between items-start">
+                <div>
+                    <span class="text-xs font-bold text-amber-700 tracking-wider bg-amber-50 px-2.5 py-1 rounded-md">المرحلة الثانية • Phase 2</span>
+                    <h2 class="text-2xl font-black text-slate-900 mt-2">تسجيل قيود اليومية العامة (Journal Entries)</h2>
+                    <p class="text-base text-slate-600 mt-1">التطبيق الفعلي لنظام القيد المزدوج: لكل مدين دائن مساوٍ له بالقيمة لتأكيد التوازن.</p>
+                </div>
+            </div>
+            <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl flex justify-between items-center gap-4 flex-col sm:flex-row">
+                <div class="w-full">
+                    <span class="text-xs text-slate-400 block uppercase font-bold mb-2">العملية النشطة حالياً للتسجيل (Active Transaction):</span>
+                    <p id="journal-active-desc" class="text-sm font-bold text-slate-800 bg-white p-3 rounded-lg border border-slate-200">الرجاء اختيار عملية من المرحلة الأولى</p>
+                </div>
+            </div>
+            <div class="border border-slate-100 rounded-xl overflow-hidden shadow-inner">
+               <div class="bg-slate-900 text-white px-4 py-3 text-sm font-bold grid grid-cols-12 gap-2 text-center">
+                    <div class="col-span-3">الجانب المدين (Debit / Dr. - منه)</div>
+                    <div class="col-span-3">الجانب الدائن (Credit / Cr. - له)</div>
+                    <div class="col-span-5 text-right">الحساب ومستنده (Account Title)</div>
+                    <div class="col-span-1">حذف</div>
+                </div>
+                <div id="journal-rows" class="p-4 flex flex-col gap-3 min-h-[150px] bg-slate-50/50"></div>
+                <div class="bg-slate-100 p-3 flex flex-col sm:flex-row justify-between items-center text-sm gap-3 font-medium border-t border-slate-200">
+                    <button onclick="addJournalRow()" class="flex items-center gap-1.5 bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 px-3.5 py-2 rounded-lg transition font-bold shadow-sm">
+                        + إضافة سطر حساب (Add Row)
+                    </button>
+                    <div class="flex gap-4 font-bold text-slate-700">
+                        <span>مجموع المدين (Debit): <strong id="total-debit-val" class="text-slate-900 text-base">0</strong></span>
+                        <span>مجموع الدائن (Credit): <strong id="total-credit-val" class="text-slate-900 text-base">0</strong></span>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4 border-t border-slate-100/80 pt-4">
+                <p id="journal-status-msg" class="text-sm font-medium text-amber-600 flex items-center gap-1.5">
+                    <span class="inline-block w-2.5 h-2.5 rounded-full bg-amber-500 animate-ping"></span>
+                    قم بتسجيل قيد متوازن يتوافق مع تحليل العملية لحفظه وترحيله.
+                </p>
+                <button onclick="verifyAndPostEntry()" class="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white font-bold text-base px-6 py-3 rounded-xl shadow-lg transition flex items-center justify-center gap-2 border border-slate-700">
+                    <span>اعتماد القيد وترحيله (Post Entry)</span>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </button>
+            </div>
+            <div class="mt-4">
+                <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">القيود التي تم اعتمادها بنجاح (Journal Log):</h4>
+                <div id="posted-journal-log" class="text-sm text-slate-600 flex flex-col gap-2 max-h-[200px] overflow-y-auto p-2 bg-slate-50 rounded-xl border border-slate-100">
+                    <p class="italic text-slate-400 py-3 text-center bg-white rounded-lg">لم يتم ترحيل أي قيود بعد.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 3: Ledger -->
+        <div id="tab-ledger" class="tab-pane hidden bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col gap-6 w-full">
+            <div class="flex justify-between items-start">
+                <div>
+                    <span class="text-xs font-bold text-amber-700 tracking-wider bg-amber-50 px-2.5 py-1 rounded-md">المرحلة الثالثة • Phase 3</span>
+                    <h2 class="text-2xl font-black text-slate-900 mt-2">الترحيل لدفتر الأستاذ العام (General Ledger / T-Accounts)</h2>
+                    <p class="text-base text-slate-600 mt-1">(T-Accounts) تمثل صفحة الحساب الواحد للتصنيف المالي واستخراج الأرصدة النهائية بشكل مرئي ومنظم.</p>
+                </div>
+            </div>
+            <div id="ledger-grid-container" class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full"></div>
+        </div>
+
+        <!-- Tab 4: Trial Balance -->
+        <div id="tab-trial" class="tab-pane hidden bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col gap-6 w-full">
+            <div class="flex justify-between items-start">
+                <div>
+                    <span class="text-xs font-bold text-amber-700 tracking-wider bg-amber-50 px-2.5 py-1 rounded-md">المرحلة الرابعة • Phase 4</span>
+                    <h2 class="text-2xl font-black text-slate-900 mt-2">ميزان المراجعة بالأرصدة (Trial Balance)</h2>
+                    <p class="text-base text-slate-600 mt-1">تقرير يجمع الأرصدة النهائية لجميع الحسابات للتأكد من توازن إجمالي المدين والدائن قبل إعداد القوائم.</p>
+                </div>
+            </div>
+            <div class="border border-slate-100 rounded-xl overflow-x-auto shadow-sm w-full">
+                <table class="w-full text-right border-collapse bg-white min-w-[600px]">
+                    <thead>
+                        <tr class="bg-slate-900 text-white text-sm font-bold border-b border-slate-200">
+                            <th class="p-3.5 text-right">اسم الحساب (Account Name)</th>
+                            <th class="p-3.5 text-center w-40">أرصدة مدينة (Debit Balances)</th>
+                            <th class="p-3.5 text-center w-40">أرصدة دائنة (Credit Balances)</th>
+                            <th class="p-3.5 text-center w-40">نوع الحساب (Class)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="trial-balance-rows" class="text-sm text-slate-700 divide-y divide-slate-100"></tbody>
+                    <tfoot>
+                        <tr class="bg-slate-100 font-bold text-slate-900 border-t-2 border-slate-200">
+                            <td class="p-3.5 text-right text-base">المجموع الإجمالي (Total)</td>
+                            <td id="trial-total-debit" class="p-3.5 text-center text-base text-slate-900">0</td>
+                            <td id="trial-total-credit" class="p-3.5 text-center text-base text-slate-900">0</td>
+                            <td class="p-3.5 text-center">
+                                <span id="trial-status-badge" class="inline-block px-3 py-1 rounded-full text-xs font-black uppercase bg-amber-100 text-amber-800">غير مكتمل</span>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div id="trial-success-banner" class="hidden bg-emerald-50 border border-emerald-200 p-4 rounded-xl text-emerald-900 text-sm flex items-start gap-3 w-full">
+                <div class="p-2 bg-emerald-100 rounded-lg text-emerald-800 text-lg">  🎉  </div>
+                <div>
+                    <strong class="font-bold block text-base mb-0.5">مبارك! ميزان المراجعة متوازن تماماً (Trial Balance is Balanced)</strong>
+                    لقد تم إنجاز كافة العمليات وترحيلها بنجاح وبشكل محاسبي سليم. الآن أنت جاهز لصناعة القوائم المالية الختامية.
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 5: Financial Statements -->
+        <div id="tab-statements" class="tab-pane hidden bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col gap-6 w-full">
+            <div class="flex justify-between items-start">
+                <div>
+                    <span class="text-xs font-bold text-amber-700 tracking-wider bg-amber-50 px-2.5 py-1 rounded-md">المرحلة الخامسة • Phase 5</span>
+                    <h2 class="text-2xl font-black text-slate-900 mt-2">القوائم المالية الختامية (Financial Statements)</h2>
+                    <p class="text-base text-slate-600 mt-1">الناتج النهائي للدورة المحاسبية لتقديم قصة الشركة المالية لصناع القرار والمستثمرين.</p>
+                </div>
+            </div>
+            <div class="flex gap-2 border-b border-slate-150 pb-3">
+                <button onclick="switchStatement('income')" id="btn-state-income" class="px-5 py-2.5 text-sm font-bold rounded-lg bg-slate-900 text-white transition">قائمة الدخل (Income Statement)</button>
+                <button onclick="switchStatement('balance')" id="btn-state-balance" class="px-5 py-2.5 text-sm font-bold rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition">قائمة المركز المالي (Balance Sheet)</button>
+            </div>
+            
+            <div id="sheet-income" class="border border-slate-100 rounded-xl p-5 shadow-sm bg-white flex flex-col gap-4 w-full">
+                <div class="text-center border-b border-slate-100 pb-3">
+                    <h3 id="stmt-company-name" class="font-black text-slate-900 text-lg">اسم المشروع</h3>
+                    <p class="text-sm text-amber-600 font-bold mt-0.5">قائمة الدخل (Income Statement)</p>
+                    <p class="text-xs text-slate-500">عن الفترة المالية المنتهية في تاريخه</p>
+                </div>
+                <div class="flex flex-col gap-3 text-sm">
+                    <div class="flex justify-between items-center py-2 border-b border-slate-100">
+                        <span class="font-bold text-slate-900">الإيرادات التشغيلية (Operating Revenue):</span>
+                        <span id="inc-revenue" class="text-emerald-700 font-bold text-base">0 JD</span>
+                    </div>
+                    <div class="pl-4 flex flex-col gap-2 text-slate-600">
+                        <div class="flex justify-between items-center">
+                            <span id="inc-rev-label">إيرادات مبيعات أو خدمات</span>
+                            <span id="inc-rev-detail">0 JD</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center py-2 border-b border-slate-100 mt-2">
+                        <span class="font-bold text-slate-900">يُخصم المصاريف التشغيلية (Less: Operating Expenses):</span>
+                        <span id="inc-expenses" class="text-red-600 font-bold text-base">0 JD</span>
+                    </div>
+                    <div class="pl-4 flex flex-col gap-2 text-slate-600" id="inc-expenses-list"></div>
+                    <div class="flex justify-between items-center py-3.5 border-t-2 border-slate-200 bg-amber-50 px-3 rounded-lg mt-4 text-base font-black">
+                        <span class="text-slate-950">صافي الأرباح / الخسائر (Net Income / Loss):</span>
+                        <span id="inc-net-profit" class="text-emerald-700 text-lg">0 JD</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="sheet-balance" class="hidden border border-slate-100 rounded-xl p-5 shadow-sm bg-white flex flex-col gap-5 w-full">
+                <div class="text-center border-b border-slate-100 pb-3">
+                    <h3 id="stmt-company-name-bal" class="font-black text-slate-900 text-lg">اسم المشروع</h3>
+                    <p class="text-sm text-amber-600 font-bold mt-0.5">قائمة المركز المالي (Balance Sheet)</p>
+                    <p class="text-xs text-slate-500">كما هي في تاريخه</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                    <div class="flex flex-col gap-2 border-l border-slate-100/80 pl-0 md:pl-4">
+                        <h4 class="font-black border-b border-slate-200 pb-1.5 text-base text-slate-900">الأصول (Assets)</h4>
+                        <div id="bal-assets-list" class="flex flex-col gap-2.5 py-2"></div>
+                        <div class="flex justify-between items-center py-2.5 bg-slate-50 px-2.5 rounded font-bold text-slate-900 border-t border-slate-200">
+                            <span>إجمالي الأصول (Total Assets)</span>
+                            <span id="bal-total-assets">0 JD</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <h4 class="font-black border-b border-slate-200 pb-1.5 text-base text-slate-900">الالتزامات وحقوق الملكية (Liabilities & Equity)</h4>
+                        <div class="flex flex-col gap-2">
+                            <span class="font-bold text-slate-500 text-xs uppercase">حقوق الملكية (Owner's Equity)</span>
+                            <div id="bal-equity-list" class="flex flex-col gap-2 pl-2 text-slate-700"></div>
+                        </div>
+                        <div class="flex flex-col gap-2 mt-2">
+                            <span class="font-bold text-slate-500 text-xs uppercase">الالتزامات (Liabilities)</span>
+                            <div id="bal-liabilities-list" class="flex flex-col gap-2 pl-2 text-slate-700"></div>
+                        </div>
+                        <div class="flex justify-between items-center py-2.5 bg-slate-50 px-2.5 rounded font-bold text-slate-900 border-t border-slate-200 mt-auto">
+                            <span>إجمالي الالتزامات وحقوق الملكية</span>
+                            <span id="bal-total-liabilities-equity">0 JD</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="balance-sheet-match" class="text-center py-3.5 text-sm font-bold rounded-lg">
+                    معادلة الميزانية: الأصول (0) = الالتزامات وحقوق الملكية (0)
+                </div>
+            </div>
+        </div>
+
+        <!-- Encyclopedia Module -->
+        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 flex flex-col gap-4 w-full">
+            <button onclick="toggleAdjusterAccordion('practical-encyclopedia')" class="flex items-center justify-between w-full text-slate-900 font-black text-base">
+                <div class="flex items-center gap-2">
+                    <span class="p-1.5 bg-amber-50 rounded-lg text-amber-700"> 📖 </span>
+                    <span class="text-right">موسوعة التفسير والشرح المفصّل الفورية (Interactive Sandbox Encyclopedia)</span>
+                </div>
+                <span class="text-slate-400">  ▾  </span>
+            </button>
+            <div id="practical-encyclopedia" class="hidden flex flex-col gap-3">
+                <div id="explanation-body" class="text-sm text-slate-700 leading-relaxed flex flex-col gap-4 overflow-y-auto max-h-[300px] border-t border-slate-100 pt-3">
+                    <div class="flex flex-col items-center justify-center text-center py-6 text-slate-400 gap-3">
+                        <svg class="w-12 h-12 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                        <p class="font-bold">استخدم المساعد التفاعلي بالأعلى أو اضغط على العمليات لتشاهد شروحات أكاديمية مخصصة ومفصلة هنا.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Theoretical Guide Container -->
+    <main id="view-theoretical-container" class="hidden flex-grow max-w-7xl w-full mx-auto px-4 py-6 sm:px-6 lg:px-8 flex flex-col gap-6">
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+            <h2 class="text-2xl font-black text-slate-900">الجانب النظري الأكاديمي الشامل (Theoretical Core Guide)</h2>
+            <p class="text-base text-slate-600 mt-1">أهم المصطلحات المحاسبية والمترجمة، المبادئ الأساسية، المعادلة المحاسبية وقيود التسوية الجردية.</p>
+        </div>
+        
+        <div class="flex flex-wrap gap-2 border-b border-slate-200 pb-3">
+            <button onclick="switchTheorySubTab('principles')" id="theory-tab-btn-principles" class="px-5 py-2.5 text-sm font-black rounded-lg bg-slate-900 text-white transition">الفروض والمبادئ (Assumptions & Principles)</button>
+            <button onclick="switchTheorySubTab('dr-cr-rules')" id="theory-tab-btn-dr-cr-rules" class="px-5 py-2.5 text-sm font-black rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition">قواعد المدين والدائن (Dr & Cr Rules)</button>
+            <button onclick="switchTheorySubTab('accounting-eq')" id="theory-tab-btn-accounting-eq" class="px-5 py-2.5 text-sm font-black rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition">المعادلة المحاسبية الأساسية (Accounting Equation)</button>
+            <button onclick="switchTheorySubTab('adjustments')" id="theory-tab-btn-adjustments" class="px-5 py-2.5 text-sm font-black rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition">قيود التسوية (Adjusting Entries)</button>
+            <button onclick="switchTheorySubTab('glossary')" id="theory-tab-btn-glossary" class="px-5 py-2.5 text-sm font-black rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition">المصطلحات المحاسبية (Glossary)</button>   
+        </div>
+
+        <div id="theory-sub-tab-principles" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col gap-6 tab-pane">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="flex flex-col gap-4">
+                    <h3 class="text-lg font-black text-slate-900 border-b border-slate-100 pb-2 flex items-center gap-2">
+                        <span class="text-amber-500"> 📌 </span> الفروض المحاسبية الأساسية (Accounting Assumptions)
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 relative group" id="card-entity">
+                            <div class="absolute top-3 left-3">
+                                <button onclick="toggleCardLanguage('card-entity')" class="text-slate-500 hover:text-amber-600 transition duration-200 text-xs flex items-center gap-1 font-bold" title="Translate">
+                                    <span class="font-mono">EN/AR</span>
+                                    <span> 🌐 </span>
+                                </button>
+                            </div>
+                            <h4 class="font-bold text-base text-slate-900 card-title" 
+                                data-ar="1. فرض الوحدة المحاسبية المستقلة (Economic Entity Assumption)" 
+                                data-en="1. Economic Entity Assumption">
+                                1. فرض الوحدة المحاسبية المستقلة (Economic Entity Assumption)
+                            </h4>
+                            <p class="text-sm text-slate-700 mt-2 leading-relaxed card-body" 
+                               data-ar="تُعامل المنشأة كشخصية اعتبارية لها شخصية مالية مستقلة تماماً عن أصحابها (المُلاك). إذا قام صاحب الشركة بشراء سيارة لعائلته من ماله الخاص، لا تُسجل في دفاتر الشركة."
+                               data-en="The business is treated as a separate legal and economic entity, completely distinct from its owners. Personal transactions of the owners are not recorded in the business books.">
+                                تُعامل المنشأة كشخصية اعتبارية لها شخصية مالية مستقلة تماماً عن أصحابها (المُلاك). إذا قام صاحب الشركة بشراء سيارة لعائلته من ماله الخاص، لا تُسجل في دفاتر الشركة.
+                            </p>
+                        </div>
+                        
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 relative group" id="card-concern">
+                            <div class="absolute top-3 left-3">
+                                <button onclick="toggleCardLanguage('card-concern')" class="text-slate-500 hover:text-amber-600 transition duration-200 text-xs flex items-center gap-1 font-bold" title="Translate">
+                                    <span class="font-mono">EN/AR</span>
+                                    <span> 🌐 </span>
+                                </button>
+                            </div>
+                            <h4 class="font-bold text-base text-slate-900 card-title" 
+                                data-ar="2. فرض استمرارية المنشأة (Going Concern Assumption)" 
+                                data-en="2. Going Concern Assumption">
+                                2. فرض استمرارية المنشأة (Going Concern Assumption)
+                            </h4>
+                            <p class="text-sm text-slate-700 mt-2 leading-relaxed card-body" 
+                               data-ar="يُفترض أن المنشأة وُجدت لتبقى وتستمر في نظامها التشغيلي لفترة ممتدة، ولا توجد نية لتصفيتها في المستقبل القريب. هذا يبرر ترحيل الأصول واستهلاكها على المدى البعيد."
+                               data-en="It is assumed that the business will continue its operations indefinitely. This assumption justifies classifying assets and depreciating assets over time.">
+                                يُفترض أن المنشأة وُجدت لتبقى وتستمر في نظامها التشغيلي لفترة ممتدة، ولا توجد نية لتصفيتها في المستقبل القريب. هذا يبرر ترحيل الأصول واستهلاكها على المدى البعيد.
+                            </p>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 relative group" id="card-unit">
+                            <div class="absolute top-3 left-3">
+                                <button onclick="toggleCardLanguage('card-unit')" class="text-slate-500 hover:text-amber-600 transition duration-200 text-xs flex items-center gap-1 font-bold" title="Translate">
+                                    <span class="font-mono">EN/AR</span>
+                                    <span> 🌐 </span>
+                                </button>
+                            </div>
+                            <h4 class="font-bold text-base text-slate-900 card-title" 
+                                data-ar="3. فرض وحدة القياس النقدي (Monetary Unit Assumption)" 
+                                data-en="3. Monetary Unit Assumption">
+                                3. فرض وحدة القياس النقدي (Monetary Unit Assumption)
+                            </h4>
+                            <p class="text-sm text-slate-700 mt-2 leading-relaxed card-body" 
+                               data-ar="النقود هي القاسم المشترك الوحيد للتعبير عن المعاملات الاقتصادية وقياسها في الدفاتر. أي معاملات غير مالية (ككفاءة الموظفين) لا تُقيد بالدفاتر."
+                               data-en="Only transactions that can be expressed in monetary terms are recorded. Non-financial qualitative factors are excluded from the core statements.">
+                                النقود هي القاسم المشترك الوحيد للتعبير عن المعاملات الاقتصادية وقياسها في الدفاتر. أي معاملات غير مالية (ككفاءة الموظفين) لا تُقيد بالدفاتر.
+                            </p>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 relative group" id="card-period">
+                            <div class="absolute top-3 left-3">
+                                <button onclick="toggleCardLanguage('card-period')" class="text-slate-500 hover:text-amber-600 transition duration-200 text-xs flex items-center gap-1 font-bold" title="Translate">
+                                    <span class="font-mono">EN/AR</span>
+                                    <span> 🌐 </span>
+                                </button>
+                            </div>
+                            <h4 class="font-bold text-base text-slate-900 card-title" 
+                                data-ar="4. فرض الفترة المحاسبية (Time Period Assumption)" 
+                                data-en="4. Time Period Assumption">
+                                4. فرض الفترة المحاسبية (Time Period Assumption)
+                            </h4>
+                            <p class="text-sm text-slate-700 mt-2 leading-relaxed card-body" 
+                               data-ar="يتم تقسيم عمر المنشأة المستمر إلى فترات زمنية متساوية (عادة سنة مالية أو فترات دورية) لإعداد التقارير وتقييم الأداء بشكل دوري."
+                               data-en="The ongoing life of a business is divided into equal, distinct time periods to allow timely and regular performance evaluations.">
+                                يتم تقسيم عمر المنشأة المستمر إلى فترات زمنية متساوية (عادة سنة مالية أو فترات دورية) لإعداد التقارير وتقييم الأداء بشكل دوري.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-4">
+                    <h3 class="text-lg font-black text-slate-900 border-b border-slate-100 pb-2 flex items-center gap-2">
+                        <span class="text-amber-500"> 📜 </span> المبادئ المحاسبية المقبولة عموماً (GAAP Principles)
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 relative group" id="card-cost">
+                            <div class="absolute top-3 left-3">
+                                <button onclick="toggleCardLanguage('card-cost')" class="text-slate-500 hover:text-amber-600 transition duration-200 text-xs flex items-center gap-1 font-bold" title="Translate">
+                                    <span class="font-mono">EN/AR</span>
+                                    <span> 🌐 </span>
+                                </button>
+                            </div>
+                            <h4 class="font-bold text-base text-slate-900 card-title" 
+                                data-ar="1. مبدأ التكلفة التاريخية (Historical Cost Principle)" 
+                                data-en="1. Historical Cost Principle">
+                                1. مبدأ التكلفة التاريخية (Historical Cost Principle)
+                            </h4>
+                            <p class="text-sm text-slate-700 mt-2 leading-relaxed card-body" 
+                               data-ar="تُسجل الأصول والخدمات في الدفاتر بالقيمة أو الثمن الفعلي المدفوع وقت الشراء، وتظل ثابتة بهذا الرقم بغض النظر عن تغير قيمتها في السوق لاحقاً."
+                               data-en="Assets and services are recorded in the books at their actual acquisition cost. This value remains unchanged despite subsequent market price fluctuations.">
+                                تُسجل الأصول والخدمات في الدفاتر بالقيمة أو الثمن الفعلي المدفوع وقت الشراء، وتظل ثابتة بهذا الرقم بغض النظر عن تغير قيمتها في السوق لاحقاً.
+                            </p>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 relative group" id="card-matching">
+                            <div class="absolute top-3 left-3">
+                                <button onclick="toggleCardLanguage('card-matching')" class="text-slate-500 hover:text-amber-600 transition duration-200 text-xs flex items-center gap-1 font-bold" title="Translate">
+                                    <span class="font-mono">EN/AR</span>
+                                    <span> 🌐 </span>
+                                </button>
+                            </div>
+                            <h4 class="font-bold text-base text-slate-900 card-title" 
+                                data-ar="2. مبدأ المقابلة (Matching Principle)" 
+                                data-en="2. Matching Principle">
+                                2. مبدأ المقابلة (Matching Principle)
+                            </h4>
+                            <p class="text-sm text-slate-700 mt-2 leading-relaxed card-body" 
+                               data-ar="يجب ربط ومقابلة جميع المصاريف التي تم تكبدها خلال فترة مالية معينة بالإيرادات التي ساهمت هذه المصاريف في تحقيقها خلال نفس الفترة."
+                               data-en="Expenses incurred must be matched and recorded in the same period as the revenues they helped generate.">
+                                يجب ربط ومقابلة جميع المصاريف التي تم تكبدها خلال فترة مالية معينة بالإيرادات التي ساهمت هذه المصاريف في تحقيقها خلال نفس الفترة.
+                            </p>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 relative group" id="card-revenue-rec">
+                            <div class="absolute top-3 left-3">
+                                <button onclick="toggleCardLanguage('card-revenue-rec')" class="text-slate-500 hover:text-amber-600 transition duration-200 text-xs flex items-center gap-1 font-bold" title="Translate">
+                                    <span class="font-mono">EN/AR</span>
+                                    <span> 🌐 </span>
+                                </button>
+                            </div>
+                            <h4 class="font-bold text-base text-slate-900 card-title" 
+                                data-ar="3. مبدأ الاعتراف بالإيراد (Revenue Recognition Principle)" 
+                                data-en="3. Revenue Recognition Principle">
+                                3. مبدأ الاعتراف بالإيراد (Revenue Recognition Principle)
+                            </h4>
+                            <p class="text-sm text-slate-700 mt-2 leading-relaxed card-body" 
+                               data-ar="يتم الاعتراف بالإيراد وتسجيله بمجرد تحققه (أي عند تقديم الخدمة أو تسليم السلعة فعلياً) وليس شرطاً عند قبض القيمة نقدياً."
+                               data-en="Revenue is recognized and recorded when it is earned (e.g., service delivered), regardless of when cash is received.">
+                                يتم الاعتراف بالإيراد وتسجيله بمجرد تحققه (أي عند تقديم الخدمة أو تسليم السلعة فعلياً) وليس شرطاً عند قبض القيمة نقدياً.
+                            </p>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 relative group" id="card-consistency">
+                            <div class="absolute top-3 left-3">
+                                <button onclick="toggleCardLanguage('card-consistency')" class="text-slate-500 hover:text-amber-600 transition duration-200 text-xs flex items-center gap-1 font-bold" title="Translate">
+                                    <span class="font-mono">EN/AR</span>
+                                    <span> 🌐 </span>
+                                </button>
+                            </div>
+                            <h4 class="font-bold text-base text-slate-900 card-title" 
+                                data-ar="4. مبدأ الثبات والاتساق (Consistency Principle)" 
+                                data-en="4. Consistency Principle">
+                                4. مبدأ الثبات والاتساق (Consistency Principle)
+                            </h4>
+                            <p class="text-sm text-slate-700 mt-2 leading-relaxed card-body" 
+                               data-ar="يجب على المنشأة استخدام نفس الطرق والسياسات المحاسبية من فترة مالية إلى أخرى، لضمان قابلية القوائم المالية للمقارنة والتحليل."
+                               data-en="The business must apply the same accounting methods and policies consistently over periods, enabling meaningful financial comparisons.">
+                                يجب على المنشأة استخدام نفس الطرق والسياسات المحاسبية من فترة مالية إلى أخرى، لضمان قابلية القوائم المالية للمقارنة والتحليل.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="theory-sub-tab-dr-cr-rules" class="hidden bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col gap-6 tab-pane">
+            <h3 class="text-lg font-black text-slate-900 border-b border-slate-100 pb-2">فهم نظرية القيد المزدوج وطبيعة الحسابات (Debit & Credit Rules)</h3>
+            <p class="text-sm text-slate-600 leading-relaxed">لكل عملية مالية تحدث داخل الشركة طرفان على الأقل: طرف يأخذ القيمة وطرف يعطي القيمة، ويجب أن يتساوى الطرفان في القيمة تماماً.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="p-5 bg-gradient-to-br from-slate-900 to-indigo-950 text-white rounded-2xl flex flex-col gap-4">
+                    <h4 class="font-bold text-base text-amber-400">قاعدة طبيعة الحسابات (الربح والخسارة):</h4>
+                    <p class="text-sm text-slate-300 leading-relaxed">الربح (صافي الدخل) طبيعته <strong>مدين (عند التكوين/التأثير) أو يرتفع بالمدين وينخفض بالدائن</strong> تبعاً لتوزيعات أو إغلاق الأرباح المبقاة، بينما الحسابات الأساسية كالتالي:</p>
+                    <div class="bg-slate-850 p-3.5 rounded-lg border border-slate-700 text-center font-mono text-sm text-amber-400">
+                        الأصول + المصاريف = الالتزامات + رأس المال + الإيرادات
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                        <div class="p-3.5 bg-slate-800 rounded-xl border border-slate-700">
+                            <span class="block font-black text-emerald-400 border-b border-slate-700 pb-1 mb-1">الطرف الأيمن (طبيعته مدين):</span>
+                            الأصول والمصاريف عند الزيادة تظهر بالجانب المدين (من حـ/)، وعند النقصان تصبح دائنة (إلى حـ/).
+                        </div>
+                        <div class="p-3.5 bg-slate-800 rounded-xl border border-slate-700">
+                            <span class="block font-black text-amber-400 border-b border-slate-700 pb-1 mb-1">الطرف الأيسر (طبيعته دائن):</span>
+                            الالتزامات، رأس المال، والإيرادات عند الزيادة تظهر بالجانب الدائن (إلى حـ/)، وعند النقصان تصبح مدينة (من حـ/).
+                        </div>
+                    </div>
+                </div>
+                <div class="border border-slate-100 rounded-xl overflow-x-auto shadow-sm">
+                    <table class="w-full text-right border-collapse text-sm min-w-[400px]">
+                        <thead>
+                            <tr class="bg-slate-900 text-white font-bold border-b border-slate-200">
+                                <th class="p-3.5">نوع الحساب (Account Class)</th>
+                                <th class="p-3.5 text-center">طبيعة الحساب (Normal)</th>
+                                <th class="p-3.5 text-center">عند الزيادة (Increase)</th>
+                                <th class="p-3.5 text-center">عند النقصان (Decrease)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3.5 font-bold text-slate-900">الأصول (Assets)</td>
+                                <td class="p-3.5 text-center text-emerald-700 font-bold">مَدين (Dr.)</td>
+                                <td class="p-3.5 text-center">مَدين (Dr.)</td>
+                                <td class="p-3.5 text-center text-slate-400">دائن (Cr.)</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3.5 font-bold text-slate-900">الالتزامات (Liabilities)</td>
+                                <td class="p-3.5 text-center text-amber-700 font-bold">دائن (Cr.)</td>
+                                <td class="p-3.5 text-center">دائن (Cr.)</td>
+                                <td class="p-3.5 text-center text-slate-400">مَدين (Dr.)</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3.5 font-bold text-slate-900">رأس المال (Capital)</td>
+                                <td class="p-3.5 text-center text-amber-700 font-bold">دائن (Cr.)</td>
+                                <td class="p-3.5 text-center">دائن (Cr.)</td>
+                                <td class="p-3.5 text-center text-slate-400">مَدين (Dr.)</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">     
+                                <td class="p-3.5 font-bold text-slate-900">الأرباح (Dividends)</td>
+                                <td class="p-3.5 text-center text-emerald-700 font-bold">مَدين (Dr.)</td>
+                                <td class="p-3.5 text-center">مَدين (Dr.)</td>
+                                <td class="p-3.5 text-center text-slate-400">دائن (Cr.)</td>     
+                            </tr>                 
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3.5 font-bold text-slate-900">الإيرادات (Revenues)</td>
+                                <td class="p-3.5 text-center text-amber-700 font-bold">دائن (Cr.)</td>
+                                <td class="p-3.5 text-center">دائن (Cr.)</td>
+                                <td class="p-3.5 text-center text-slate-400">مَدين (Dr.)</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3.5 font-bold text-slate-900">المصاريف (Expenses)</td>
+                                <td class="p-3.5 text-center text-emerald-700 font-bold">مَدين (Dr.)</td>
+                                <td class="p-3.5 text-center">مَدين (Dr.)</td>
+                                <td class="p-3.5 text-center text-slate-400">دائن (Cr.)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div id="theory-sub-tab-accounting-eq" class="hidden bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col gap-6 tab-pane">
+            <div class="max-w-4xl mx-auto space-y-6 w-full">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col gap-5 relative" id="card-eq-helper">
+                    <div class="absolute top-4 left-4">
+                        <button onclick="toggleCardLanguage('card-eq-helper')" class="text-slate-500 hover:text-amber-600 transition duration-200 text-xs flex items-center gap-1 font-bold" title="Translate">
+                            <span class="font-mono">EN/AR</span>
+                            <span> 🌐    </span>
+                        </button>
+                    </div>
+                    
+                    <div class="flex items-center gap-3 border-b border-slate-100 pb-3">
+                        <span class="p-2 bg-amber-50 rounded-xl text-amber-700 text-lg"> ⚖️ </span>
+                        <div>
+                            <h3 class="font-black text-slate-900 text-lg card-title"
+                                data-ar="شرح المعادلة المحاسبية الأساسية بالتفصيل"
+                                data-en="Basic Accounting Equation Detailed Explanation">
+                                شرح المعادلة المحاسبية الأساسية بالتفصيل
+                            </h3>
+                            <p class="text-xs text-slate-500">الركيزة الأساسية لبناء الميزانية العمومية وقاعدة توازن القيد المزدوج.</p>
+                        </div>
+                    </div>
+                    
+                    <p class="text-base text-slate-700 leading-relaxed card-body"
+                       data-ar="المعادلة المحاسبية هي الميزان الذي لا يخطئ أبداً في المحاسبة: الأصول (Assets) تساوي دائماً مجموع الالتزامات (Liabilities) مضافاً إليها حقوق الملكية (Owner's Equity). أي عملية مالية تحدث تؤثر على جانبين أو أكثر لكنها تبقي الكفتين متعادلتين تماماً."
+                       data-en="The accounting equation is the fundamental balance of accounting: Assets always equal Liabilities plus Owner's Equity. Every financial transaction impacts at least two accounts while maintaining perfect balance.">
+                        المعادلة المحاسبية هي الميزان الذي لا يخطئ أبداً في المحاسبة: الأصول (Assets) تساوي دائماً مجموع الالتزامات (Liabilities) مضافاً إليها حقوق الملكية (Owner's Equity). أي عملية مالية تحدث تؤثر على جانبين أو أكثر لكنها تبقي الكفتين متعادلتين تماماً.
+                    </p>
+                    
+                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 flex flex-col items-center gap-4">
+                        <div class="text-sm font-black text-slate-800 flex justify-between w-full">
+                            <span>الأصول (Assets)</span>
+                            <span>الالتزامات + حقوق الملكية (Liabilities + Equity)</span>
+                        </div>
+                        <div id="balance-scale" class="w-full h-3 bg-slate-300 rounded-full relative flex items-center justify-center scale-balance">
+                            <div class="w-6 h-6 bg-amber-500 rounded-full absolute -top-1.5 shadow-md"></div>
+                        </div>
+                        <div id="equation-active-math" class="text-xs font-bold text-slate-600">
+                            متوازن بنسبة 100% (Balanced 100%)
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-bold">
+                        <button onclick="simulateEquationImpact('increase-asset')" class="p-3 border border-slate-200 hover:bg-slate-50 rounded-xl transition text-right shadow-sm">
+                              🟢  شراء أصل نقداً <br><span class="text-slate-500 font-normal">Asset Trade (+Asset / -Asset)</span>
+                        </button>
+                        <button onclick="simulateEquationImpact('credit-asset')" class="p-3 border border-slate-200 hover:bg-slate-50 rounded-xl transition text-right shadow-sm">
+                              🔵  شراء أصل بالدين <br><span class="text-slate-500 font-normal">+Asset / +Liability</span>
+                        </button>
+                        <button onclick="simulateEquationImpact('revenue-cash')" class="p-3 border border-slate-200 hover:bg-slate-50 rounded-xl transition text-right shadow-sm">
+                              💵  إيراد نقدي <br><span class="text-slate-500 font-normal">+Asset / +Equity (Revenue)</span>
+                        </button>
+                        <button onclick="simulateEquationImpact('expense-cash')" class="p-3 border border-slate-200 hover:bg-slate-50 rounded-xl transition text-right shadow-sm">
+                              📉  مصروف نقدي <br><span class="text-slate-500 font-normal">-Asset / -Equity (Expense)</span>
+                        </button>
+                    </div>
+                    <div id="equation-explanation-text" class="text-sm text-slate-700 bg-slate-50 p-4 rounded-xl italic border border-slate-100">
+                        اضغط على أي زر بالأعلى لمشاهدة تأثير العمليات على المعادلة المحاسبية الأساسية تفصيلياً.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="theory-sub-tab-adjustments" class="hidden bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col gap-6 tab-pane">
+            <div class="max-w-4xl mx-auto space-y-6 w-full">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col gap-4">
+                    <div class="flex items-center gap-3 border-b border-slate-100 pb-3">
+                        <span class="p-2 bg-amber-50 rounded-xl text-amber-700 text-lg"> ⏳</span>
+                        <div>
+                            <h3 class="font-black text-slate-900 text-lg">قيود التسوية الجردية (Adjusting Entries Guide)</h3>
+                            <p class="text-xs text-slate-500">الاستحقاق، التأجيل، وإهلاك الأصول الثابتة بنهاية الفترة.</p>
+                        </div>
+                    </div>
+                    <div class="text-sm text-slate-700 flex flex-col gap-3">
+                        <p class="leading-relaxed">تُجرى هذه القيود في نهاية الفترة المالية لتعديل الحسابات بناءً على <strong>أساس الاستحقاق (Accrual Basis)</strong> ليعكس الواقع الفعلي للشركة ودخلها الحقيقي.</p>
+                        
+                        <div class="border border-slate-200 rounded-xl overflow-hidden flex flex-col shadow-sm">
+                            <div class="flex flex-col border-b border-slate-100" id="card-adj-1">
+                                <button onclick="toggleAdjusterAccordion('adj-1')" class="bg-slate-50 hover:bg-slate-100 p-3 text-right font-black flex justify-between items-center text-sm relative">
+                                    <span class="card-title" data-ar="1. المصاريف المقدمة (Prepaid Expenses)" data-en="1. Prepaid Expenses">1. المصاريف المقدمة (Prepaid Expenses)</span>
+                                    <span class="text-slate-400">  ▾  </span>
+                                    <div class="absolute left-12 top-1.5">
+                                        <span onclick="event.stopPropagation(); toggleCardLanguage('card-adj-1')" class="cursor-pointer text-slate-500 hover:text-amber-600 p-1 text-xs font-mono">EN/AR  🌐 </span>
+                                    </div>
+                                </button>
+                                <div id="adj-1" class="hidden p-4 bg-white text-xs leading-relaxed card-body"
+                                     data-ar="الشرح: مبالغ مدفوعة نقداً قبل الاستفادة من الخدمة (مثل الإيجار المقدم). عند التسوية: من حـ/ مصروف (مدين) إلى حـ/ مصروف مقدم (دائن بقيمة ما استُهلك)."
+                                     data-en="Explanation: Cash paid before the service is consumed (e.g., Prepaid Rent). Adjusting entry: Debit Expense / Credit Prepaid Expense.">
+                                    <strong>الشرح:</strong> مبالغ مدفوعة نقداً قبل الاستفادة من الخدمة (مثل الإيجار المقدم).<br>
+                                    <strong>عند التسوية:</strong> من حـ/ مصروف الإيجار (مدين) إلى حـ/ مصروف الإيجار المقدم (دائن بقيمة ما استُهلك).
+                                </div>
+                            </div>
+                            <div class="flex flex-col border-b border-slate-100" id="card-adj-2">
+                                <button onclick="toggleAdjusterAccordion('adj-2')" class="bg-slate-50 hover:bg-slate-100 p-3 text-right font-black flex justify-between items-center text-sm relative">
+                                    <span class="card-title" data-ar="2. الإيرادات غير المكتسبة (Unearned Revenues)" data-en="2. Unearned Revenues">2. الإيرادات غير المكتسبة (Unearned Revenues)</span>
+                                    <span class="text-slate-400">  ▾  </span>
+                                    <div class="absolute left-12 top-1.5">
+                                        <span onclick="event.stopPropagation(); toggleCardLanguage('card-adj-2')" class="cursor-pointer text-slate-500 hover:text-amber-600 p-1 text-xs font-mono">EN/AR  🌐 </span>
+                                    </div>
+                                </button>
+                                <div id="adj-2" class="hidden p-4 bg-white text-xs leading-relaxed card-body"
+                                     data-ar="الشرح: نقدية تم استلامها من العميل قبل تقديم الخدمة (التزام). عند التسوية: من حـ/ إيراد غير مكتسب (مدين للنقصان) إلى حـ/ إيراد خدمات (دائن للتحقق)."
+                                     data-en="Explanation: Cash received from customers before providing services. Adjusting entry: Debit Unearned Revenue / Credit Service Revenue.">
+                                    <strong>الشرح:</strong> نقدية تم استلامها من العميل قبل تقديم الخدمة له (التزام علينا).<br>
+                                    <strong>عند التسوية:</strong> من حـ/ إيراد غير مكتسب (مدين للنقصان) إلى حـ/ إيراد الخدمات (دائن للتحقق).
+                                </div>
+                            </div>
+                            <div class="flex flex-col border-b border-slate-100" id="card-adj-3">
+                                <button onclick="toggleAdjusterAccordion('adj-3')" class="bg-slate-50 hover:bg-slate-100 p-3 text-right font-black flex justify-between items-center text-sm relative">
+                                    <span class="card-title" data-ar="3. المصاريف المستحقة (Accrued Expenses)" data-en="3. Accrued Expenses">3. المصاريف المستحقة (Accrued Expenses)</span>
+                                    <span class="text-slate-400">  ▾  </span>
+                                    <div class="absolute left-12 top-1.5">
+                                        <span onclick="event.stopPropagation(); toggleCardLanguage('card-adj-3')" class="cursor-pointer text-slate-500 hover:text-amber-600 p-1 text-xs font-mono">EN/AR  🌐 </span>
+                                    </div>
+                                </button>
+                                <div id="adj-3" class="hidden p-4 bg-white text-xs leading-relaxed card-body"
+                                     data-ar="الشرح: مصاريف ترتبت على الشركة واستُهلكت لكن لم تُدفع بعد (مثل الرواتب المستحقة). عند قيد التسوية: من حـ/ مصروف الرواتب (مدين) إلى حـ/ رواتب مستحقة الدفع (دائن)."
+                                     data-en="Explanation: Expenses incurred but not yet paid (e.g., Salaries Payable). Adjusting entry: Debit Salaries Expense / Credit Salaries Payable.">
+                                    <strong>الشرح:</strong> مصاريف ترتبت على الشركة واستُهلكت لكن لم تُدفع بعد (مثل رواتب العمال المستحقة).<br>
+                                    <strong>عند قيد التسوية:</strong> من حـ/ مصروف الرواتب (مدين) إلى حـ/ رواتب مستحقة الدفع (دائن).
+                                </div>
+                            </div>
+                            <div class="flex flex-col border-b border-slate-100" id="card-adj-4">
+                                <button onclick="toggleAdjusterAccordion('adj-4')" class="bg-slate-50 hover:bg-slate-100 p-3 text-right font-black flex justify-between items-center text-sm relative">
+                                    <span class="card-title" data-ar="4. الإيرادات المستحقة (Accrued Revenues)" data-en="4. Accrued Revenues">4. الإيرادات المستحقة (Accrued Revenues)</span>
+                                    <span class="text-slate-400">  ▾  </span>
+                                    <div class="absolute left-12 top-1.5">
+                                        <span onclick="event.stopPropagation(); toggleCardLanguage('card-adj-4')" class="cursor-pointer text-slate-500 hover:text-amber-600 p-1 text-xs font-mono">EN/AR  🌐 </span>
+                                    </div>
+                                </button>
+                                <div id="adj-4" class="hidden p-4 bg-white text-xs leading-relaxed card-body"
+                                     data-ar="الشرح: خدمات تم تقديمها للعملاء بالفعل ولم يتم فوترتها أو قبض قيمتها نقدياً بعد. عند قيد التسوية: من حـ/ ذمم مدينة (مدين) إلى حـ/ إيراد خدمات (دائن)."
+                                     data-en="Explanation: Services rendered but not yet billed or collected. Adjusting entry: Debit Accounts Receivable / Credit Service Revenue.">
+                                    <strong>الشرح:</strong> خدمات تم تقديمها للعملاء بالفعل ولم يتم فوترتها أو قبض قيمتها نقدياً بعد.<br>
+                                    <strong>عند قيد التسوية:</strong> من حـ/ ذمم مدينة (مدين) إلى حـ/ إيراد خدمات (دائن).
+                                </div>
+                            </div>
+                            <div class="flex flex-col" id="card-adj-5">
+                                <button onclick="toggleAdjusterAccordion('adj-5')" class="bg-amber-50 hover:bg-amber-100 p-3 text-right font-black flex justify-between items-center text-sm relative border-t border-amber-200">
+                                    <span class="card-title text-amber-900" data-ar="5. قيد إهلاك الأصول الثابتة (Depreciation Expense)" data-en="5. Depreciation Expense">5. قيد إهلاك الأصول الثابتة (Depreciation Expense)</span>
+                                    <span class="text-amber-700">  ▾  </span>
+                                    <div class="absolute left-12 top-1.5">
+                                        <span onclick="event.stopPropagation(); toggleCardLanguage('card-adj-5')" class="cursor-pointer text-amber-800 hover:text-slate-900 p-1 text-xs font-mono">EN/AR  🌐 </span>
+                                    </div>
+                                </button>
+                                <div id="adj-5" class="hidden p-4 bg-white text-xs leading-relaxed card-body border-t border-amber-100"
+                                     data-ar="الشرح: توزيع تكلفة الأصل الثابت (مثل المعدات أو السيارات) على عمره الإنتاجي ليتماشى مع مبدأ المقابلة. قيد الإهلاك: من حـ/ مصروف الإهلاك (مدين) إلى حـ/ مجمع الإهلاك (دائن)."
+                                     data-en="Explanation: Allocating the cost of a fixed asset over its useful life following the matching principle. Adjusting entry: Debit Depreciation Expense / Credit Accumulated Depreciation.">
+                                    <strong>الشرح:</strong> توزيع تكلفة الأصل الثابت (مثل المعدات أو الأجهزة) على عمره الإنتاجي تماشياً مع مبدأ المقابلة.<br>
+                                    <strong>قيد التسوية:</strong> من حـ/ مصروف إهلاك المعدات (مدين) إلى حـ/ مجمع إهلاك المعدات (دائن).
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="theory-sub-tab-glossary" class="hidden bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col gap-6 tab-pane">
+            <div class="max-w-4xl mx-auto space-y-6 w-full">
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+                    <div>
+                        <h3 class="text-lg font-black text-slate-900">قاموس المصطلحات المحاسبية   (Bilingual Accounting Glossary)</h3>
+                        <p class="text-sm text-slate-600">اهم المصطلحات المحاسبية تم شرحها بدقة وسهولة.</p>
+                    </div>
+                    <input type="text" id="glossary-search" oninput="filterGlossary()" placeholder="ابحث عن مصطلح بالعربي أو الإنجليزي..." class="p-2.5 border border-slate-200 rounded-xl text-sm w-full sm:w-72 focus:ring-2 focus:ring-amber-400">
+                </div>
+                <div class="border border-slate-100 rounded-xl overflow-x-auto shadow-sm bg-white">
+                    <table class="w-full text-right border-collapse text-sm min-w-[500px]">
+                        <thead>
+                            <tr class="bg-slate-900 text-white font-bold border-b border-slate-200">
+                                <th class="p-3.5">المصطلح باللغة العربية</th>
+                                <th class="p-3.5">English Accounting Term</th>
+                                <th class="p-3.5">شرح وتوضيح مبسط للمفهوم (Description)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="glossary-rows" class="divide-y divide-slate-100"></tbody>
+                    </table>                
+                </div> 
+                <!-- حقول إدخال المصطلح الجديد -->
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 flex flex-col gap-3 my-4">
+                    <h4 class="font-bold text-sm text-slate-800">إضافة مصطلح جديد للقاموس</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <input type="text" id="term-ar-input" placeholder="المصطلح باللغة العربية" class="p-2 text-sm bg-white border border-slate-200 rounded-xl outline-none focus:border-slate-400">
+                        <input type="text" id="term-en-input" placeholder="English Accounting Term" class="p-2 text-sm bg-white border border-slate-200 rounded-xl outline-none focus:border-slate-400">
+                    </div>
+                    <textarea id="term-desc-input" placeholder="شرح وتوضيح مبسط للمفهوم (Description)" class="p-2 text-sm bg-white border border-slate-200 rounded-xl outline-none focus:border-slate-400 resize-none h-20"></textarea>
+                    
+                    <!-- زر الإضافة مع الأيقونة -->
+                    <button onclick="addNewTerm()" class="flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-900 text-white rounded-xl hover:bg-slate-800 transition-colors text-sm font-semibold shadow-sm w-full sm:w-auto self-start">
+                        <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path>
+                        </svg>
+                    
+                    إضافة مصطلح
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="theory-sub-tab-quiz" class="hidden bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col gap-6 tab-pane">
+            <div class="lg:col-span-4 bg-slate-900 text-white p-6 rounded-2xl flex flex-col justify-between gap-4 shadow-md">
+                <h4 class="font-bold text-base text-amber-400">ملخص نقاط التعلم النظري</h4>
+                <p class="text-sm text-slate-300 leading-relaxed">
+                    المعرفة المحاسبية هي السلاح القوي لفهم حركة التدفق المالي وحماية الاستثمارات والمشاريع.
+                </p>
+                <div class="border-t border-slate-800 pt-3 flex flex-col gap-2.5 text-sm text-slate-300">
+                    <div class="flex justify-between">
+                        <span>الفروض المستوعبة:</span>
+                        <span id="quiz-metric-assumptions" class="font-bold text-white">0 / 2</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>مبادئ الـ GAAP المحققة:</span>
+                        <span id="quiz-metric-principles" class="font-bold text-white">0 / 2</span>
+                    </div>
+                </div>
+                <button onclick="resetQuiz()" class="mt-auto w-full bg-amber-500 hover:bg-amber-600 text-slate-950 text-sm py-3 rounded-xl font-black transition text-center shadow">
+                    إعادة تشغيل وتصفير الاختبار
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal for Custom Transaction Analysis Editor -->
+    <div id="custom-analysis-modal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl flex flex-col border border-slate-100">
+            <div class="bg-slate-900 text-white p-5 flex justify-between items-center border-b border-amber-500/20">
+                <div>
+                    <h3 class="text-lg font-black text-amber-400">إضافة حدث تحليلي جديد للحالة الدراسية</h3>
+                    <p class="text-xs text-slate-300 mt-0.5">أدخلي الحدث، الحسابات المتأثرة، وشرحك الخاص ليندرج في هذه الحالة الدراسية!</p>
+                </div>
+                <button onclick="closeCustomAnalysisEditor()" class="text-slate-400 hover:text-white font-bold text-lg"> ✕ </button>
+            </div>
+            
+            <div class="p-6 flex flex-col gap-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">عنوان الحدث أو العملية (Title):</label>
+                    <input id="ca-title" type="text" placeholder="مثال: سداد مصروف إيجار المكتب نقداً" class="w-full p-2.5 text-sm border border-slate-200 rounded-lg focus:ring-2 focus:ring-amber-400">
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">تاريخ الحدث (Date):</label>
+                        <input id="ca-date" type="text" value="١٥ يناير ٢٠٢٦" class="w-full p-2.5 text-sm border border-slate-200 rounded-lg">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">الحساب المدين / طبيعته والقيمة:</label>
+                        <input id="ca-debit-acc" type="text" placeholder="مثال: مصروف الإيجار (مدين) بـ 500" class="w-full p-2.5 text-sm border border-slate-200 rounded-lg">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">الحساب الدائن / طبيعته والقيمة:</label>
+                    <input id="ca-credit-acc" type="text" placeholder="مثال: الصندوق (دائن) بـ 500" class="w-full p-2.5 text-sm border border-slate-200 rounded-lg">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">شرح الحدث والتحليل الخاص بكِ (Concept & Explanation):</label>
+                    <textarea id="ca-concept" placeholder="اكتبي شرحك المالي والمحاسبي الراقي هنا لكي يظهر في التحليل والموسوعة..." class="w-full p-3 text-sm border border-slate-200 rounded-lg h-28 focus:ring-2 focus:ring-amber-400"></textarea>
+                </div>
+            </div>
+            <div class="bg-slate-50 p-4 border-t border-slate-150 flex justify-end gap-2.5 rounded-b-2xl">
+                <button onclick="closeCustomAnalysisEditor()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 rounded-lg text-xs font-bold transition text-slate-700">إلغاء</button>
+                <button onclick="saveAndPublishCustomAnalysis()" class="px-5 py-2.5 bg-amber-500 hover:bg-amber-600 rounded-lg text-xs font-black transition text-slate-950 shadow">حفظ وإرسال للحالة الدراسية</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Scenario Builder -->
+    <div id="scenario-builder-modal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl flex flex-col border border-slate-100">
+            <div class="bg-slate-900 text-white p-5 flex justify-between items-center border-b border-amber-500/20">
+                <div>
+                    <h3 class="text-lg font-black text-amber-400">منشئ الحالات الدراسية المخصصة</h3>
+                    <p class="text-xs text-slate-300 mt-0.5">صممي حالتك الدراسية بالكامل بنفسك!</p>
+                </div>
+                <button onclick="closeScenarioBuilder()" class="text-slate-400 hover:text-white font-bold text-lg"> ✕ </button>
+            </div>
+            <div class="p-6 flex flex-col gap-5">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">اسم الحالة الدراسية:</label>
+                    <input id="custom-sc-title" type="text" placeholder="مثال: شركة النخبة للاستشارات" class="w-full p-2.5 text-xs border border-slate-200 rounded-lg">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">وصف الحالة والشرح العام:</label>
+                    <input id="custom-sc-desc" type="text" placeholder="وصف موجز..." class="w-full p-2.5 text-xs border border-slate-200 rounded-lg">
+                </div>
+            </div>
+            <div class="bg-slate-50 p-4 border-t border-slate-150 flex justify-end gap-2.5 rounded-b-2xl">
+                <button onclick="closeScenarioBuilder()" class="px-4 py-2 bg-slate-200 rounded-lg text-xs font-bold">إلغاء</button>
+                <button onclick="compileAndRunCustomScenario()" class="px-5 py-2.5 bg-amber-500 rounded-lg text-xs font-black text-slate-950 shadow">حفظ وتشغيل الحالة</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="custom-toast" class="fixed bottom-5 left-5 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-2xl border border-amber-500/30 text-sm font-bold hidden z-50 flex items-center gap-2">
+        <span id="toast-icon"> 💡 </span>
+        <span id="toast-message"></span>
+    </div>
+
+    <footer class="bg-slate-950 text-slate-400 text-center py-6 text-sm border-t border-slate-900">
+        <p>© ٢٠٢٦ حقوق النشر محفوظة (Interactive Accounting Cycle Tutor) - An educational tool designed by Hedaya Odat.     .</p>
+    </footer>
+
+    <!-- JavaScript Core Logic -->
+    <script>
+        const defaultScenarios = {
+            advanced: {
+                title: "شركة يُسر للاستشارات والتدريب (Yusr Consulting Co.)",
+                description: "حالة دراسية متكاملة وشاملة تتضمن الذمم المدينة والدائنة وقيود الإهلاك لشرح أساس الاستحقاق والمبادئ المحاسبية المتقدمة.",
+                companyName: "شركة النماء للاستشارات والتدريب",
+                accounts: {
+                    'cash': { name: 'الصندوق (Cash)', type: 'asset', entries: [] },
+                    'equipment': { name: 'معدات مكتبية وأجهزة (Equipment)', type: 'asset', entries: [] },
+                    'accum_dep': { name: 'مجمع إهلاك المعدات (Accumulated Depreciation)', type: 'contra-asset', entries: [] },
+                    'receivable': { name: 'ذمم مدينة - العملاء (Accounts Receivable)', type: 'asset', entries: [] },
+                    'payable': { name: 'ذمم دائنة - الموردين (Accounts Payable)', type: 'liability', entries: [] },
+                    'capital': { name: 'رأس المال للشركة (Capital)', type: 'equity', entries: [] },
+                    'revenue': { name: 'إيراد الخدمات الاستشارية (Consulting Revenue)', type: 'revenue', entries: [] },
+                    'rent': { name: 'مصروف إيجار المكتب (Rent Expense)', type: 'expense', entries: [] },
+                    'dep_expense': { name: 'مصروف إهلاك المعدات (Depreciation Expense)', type: 'expense', entries: [] }
+                },
+                transactions: [
+                    {
+                        id: 1,
+                        date: "١ يناير ٢٠٢٦",
+                        title: "بدء النشاط التجاري برأس مال نقدي",
+                        desc: "قامت أمل بتأسيس شركة 'يسر' واستثمار مبلغ 10,000 دينار (JD) نقداً تم إيداعها بصندوق الشركة كرأس مال ابتدائي.",
+                        idealJournal: [
+                            { account: 'cash', debit: 10000, credit: 0 },
+                            { account: 'capital', debit: 0, credit: 10000 }
+                        ],
+                        analysis: {
+                            accountsAffected: [
+                                { name: "الصندوق (أصل) / Cash (Asset)", change: "زيادة (Increase)", effect: "مدين (Debit)", val: 10000 },
+                                { name: "رأس المال (حقوق ملكية) / Capital (Equity)", change: "زيادة (Increase)", effect: "دائن (Credit)", val: 10000 }
+                            ],
+                            concept: "تأسيس الشركة ينشئ ذمة مالية مستقلة. الأصول (الصندوق) زادت بمقدار 10,000، وبالمقابل حقوق ملاك المشروع (رأس المال) زادت بنفس القيمة ليتوازن الطرفان."
+                        },
+                        status: 'pending'
+                    },
+                    {
+                        id: 2,
+                        date: "٣ يناير ٢٠٢٦",
+                        title: "شراء معدات مكتبية بالأجل (على الحساب)",
+                        desc: "اشترت الشركة معدات وأجهزة كمبيوتر لاستخدامها في أعمال الاستشارات بمبلغ 3,000 دينار بالأجل من شركة 'الأمل لتجهيزات المكاتب'.",
+                        idealJournal: [
+                            { account: 'equipment', debit: 3000, credit: 0 },
+                            { account: 'payable', debit: 0, credit: 3000 }
+                        ],
+                        analysis: {
+                            accountsAffected: [
+                                { name: "معدات مكتبية (أصل) / Equipment (Asset)", change: "زيادة (Increase)", effect: "مدين (Debit)", val: 3000 },
+                                { name: "ذمم دائنة / الموردين (التزام) / Accounts Payable (Liability)", change: "زيادة (Increase)", effect: "دائن (Credit)", val: 3000 }
+                            ],
+                            concept: "عندما تشتري الشركة أصلاً بالأجل (على الحساب)، يزداد بند الأصول (المعدات المكتبية) وهو حساب مدين بطبيعتها، ويزداد بند الالتزامات للغير (الذمم الدائنة) وهو حساب دائن بطبيعتها."
+                        },
+                        status: 'locked'
+                    },
+                    {
+                        id: 3,
+                        date: "٨ يناير ٢٠٢٦",
+                        title: "تقديم خدمات استشارية نقداً",
+                        desc: "قدمت الشركة خدمات استشارية متخصصة لبعض العملاء وحصلت على القيمة البالغة 2,500 دينار نقداً فوراً واستلمها الصندوق.",
+                        idealJournal: [
+                            { account: 'cash', debit: 2500, credit: 0 },
+                            { account: 'revenue', debit: 0, credit: 2500 }
+                        ],
+                        analysis: {
+                            accountsAffected: [
+                                { name: "الصندوق (أصل) / Cash (Asset)", change: "زيادة (Increase)", effect: "مدين (Debit)", val: 2500 },
+                                { name: "إيراد خدمات (إيرادات) / Revenue (Revenue)", change: "زيادة (Increase)", effect: "دائن (Credit)", val: 2500 }
+                            ],
+                            concept: "تحقيق الإيرادات يؤدي دائماً لزيادة حقوق الملكية، وحسب القواعد يظهر حساب الإيراد في الجانب الدائن. ولأن الدفع كان نقداً، زادت أصول الشركة (الصندوق) في الجانب المدين."
+                        },
+                        status: 'locked'
+                    },
+                    {
+                        id: 4,
+                        date: "٢٥ يناير ٢٠٢٦",
+                        title: "تقديم خدمات استشارية بالأجل للعملاء",
+                        desc: "نفذت الشركة دورة تدريبية ومجموعة خدمات استشارية لإحدى الشركات بمبلغ 1,200 دينار بالأجل.",
+                        idealJournal: [
+                            { account: 'receivable', debit: 1200, credit: 0 },
+                            { account: 'revenue', debit: 0, credit: 1200 }
+                        ],
+                        analysis: {
+                            accountsAffected: [
+                                { name: "ذمم مدينة / العملاء (أصل) / Accounts Receivable (Asset)", change: "زيادة (Increase)", effect: "مدين (Debit)", val: 1200 },
+                                { name: "إيراد خدمات (إيرادات) / Revenue (Revenue)", change: "زيادة (Increase)", effect: "دائن (Credit)", val: 1200 }
+                            ],
+                            concept: "بناءً على 'أساس الاستحقاق' وهو الركيزة الأساسية للمحاسبة، يتم الاعتراف بالإيراد وتسجيله فور تحقق الخدمة وتسليمها للعميل بغض النظر عن حركة النقد."
+                        },
+                        status: 'locked'
+                    },
+                    {
+                        id: 5,
+                        date: "٣١ يناير ٢٠٢٦",
+                        title: "تسجيل قيد إهلاك المعدات لشهر يناير (قيد تسوية)",
+                        desc: "قدرت إدارة الشركة استهلاك (إهلاك) المعدات المكتبية لشهر يناير بمبلغ 300 دينار وفقاً لمبدأ المقابلة.",
+                        idealJournal: [
+                            { account: 'dep_expense', debit: 300, credit: 0 },
+                            { account: 'accum_dep', debit: 0, credit: 300 }
+                        ],
+                        analysis: {
+                            accountsAffected: [
+                                { name: "مصروف الإهلاك (مصروف) / Depreciation Expense (Expense)", change: "زيادة (Increase)", effect: "مدين (Debit)", val: 300 },
+                                { name: "مجمع إهلاك المعدات (أصل عاكس) / Accumulated Depreciation (Contra-Asset)", change: "زيادة (Increase)", effect: "دائن (Credit)", val: 300 }
+                            ],
+                            concept: "قيود التسوية تضمن تحميل الفترة بمصاريفها الحقيقية. مصروف الإهلاك يظهر كمدين بقائمة الدخل، بينما مجمع الإهلاك يطرح من المعدات بقائمة المركز المالي."
+                        },
+                        status: 'locked'
+                    }
+                ]
+            }
+        };
+
+        const glossaryDatabase = [
+            { ar: "الأصول", en: "Assets", desc: "كل ما تمتلكه الشركة وله قيمة اقتصادية ويمكن الاستفادة منه مستقبلاً (مثل: الكاش، الأراضي، السيارات، البضاعة)." },
+            { ar: "الالتزامات", en: "Liabilities", desc: "الديون والتعهدات المالية المستحقة على الشركة لصالح أطراف خارجية (مثل: القروض البنكية، الفواتير غير المدفوعة)." },
+            { ar: "حقوق الملكية", en: "Owner's Equity", desc: "مستحقات أصحاب الشركة (الملاك) بعد طرح جميع الالتزامات من الأصول. (المعادلة: الأصول - الالتزامات = حقوق الملكية)." },
+            { ar: "رأس المال", en: "Capital", desc: "هو الاستثمار الأولي أو الإضافي الذي يضعه الملاك في الشركة لبدء النشاط. وهو جزء أساسي من حقوق الملكية." },
+            { ar: "الأرباح / صافي الدخل", en: "Profits / Net Income", desc: "الزيادة في حقوق الملكية الناتجة عن زيادة الإيرادات على المصاريف. طبيعتها مدين عند التكوين وترتفع بالمدين وتنخفض بالدائن." },
+            { ar: "الإيرادات", en: "Revenues", desc: "التدفقات النقدية أو المكاسب التي تدخل الشركة نتيجة بيع بضاعة أو تقديم خدمة للعملاء." },
+            { ar: "المصاريف", en: "Expenses", desc: "التكاليف التي تتكبدها الشركة وتدفعها في سبيل توليد الإيرادات وتسيير العمل (مثل: الرواتب، الإيجار، الكهرباء)." },
+            { ar: "إهلاك الأصول الثابتة", en: "Depreciation", desc: "توزيع تكلفة الأصل الثابت على عمره الإنتاجي بطريقة منهجية لتطبيق مبدأ المقابلة." },
+            { ar: "مجمع الإهلاك", en: "Accumulated Depreciation", desc: "حساب أصل عاكس (Contra-Asset) يظهر مطروحاً من قيمة الأصول الثابتة بقائمة المركز المالي." },
+            { ar: "ذمم مدينة (عملاء)", en: "Accounts Receivable", desc: "أموال الشركة التي في ذمة الزبائن عند تقديم خدمة أو بيع بالأجل." },
+            { ar: "ذمم دائنة (موردين)", en: "Accounts Payable", desc: "الديون التي على الشركة لصالح الموردين عند الشراء بالحساب أو بالأجل." },
+            { ar: "قيد اليومية", en: "Journal Entry", desc: "السجل الأولي لتسجيل العمليات بالتسلسل التاريخي بناءً على القيد المزدوج." },
+            { ar: "دفتر الأستاذ العام", en: "General Ledger", desc: "الدفتر الذي يجمع كافة الحسابات المستقلة لتصنيف العمليات واستخراج الرصيد النهائي." },
+            { ar: "ميزان المراجعة", en: "Trial Balance", desc: "كشف يلخص أرصدة كافة الحسابات للتأكد من توازن إجمالي المدين والدائن." },
+            { ar: "قائمة الدخل", en: "Income Statement", desc: "تقرير يوضح نتيجة النشاط (ربح أو خسارة) عن طريق: الإيرادات - المصاريف." },
+            { ar: "قائمة المركز المالي", en: "Balance Sheet", desc: "تقرير يعرض الأصول، الالتزامات، وحقوق الملكية في تاريخ محدد." },
+            { ar: "أساس الاستحقاق", en: "Accrual Basis", desc: "تسجيل الإيرادات والمصاريف بمجرد حدوثها بغض النظر عن حركة النقدية." }
+        ];
+
+        let activeMasterMode = 'practical';
+        let activeScenarioKey = 'advanced';
+        let currentScenario = JSON.parse(JSON.stringify(defaultScenarios.advanced));
+        let accounts = currentScenario.accounts;
+        let transactions = currentScenario.transactions;
+        let activeTxId = 1;
+        let activeTab = 'analysis';
+        let activeStatement = 'income';
+        let customScenariosStore = null;
+
+        window.onload = function() {
+            loadScenarioData('advanced');
+            loadGlossary();
+        };
+
+        function showToast(message, icon = " 💡 ") {
+            const toast = document.getElementById('custom-toast');
+            document.getElementById('toast-message').innerText = message;
+            document.getElementById('toast-icon').innerText = icon;
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        function toggleMasterMode(mode) {
+            activeMasterMode = mode;
+            const practicalBtn = document.getElementById('mode-btn-practical');
+            const theoreticalBtn = document.getElementById('mode-btn-theoretical');
+            const practicalCont = document.getElementById('view-practical-container');
+            const theoreticalCont = document.getElementById('view-theoretical-container');
+            
+            if (mode === 'practical') {
+                practicalBtn.className = "flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-base font-black transition-all duration-300 shadow bg-amber-500 text-slate-950 w-full sm:w-auto";
+                theoreticalBtn.className = "flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-base font-black transition-all duration-300 text-slate-300 hover:bg-slate-800 hover:text-white w-full sm:w-auto";
+                practicalCont.classList.remove('hidden');
+                theoreticalCont.classList.add('hidden');
+                showToast("تم الانتقال لبيئة التدريب العملي والتطبيقي", "  🛠️  ");
+            } else {
+                theoreticalBtn.className = "flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-base font-black transition-all duration-300 shadow bg-amber-500 text-slate-950 w-full sm:w-auto";
+                practicalBtn.className = "flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-base font-black transition-all duration-300 text-slate-300 hover:bg-slate-800 hover:text-white w-full sm:w-auto";
+                practicalCont.classList.add('hidden');
+                theoreticalCont.classList.remove('hidden');
+                showToast("تم فتح الدليل الأكاديمي والجانب النظري", "  📖  ");
+            }
+        }
+
+        function switchTab(tabName) {
+            activeTab = tabName;
+            const tabs = ['analysis', 'journal', 'ledger', 'trial', 'statements'];
+            tabs.forEach(t => {
+                const pane = document.getElementById(`tab-${t}`);
+                const badge = document.getElementById(`badge-${t}`);
+                const btnTracker = document.getElementById(`btn-tab-${t}`);
+                
+                if (t === tabName) {
+                    pane.classList.remove('hidden');
+                    if (badge) badge.className = "w-9 h-9 rounded-full bg-amber-500 text-slate-950 text-base font-bold flex items-center justify-center ring-4 ring-amber-100";
+                    if (btnTracker) btnTracker.className = "flex flex-col items-center gap-2 focus:outline-none transition group text-amber-600 font-bold";
+                } else {
+                    pane.classList.add('hidden');
+                    if (badge) badge.className = "w-9 h-9 rounded-full bg-slate-200 text-slate-600 text-base font-bold flex items-center justify-center";
+                    if (btnTracker) btnTracker.className = "flex flex-col items-center gap-2 focus:outline-none transition group text-slate-400";
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function switchStatement(stateName) {
+            activeStatement = stateName;
+            const btnInc = document.getElementById('btn-state-income');
+            const btnBal = document.getElementById('btn-state-balance');
+            const sheetInc = document.getElementById('sheet-income');
+            const sheetBal = document.getElementById('sheet-balance');
+            if (stateName === 'income') {
+                btnInc.className = "px-5 py-2.5 text-sm font-bold rounded-lg bg-slate-900 text-white transition";
+                btnBal.className = "px-5 py-2.5 text-sm font-bold rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition";
+                sheetInc.classList.remove('hidden');
+                sheetBal.classList.add('hidden');
+            } else {
+                btnBal.className = "px-5 py-2.5 text-sm font-bold rounded-lg bg-slate-900 text-white transition";
+                btnInc.className = "px-5 py-2.5 text-sm font-bold rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition";
+                sheetBal.classList.remove('hidden');
+                sheetInc.classList.add('hidden');
+            }
+        }
+
+        function switchTheorySubTab(subTabId) {
+            const tabs = ['principles', 'dr-cr-rules', 'accounting-eq', 'adjustments', 'glossary', 'quiz'];
+            tabs.forEach(tab => {
+                const btn = document.getElementById(`theory-tab-btn-${tab}`);
+                const element = document.getElementById(`theory-sub-tab-${tab}`);
+                if (element) {
+                    if (tab === subTabId) {
+                        element.classList.remove('hidden');
+                        if (btn) btn.className = "px-5 py-2.5 text-sm font-black rounded-lg bg-slate-900 text-white transition";
+                    } else {
+                        element.classList.add('hidden');
+                        if (btn) btn.className = "px-5 py-2.5 text-sm font-black rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition";
+                    }
+                }
+            });
+        }
+
+        function toggleAdjusterAccordion(id) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            if (el.classList.contains('hidden')) {
+                el.classList.remove('hidden');
+            } else {
+                el.classList.add('hidden');
+            }
+        }
+
+        function toggleCardLanguage(cardId) {
+            const card = document.getElementById(cardId);
+            if (!card) return;
+            const titleEl = card.querySelector('.card-title');
+            const bodyEl = card.querySelector('.card-body');
+            if (!titleEl || !bodyEl) return;
+            
+            const currentLang = card.getAttribute('data-lang') || 'ar';
+            if (currentLang === 'ar') {
+                titleEl.innerText = titleEl.getAttribute('data-en');
+                bodyEl.innerText = bodyEl.getAttribute('data-en');
+                card.setAttribute('data-lang', 'en');
+                showToast("Switched to English", "  🌐  ");
+            } else {
+                titleEl.innerText = titleEl.getAttribute('data-ar');
+                bodyEl.innerText = bodyEl.getAttribute('data-ar');
+                card.setAttribute('data-lang', 'ar');
+                showToast("تمت العودة للغة العربية", "  🌐  ");
+            }
+        }
+
+        function openCustomAnalysisEditor() {
+            if (activeScenarioKey !== 'custom') {
+                showToast("الرجاء اختيار 'حالة دراسية مخصصة' أولاً من القائمة بالأعلى لإضافة أمثلة خاصة بها", " ⚠️ ");
+                return;
+            }
+            document.getElementById('custom-analysis-modal').classList.remove('hidden');
+        }
+
+        function closeCustomAnalysisEditor() {
+            document.getElementById('custom-analysis-modal').classList.add('hidden');
+        }
+
+        function openScenarioBuilder() {
+            document.getElementById('scenario-builder-modal').classList.remove('hidden');
+        }
+
+        function closeScenarioBuilder() {
+            document.getElementById('scenario-builder-modal').classList.add('hidden');
+        }
+
+        // --- إصلاح وتفعيل حفظ وإرسال الأحداث للحالة المخصصة ---
+        function saveAndPublishCustomAnalysis() {
+            const title = document.getElementById('ca-title').value;
+            const date = document.getElementById('ca-date').value;
+            const debit = document.getElementById('ca-debit-acc').value;
+            const credit = document.getElementById('ca-credit-acc').value;
+            const concept = document.getElementById('ca-concept').value;
+            
+            if(!title || !concept) {
+                showToast("الرجاء إدخال العنوان والشرح على الأقل", " ⚠️ ");
+                return;
+            }
+            
+            if (!customScenariosStore) {
+                customScenariosStore = {
+                    title: "حالة دراسية مخصصة",
+                    description: "حالة دراسية تم إنشاؤها وتخصيص أحداثها ومثيلاتها.",
+                    companyName: "مشروعي المخصص",
+                    accounts: JSON.parse(JSON.stringify(defaultScenarios.advanced.accounts)),
+                    transactions: []
+                };
+            }
+            
+            const newTxId = customScenariosStore.transactions.length + 1;
+            const newTransaction = {
+                id: newTxId,
+                date: date,
+                title: title,
+                desc: concept,
+                idealJournal: [
+                    { account: 'cash', debit: 500, credit: 0 },
+                    { account: 'revenue', debit: 0, credit: 500 }
+                ],
+                analysis: {
+                    accountsAffected: [
+                        { name: debit || "حساب مدين مخصص", change: "زيادة", effect: "مدين (Debit)", val: 500 },
+                        { name: credit || "حساب دائن مخصص", change: "زيادة", effect: "دائن (Credit)", val: 500 }
+                    ],
+                    concept: concept
+                },
+                status: newTxId === 1 ? 'pending' : 'locked'
+            };
+            
+            customScenariosStore.transactions.push(newTransaction);
+            
+            // تحديث الحالة النشطة فوراً لتعكس الإضافة الجديدة
+            currentScenario = JSON.parse(JSON.stringify(customScenariosStore));
+            transactions = currentScenario.transactions;
+            renderOperationsList();
+            
+            closeCustomAnalysisEditor();
+            
+            // تفريغ الحقول بعد الحفظ
+            document.getElementById('ca-title').value = '';
+            document.getElementById('ca-debit-acc').value = '';
+            document.getElementById('ca-credit-acc').value = '';
+            document.getElementById('ca-concept').value = '';
+            
+            showToast("تم حفظ الحدث وإرساله إلى حالتك المخصصة بنجاح!", " ✅ ");
+        }
+
+        function compileAndRunCustomScenario() {
+            const title = document.getElementById('custom-sc-title').value || "حالة دراسية مخصصة";
+            const desc = document.getElementById('custom-sc-desc').value || "تم إنشاؤها عبر أداة تخصيص الحالات";
+            
+            customScenariosStore = {
+                title: title,
+                description: desc,
+                companyName: title,
+                accounts: JSON.parse(JSON.stringify(defaultScenarios.advanced.accounts)),
+                transactions: [
+                    {
+                        id: 1,
+                        date: "١ يناير ٢٠٢٦",
+                        title: "بدء النشاط للحالة المخصصة",
+                        desc: "تأسيس الشركة برأس مال مخصص للاستثمار.",
+                        idealJournal: [
+                            { account: 'cash', debit: 5000, credit: 0 },
+                            { account: 'capital', debit: 0, credit: 5000 }
+                        ],
+                        analysis: {
+                            accountsAffected: [
+                                { name: "الصندوق", change: "زيادة", effect: "مدين", val: 5000 },
+                                { name: "رأس المال", change: "زيادة", effect: "دائن", val: 5000 }
+                            ],
+                            concept: "التأسيس المبدئي للحالة."
+                        },
+                        status: 'pending'
+                    }
+                ]
+            };
+            
+            closeScenarioBuilder();
+            document.getElementById('scenario-select').value = 'custom';
+            changeScenario('custom');
+            showToast("تم حفظ وتشغيل الحالة المخصصة بنجاح", " 🛠️ ");
+        }
+
+        function loadGlossary() {
+            const container = document.getElementById('glossary-rows');
+            if (!container) return;
+            container.innerHTML = '';
+            glossaryDatabase.forEach(item => {
+                container.innerHTML += `
+                    <tr class="hover:bg-slate-50 transition border-b border-slate-100 glossary-item-row">
+                        <td class="p-3.5 font-bold text-slate-900 tracking-wide text-right">${item.ar}</td>
+                        <td class="p-3.5 font-mono text-indigo-900 font-bold text-right">${item.en}</td>
+                        <td class="p-3.5 text-slate-700 leading-relaxed text-right">${item.desc}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        function filterGlossary() {
+            const searchVal = document.getElementById('glossary-search').value.toLowerCase().trim();
+            const rows = document.querySelectorAll('.glossary-item-row');
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                const arabic = cells[0].innerText.toLowerCase();
+                const english = cells[1].innerText.toLowerCase();
+                const desc = cells[2].innerText.toLowerCase();
+                if (arabic.includes(searchVal) || english.includes(searchVal) || desc.includes(searchVal)) {
+                    row.classList.remove('hidden');
+                } else {
+                    row.classList.add('hidden');
+                }
+            });
+        }
+        
+        function addNewTerm() {
+            const ar = document.getElementById('term-ar-input').value;
+            const en = document.getElementById('term-en-input').value;
+            const desc = document.getElementById('term-desc-input').value;
+            if(!ar || !desc) {
+                showToast("الرجاء إدخال المصطلح العربي والشرح على الأقل", " ⚠️ ");
+                return;
+            }
+            glossaryDatabase.push({ ar, en, desc });
+            loadGlossary();
+            
+            document.getElementById('term-ar-input').value = '';
+            document.getElementById('term-en-input').value = '';
+            document.getElementById('term-desc-input').value = '';
+            
+            showToast("تمت إضافة المصطلح للموسوعة بنجاح", " 📚 ");
+        }
+
+        function changeScenario(val) {
+            if (val === 'custom') {
+                if (!customScenariosStore) {
+                    openScenarioBuilder();
+                    document.getElementById('scenario-select').value = 'advanced';
+                    return;
+                }
+                currentScenario = JSON.parse(JSON.stringify(customScenariosStore));
+            } else {
+                currentScenario = JSON.parse(JSON.stringify(defaultScenarios.advanced));
+            }
+            activeScenarioKey = val;
+            accounts = currentScenario.accounts;
+            transactions = currentScenario.transactions;
+            activeTxId = transactions.length > 0 ? transactions[0].id : 1;
+            loadScenarioData(activeScenarioKey);
+            showToast(`تم تحميل الحالة: ${currentScenario.title}`, "  📁  ");
+        }
+
+        function loadScenarioData(key) {
+            document.getElementById('scenario-active-title').innerText = currentScenario.title;
+            document.getElementById('scenario-active-desc').innerText = currentScenario.description;
+            document.getElementById('stmt-company-name').innerText = currentScenario.companyName;
+            document.getElementById('stmt-company-name-bal').innerText = currentScenario.companyName;
+            renderOperationsList();
+            initJournalRows();
+            renderLedgerAccounts();
+            renderTrialBalance();
+            renderFinancialStatements();
+        }
+
+        function renderOperationsList() {
+            const container = document.getElementById('operations-list');
+            container.innerHTML = '';
+            if (transactions.length === 0) {
+                container.innerHTML = `<p class="italic text-slate-400 text-center py-6">لا توجد عمليات مسجلة حالياً في هذه الحالة. اضغط على "+ أضف حدثاً تحليلياً جديداً" للبدء!</p>`;
+                return;
+            }
+            transactions.forEach((tx) => {
+                const isLocked = tx.status === 'locked';
+                const isCompleted = tx.status === 'completed';
+                let badgeHtml = `<span class="px-2.5 py-1 bg-amber-100 text-amber-800 text-xs font-bold rounded-md">مفتوحة للحل (Active)</span>`;
+                if (isLocked) {
+                    badgeHtml = `<span class="px-2.5 py-1 bg-slate-100 text-slate-500 text-xs font-bold rounded-md">مقفل بانتظار إنجاز السابق (Locked)</span>`;
+                } else if (isCompleted) {
+                    badgeHtml = `<span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-md">تم الاعتماد والترحيل بنجاح (Completed)  ✓ </span>`;
+                }
+                container.innerHTML += `
+                    <div class="border border-slate-200 rounded-xl p-5 bg-white shadow-sm flex flex-col gap-3 transition hover:border-amber-400">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                            <div class="flex items-center gap-2.5">
+                                <span class="w-7 h-7 rounded-full bg-slate-900 text-white font-bold text-xs flex items-center justify-center">${tx.id}</span>
+                                <h3 class="font-black text-base text-slate-900">${tx.title}</h3>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="text-xs text-slate-400 font-bold">${tx.date}</span>
+                                ${badgeHtml}
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-600 leading-relaxed">${tx.desc}</p>
+                        
+                        <div class="flex flex-wrap gap-2 pt-2 border-t border-slate-100">
+                            <button onclick="inspectTransactionAnalysis(${tx.id})" class="text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-800 px-3.5 py-2 rounded-lg transition flex items-center gap-1">
+                                <span> 🔍  تحليل العملية والأثر المالي</span>
+                            </button>
+                            <button onclick="startJournalForTx(${tx.id})" ${isLocked ? 'disabled' : ''} class="text-xs font-black ${isLocked ? 'bg-slate-100 text-slate-400 cursor-not-allowed' : 'bg-amber-500 hover:bg-amber-600 text-slate-950 shadow'} px-4 py-2 rounded-lg transition flex items-center gap-1">
+                                <span> 📝  تسجيل القيد بدفتر اليومية</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function inspectTransactionAnalysis(txId) {
+            const tx = transactions.find(t => t.id === txId);
+            if (!tx) return;
+            activeTxId = txId;
+            
+            const expBody = document.getElementById('explanation-body');
+            expBody.innerHTML = `
+                <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl text-slate-900">
+                    <h4 class="font-black text-amber-900 text-base mb-1">تحليل تفصيلي للعملية رقم (${tx.id}): ${tx.title}</h4>
+                    <p class="text-xs text-slate-600 mb-3">${tx.date}</p>
+                    <p class="text-sm leading-relaxed mb-4"><strong>الحدث:</strong> ${tx.desc}</p>
+                    
+                    <h5 class="font-bold text-xs text-slate-700 uppercase tracking-wider mb-2">الحسابات المتأثرة وطبيعتها:</h5>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-4">
+                        ${tx.analysis.accountsAffected.map(acc => `
+                            <div class="bg-white p-3 rounded-lg border border-amber-100 text-xs shadow-sm">
+                                <strong class="text-slate-900 block mb-1">${acc.name}</strong>
+                                <span class="text-slate-600">التأثير: <strong>${acc.change}</strong></span> | 
+                                <span class="text-amber-700 font-bold">القيد: ${acc.effect}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <h5 class="font-bold text-xs text-slate-700 uppercase tracking-wider mb-1">المفهوم المحاسبي الأساسي:</h5>
+                    <p class="text-xs text-slate-700 bg-white p-3 rounded-lg border border-amber-100 leading-relaxed">${tx.analysis.concept}</p>
+                </div>
+            `;
+            const container = document.getElementById('practical-encyclopedia');
+            if (container.classList.contains('hidden')) container.classList.remove('hidden');
+            container.scrollIntoView({ behavior: 'smooth' });
+            showToast(`تم عرض التحليل الشامل للعملية (${tx.id})`, "  📖  ");
+        }
+
+        function initJournalRows() {
+            const rowsContainer = document.getElementById('journal-rows');
+            if (!rowsContainer) return;
+            rowsContainer.innerHTML = '';
+            addJournalRow();
+        }
+
+        function addJournalRow() {
+            const rowsContainer = document.getElementById('journal-rows');
+            if (!rowsContainer) return;
+            
+            const newRow = document.createElement('div');
+            newRow.className = 'grid grid-cols-12 gap-2 items-center journal-row-item mt-2';
+            newRow.innerHTML = `
+                <div class="col-span-3">
+                    <input type="number" min="0" value="0" oninput="calcJournalTotals()" class="w-full p-2 text-center text-sm font-bold border border-slate-200 rounded-lg focus:ring-2 focus:ring-amber-400 row-debit" placeholder="المدين">
+                </div>
+                <div class="col-span-3">
+                    <input type="number" min="0" value="0" oninput="calcJournalTotals()" class="w-full p-2 text-center text-sm font-bold border border-slate-200 rounded-lg focus:ring-2 focus:ring-amber-400 row-credit" placeholder="الدائن">
+                </div>
+                <div class="col-span-5">
+                    <select class="w-full p-2 text-right text-sm font-bold border border-slate-200 rounded-lg focus:ring-2 focus:ring-amber-400 row-account cursor-pointer">
+                        <option value="">اختر الحساب...</option>
+                        ${Object.keys(accounts).map(accKey => `
+                            <option value="${accKey}">${accounts[accKey].name}</option>
+                        `).join('')}
+                    </select>
+                </div>
+                <div class="col-span-1 text-center">
+                    <button onclick="this.closest('.journal-row-item').remove(); calcJournalTotals();" class="text-red-500 hover:text-red-700 font-bold p-1">  ✕  </button>
+                </div>
+            `;
+            rowsContainer.appendChild(newRow);
+        }
+
+        function startJournalForTx(txId) {
+            const tx = transactions.find(t => t.id === txId);
+            if (!tx || tx.status === 'locked') return;
+            activeTxId = txId;
+            document.getElementById('journal-active-desc').innerText = `العملية (${tx.id}): ${tx.title} - ${tx.desc}`;
+            
+            inspectTransactionAnalysis(txId);
+            
+            const rowsContainer = document.getElementById('journal-rows');
+            rowsContainer.innerHTML = '';
+            
+            tx.idealJournal.forEach((item) => {
+                rowsContainer.innerHTML += `
+                    <div class="grid grid-cols-12 gap-2 items-center journal-row-item mt-2">
+                        <div class="col-span-3">
+                            <input type="number" min="0" value="${item.debit || 0}" oninput="calcJournalTotals()" class="w-full p-2 text-center text-sm font-bold border border-slate-200 rounded-lg focus:ring-2 focus:ring-amber-400 row-debit" placeholder="المدين">
+                        </div>
+                        <div class="col-span-3">
+                            <input type="number" min="0" value="${item.credit || 0}" oninput="calcJournalTotals()" class="w-full p-2 text-center text-sm font-bold border border-slate-200 rounded-lg focus:ring-2 focus:ring-amber-400 row-credit" placeholder="الدائن">
+                        </div>
+                        <div class="col-span-5">
+                            <select class="w-full p-2 text-right text-sm font-bold border border-slate-200 rounded-lg focus:ring-2 focus:ring-amber-400 row-account cursor-pointer">
+                                <option value="">اختر الحساب...</option>
+                                ${Object.keys(accounts).map(accKey => `
+                                    <option value="${accKey}" ${accKey === item.account ? 'selected' : ''}>${accounts[accKey].name}</option>
+                                `).join('')}
+                            </select>
+                        </div>
+                        <div class="col-span-1 text-center">
+                            <button onclick="this.closest('.journal-row-item').remove(); calcJournalTotals();" class="text-red-500 hover:text-red-700 font-bold p-1">  ✕  </button>
+                        </div>
+                    </div>
+                `;
+            });
+            calcJournalTotals();
+            switchTab('journal');
+            showToast(`تم تجهيز قيد العملية (${tx.id}) في دفتر اليومية`, "  📝  ");
+        }
+      
+        function calcJournalTotals() {
+            const debitInputs = document.querySelectorAll('.row-debit');
+            const creditInputs = document.querySelectorAll('.row-credit');
+            let sumDebit = 0;
+            let sumCredit = 0;
+            debitInputs.forEach(inp => sumDebit += parseFloat(inp.value) || 0);
+            creditInputs.forEach(inp => sumCredit += parseFloat(inp.value) || 0);
+            document.getElementById('total-debit-val').innerText = sumDebit;
+            document.getElementById('total-credit-val').innerText = sumCredit;
+            const statusMsg = document.getElementById('journal-status-msg');
+            if (sumDebit === sumCredit && sumDebit > 0) {
+                statusMsg.innerHTML = `<span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500"></span> القيد متوازن ومستعد للاعتماد والترحيل بنجاح!`;
+                statusMsg.className = "text-sm font-bold text-emerald-600 flex items-center gap-1.5";
+            } else {
+                statusMsg.innerHTML = `<span class="inline-block w-2.5 h-2.5 rounded-full bg-amber-500 animate-ping"></span> تذكير: يجب أن يتساوى إجمالي المدين مع إجمالي الدائن تماماً.`;
+                statusMsg.className = "text-sm font-medium text-amber-600 flex items-center gap-1.5";
+            }
+        }
+
+        function verifyAndPostEntry() {
+            const sumDebit = parseFloat(document.getElementById('total-debit-val').innerText) || 0;
+            const sumCredit = parseFloat(document.getElementById('total-credit-val').innerText) || 0;
+            if (sumDebit !== sumCredit || sumDebit === 0) {
+                showToast("خطأ: القيد غير متوازن أو القيم غير مدخلة بشكل صحيح", "  ❌ ");
+                return;
+            }
+            const rows = document.querySelectorAll('.journal-row-item');
+            const entryLines = [];
+            rows.forEach(row => {
+                const debitVal = parseFloat(row.querySelector('.row-debit').value) || 0;
+                const creditVal = parseFloat(row.querySelector('.row-credit').value) || 0;
+                const accountKey = row.querySelector('.row-account').value;
+                if ((debitVal > 0 || creditVal > 0) && accountKey) {
+                    entryLines.push({ account: accountKey, debit: debitVal, credit: creditVal });
+                }
+            });
+            if(entryLines.length === 0) {
+                 showToast("الرجاء اختيار الحسابات بشكل صحيح", "  ❌ ");
+                 return;
+            }
+
+            const currentTx = transactions.find(t => t.id === activeTxId);
+            if (currentTx) {
+                currentTx.status = 'completed';
+                currentTx.userPostedJournal = entryLines;
+                const nextTx = transactions.find(t => t.id === activeTxId + 1);
+                if (nextTx && nextTx.status === 'locked') {
+                    nextTx.status = 'pending';
+                }
+            }
+            entryLines.forEach(line => {
+                if (accounts[line.account]) {
+                    accounts[line.account].entries.push({
+                        txId: activeTxId,
+                        debit: line.debit,
+                        credit: line.credit
+                    });
+                }
+            });
+            appendPostedLog(activeTxId, entryLines);
+            renderOperationsList();
+            renderLedgerAccounts();
+            renderTrialBalance();
+            renderFinancialStatements();
+            showToast(`تم اعتماد وتدوير قيد العملية (${activeTxId}) لدفتر الأستاذ بنجاح!`, "  ✅ ");
+            
+            const nextPendingTx = transactions.find(t => t.id === activeTxId + 1 && t.status === 'pending');
+            if (nextPendingTx) {
+                startJournalForTx(nextPendingTx.id);
+            } else {
+                switchTab('ledger');
+            }
+        }
+
+        function appendPostedLog(txId, lines) {
+            const logContainer = document.getElementById('posted-journal-log');
+            if (logContainer.querySelector('.italic')) {
+                logContainer.innerHTML = '';
+            }
+            const tx = transactions.find(t => t.id === txId);
+            logContainer.innerHTML += `
+                <div class="p-3 bg-white border border-slate-200 rounded-xl flex flex-col gap-1.5 shadow-sm mb-2">
+                    <div class="flex justify-between items-center text-xs font-bold text-slate-900 border-b border-slate-200 pb-1">
+                        <span>قيد عملية رقم (${txId}): ${tx ? tx.title : ''}</span>
+                        <span class="text-emerald-700 font-bold">مرحل وموافق عليه  ✓ </span>
+                    </div>
+                    <div class="flex flex-col gap-1 text-xs mt-1">
+                        ${lines.map(l => `
+                            <div class="flex justify-between text-slate-700">
+                                <span>${accounts[l.account] ? accounts[l.account].name : l.account}</span>
+                                <span class="font-mono font-bold">${l.debit > 0 ? 'منه (مدين): ' + l.debit : 'له (دائن): ' + l.credit} JD</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderLedgerAccounts() {
+            const container = document.getElementById('ledger-grid-container');
+            container.innerHTML = '';
+            Object.keys(accounts).forEach(accKey => {
+                const acc = accounts[accKey];
+                let totalDebit = 0;
+                let totalCredit = 0;
+                acc.entries.forEach(e => {
+                    totalDebit += e.debit;
+                    totalCredit += e.credit;
+                });
+                let balanceText = 'رصيد متوازن (0)';
+                let balanceValClass = 'text-slate-900';
+                
+                if (acc.type === 'asset' || acc.type === 'expense') {
+                    const net = totalDebit - totalCredit;
+                    balanceText = `رصيد مدين نهائي: ${net} JD`;
+                    balanceValClass = 'text-emerald-700';
+                } else {
+                    const net = totalCredit - totalDebit;
+                    balanceText = `رصيد دائن نهائي: ${net} JD`;
+                    balanceValClass = 'text-amber-700';
+                }
+                container.innerHTML += `
+                    <div class="border border-slate-200 rounded-2xl p-5 bg-white shadow-sm flex flex-col gap-3">
+                        <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+                            <h4 class="font-black text-base text-slate-900">${acc.name}</h4>
+                            <span class="text-[11px] bg-slate-100 px-2.5 py-1 rounded font-bold text-slate-600 uppercase">${acc.type}</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 text-center font-bold text-xs bg-slate-900 text-white p-2 rounded-lg">
+                            <div>الجانب المدين (Debit)</div>
+                            <div>الجانب الدائن (Credit)</div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3 min-h-[90px] text-xs">
+                            <div class="flex flex-col gap-1.5 border-l border-slate-100 pl-2">
+                                ${acc.entries.filter(e => e.debit > 0).length === 0 ? '<span class="text-slate-300 italic text-center py-2">لا توجد حركات</span>' : ''}
+                                ${acc.entries.filter(e => e.debit > 0).map(e => `
+                                    <div class="flex justify-between items-center bg-slate-50 p-1.5 rounded font-mono font-bold text-slate-800">
+                                        <span>عملية #${e.txId}</span>
+                                        <span class="text-emerald-700">${e.debit} JD</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <div class="flex flex-col gap-1.5 pr-2">
+                                ${acc.entries.filter(e => e.credit > 0).length === 0 ? '<span class="text-slate-300 italic text-center py-2">لا توجد حركات</span>' : ''}
+                                ${acc.entries.filter(e => e.credit > 0).map(e => `
+                                    <div class="flex justify-between items-center bg-slate-50 p-1.5 rounded font-mono font-bold text-slate-800">
+                                        <span>عملية #${e.txId}</span>
+                                        <span class="text-amber-700">${e.credit} JD</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        <div class="border-t border-slate-100 pt-2 flex justify-between items-center text-xs font-bold bg-slate-50 p-2.5 rounded-xl">
+                            <span class="text-slate-500">مجموع الحركات: مدين (${totalDebit}) | دائن (${totalCredit})</span>
+                            <span class="${balanceValClass}">${balanceText}</span>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function renderTrialBalance() {
+            const container = document.getElementById('trial-balance-rows');
+            container.innerHTML = '';
+            let totalDebitBal = 0;
+            let totalCreditBal = 0;
+            Object.keys(accounts).forEach(accKey => {
+                const acc = accounts[accKey];
+                let sumDeb = 0;
+                let sumCre = 0;
+                acc.entries.forEach(e => {
+                    sumDeb += e.debit;
+                    sumCre += e.credit;
+                });
+                let debitBalance = 0;
+                let creditBalance = 0;
+                if (acc.type === 'asset' || acc.type === 'expense') {
+                    const net = sumDeb - sumCre;
+                    if (net >= 0) debitBalance = net;
+                    else creditBalance = Math.abs(net);
+                } else {
+                    const net = sumCre - sumDeb;
+                    if (net >= 0) creditBalance = net;
+                    else debitBalance = Math.abs(net);
+                }
+                if (debitBalance > 0 || creditBalance > 0) {
+                    totalDebitBal += debitBalance;
+                    totalCreditBal += creditBalance;
+                    container.innerHTML += `
+                        <tr class="hover:bg-slate-50 transition border-b border-slate-100">
+                            <td class="p-3.5 font-bold text-slate-900">${acc.name}</td>
+                            <td class="p-3.5 text-center font-mono font-bold text-emerald-700">${debitBalance > 0 ? debitBalance + ' JD' : '-'}</td>
+                            <td class="p-3.5 text-center font-mono font-bold text-amber-700">${creditBalance > 0 ? creditBalance + ' JD' : '-'}</td>
+                            <td class="p-3.5 text-center text-xs font-bold text-slate-500 uppercase">${acc.type}</td>
+                        </tr>
+                    `;
+                }
+            });
+            document.getElementById('trial-total-debit').innerText = totalDebitBal + ' JD';
+            document.getElementById('trial-total-credit').innerText = totalCreditBal + ' JD';
+            const statusBadge = document.getElementById('trial-status-badge');
+            const successBanner = document.getElementById('trial-success-banner');
+            if (totalDebitBal === totalCreditBal && totalDebitBal > 0) {
+                statusBadge.className = "inline-block px-3 py-1 rounded-full text-xs font-black uppercase bg-emerald-100 text-emerald-800";
+                statusBadge.innerText = "متوازن تماماً (Balanced)";
+                successBanner.classList.remove('hidden');
+            } else {
+                statusBadge.className = "inline-block px-3 py-1 rounded-full text-xs font-black uppercase bg-amber-100 text-amber-800";
+                statusBadge.innerText = "غير متوازن أو فارغ";
+                successBanner.classList.add('hidden');
+            }
+        }
+
+        function renderFinancialStatements() {
+            let totalRevenue = 0;
+            let totalExpenses = 0;
+            let expensesHtml = '';
+            Object.keys(accounts).forEach(accKey => {
+                const acc = accounts[accKey];
+                let sumDeb = 0;
+                let sumCre = 0;
+                acc.entries.forEach(e => {
+                    sumDeb += e.debit;
+                    sumCre += e.credit;
+                });
+                if (acc.type === 'revenue') {
+                    totalRevenue += (sumCre - sumDeb);
+                } else if (acc.type === 'expense') {
+                    const expVal = sumDeb - sumCre;
+                    totalExpenses += expVal;
+                    if (expVal > 0) {
+                        expensesHtml += `
+                            <div class="flex justify-between items-center">
+                                <span>${acc.name}</span>
+                                <span class="font-mono font-bold">${expVal} JD</span>
+                            </div>
+                        `;
+                    }
+                }
+            });
+            const netIncome = totalRevenue - totalExpenses;
+            document.getElementById('inc-revenue').innerText = totalRevenue + ' JD';
+            document.getElementById('inc-rev-detail').innerText = totalRevenue + ' JD';
+            document.getElementById('inc-expenses').innerText = totalExpenses + ' JD';
+            document.getElementById('inc-expenses-list').innerHTML = expensesHtml || '<p class="italic text-slate-400">لا توجد مصاريف مسجلة</p>';
+            
+            const netProfitEl = document.getElementById('inc-net-profit');
+            netProfitEl.innerText = netIncome + ' JD';
+            netProfitEl.className = netIncome >= 0 ? "text-emerald-700 text-lg font-black" : "text-red-600 text-lg font-black";
+            let totalAssets = 0;
+            let assetsHtml = '';
+            let totalLiabilities = 0;
+            let liabilitiesHtml = '';
+            let totalEquity = 0;
+            let equityHtml = '';
+            Object.keys(accounts).forEach(accKey => {
+                const acc = accounts[accKey];
+                let sumDeb = 0;
+                let sumCre = 0;
+                acc.entries.forEach(e => {
+                    sumDeb += e.debit;
+                    sumCre += e.credit;
+                });
+                if (acc.type === 'asset') {
+                    const val = sumDeb - sumCre;
+                    totalAssets += val;
+                    if (val !== 0) {
+                        assetsHtml += `
+                            <div class="flex justify-between items-center text-slate-700">
+                                <span>${acc.name}</span>
+                                <span class="font-mono font-bold">${val} JD</span>
+                            </div>
+                        `;
+                    }
+                } else if (acc.type === 'contra-asset') {
+                    const val = sumCre - sumDeb;
+                    totalAssets -= val;
+                    if (val !== 0) {
+                        assetsHtml += `
+                            <div class="flex justify-between items-center text-red-600">
+                                <span>(-) ${acc.name}</span>
+                                <span class="font-mono font-bold">(${val}) JD</span>
+                            </div>
+                        `;
+                    }
+                } else if (acc.type === 'liability') {
+                    const val = sumCre - sumDeb;
+                    totalLiabilities += val;
+                    if (val !== 0) {
+                        liabilitiesHtml += `
+                            <div class="flex justify-between items-center text-slate-700">
+                                <span>${acc.name}</span>
+                                <span class="font-mono font-bold">${val} JD</span>
+                            </div>
+                        `;
+                    }
+                } else if (acc.type === 'equity') {
+                    const val = sumCre - sumDeb;
+                    totalEquity += val;
+                    if (val !== 0) {
+                        equityHtml += `
+                            <div class="flex justify-between items-center text-slate-700">
+                                <span>${acc.name}</span>
+                                <span class="font-mono font-bold">${val} JD</span>
+                            </div>
+                        `;
+                    }
+                }
+            });
+            if (netIncome !== 0) {
+                totalEquity += netIncome;
+                equityHtml += `
+                    <div class="flex justify-between items-center text-emerald-700 font-bold border-t border-slate-100 pt-1 mt-1">
+                        <span>صافي أرباح الفترة المحاسبية (Net Income)</span>
+                        <span class="font-mono">${netIncome} JD</span>
+                    </div>
+                `;
+            }
+            const totalLiabilitiesEquity = totalLiabilities + totalEquity;
+            document.getElementById('bal-assets-list').innerHTML = assetsHtml || '<p class="italic text-slate-400">لا توجد أصول مسجلة</p>';
+            document.getElementById('bal-total-assets').innerText = totalAssets + ' JD';
+            document.getElementById('bal-equity-list').innerHTML = equityHtml || '<p class="italic text-slate-400">لا توجد حقوق ملكية مسجلة</p>';
+            document.getElementById('bal-liabilities-list').innerHTML = liabilitiesHtml || '<p class="italic text-slate-400">لا توجد الالتزامات مسجلة</p>';
+            document.getElementById('bal-total-liabilities-equity').innerText = totalLiabilitiesEquity + ' JD';
+            const matchBox = document.getElementById('balance-sheet-match');
+            if (totalAssets === totalLiabilitiesEquity && totalAssets > 0) {
+                matchBox.className = "text-center py-3.5 text-sm font-bold rounded-lg bg-emerald-50 text-emerald-900 border border-emerald-200";
+                matchBox.innerText = `معادلة الميزانية متوازنة تماماً: الأصول (${totalAssets} JD) = الالتزامات وحقوق الملكية (${totalLiabilitiesEquity} JD)  ✓ `;
+            } else {
+                matchBox.className = "text-center py-3.5 text-sm font-bold rounded-lg bg-amber-50 text-amber-900 border border-amber-200";
+                matchBox.innerText = `معادلة الميزانية: الأصول (${totalAssets} JD) و الالتزامات وحقوق الملكية (${totalLiabilitiesEquity} JD)`;
+            }
+        }
+
+        function simulateEquationImpact(actionType) {
+            const scale = document.getElementById('balance-scale');
+            const mathLabel = document.getElementById('equation-active-math');
+            const expl = document.getElementById('equation-explanation-text');
+            if (actionType === 'increase-asset') {
+                scale.style.transform = 'rotate(-3deg)';
+                mathLabel.innerText = "تغير داخل بند الأصول: زيادة أصل ونقصان أصل آخر (-/+ Asset)";
+                expl.innerHTML = "<strong>تفسير العملية:</strong> عند شراء أدوات نقداً، يرتفع بند المعدات وينخفض بند الصندوق بنفس القيمة تماماً، لتبقى الكفة متوازنة.";
+            } else if (actionType === 'credit-asset') {
+                scale.style.transform = 'rotate(3deg)';
+                mathLabel.innerText = "ارتفاع الجانبين معاً: +Asset / +Liability";
+                expl.innerHTML = "<strong>تفسير العملية:</strong> شراء أصل بالأجل يزيد الأصول بالطرف الأيمن ويزيد الالتزامات (الذمم الدائنة) بالطرف الأيسر بالتساوي.";
+            } else if (actionType === 'revenue-cash') {
+                scale.style.transform = 'scale(1.05)';
+                mathLabel.innerText = "نمو الأصول وزيادة حقوق الملكية (+Asset / +Equity)";
+                expl.innerHTML = "<strong>تفسير العملية:</strong> تحقيق إيراد نقدي يرفع أصول الشركة (الصندوق) ويرفع حقوق الملكية (عبر الإيرادات وصافي الدخل).";
+            } else if (actionType === 'expense-cash') {
+                scale.style.transform = 'scale(0.95)';
+                mathLabel.innerText = "انخفاض الأصول وتناقص حقوق الملكية (-Asset / -Equity)";
+                expl.innerHTML = "<strong>تفسير العملية:</strong> دفع مصروف نقداً يخفض أصول الشركة (الصندوق) ويخفض حقوق الملكية (عبر المصاريف وتخفيض الأرباح).";
+            }
+            setTimeout(() => {
+                scale.style.transform = 'rotate(0deg) scale(1)';
+            }, 600);
+        }
+
+        function resetQuiz() {
+            document.getElementById('quiz-metric-assumptions').innerText = '0 / 2';
+            document.getElementById('quiz-metric-principles').innerText = '0 / 2';
+            showToast("تم تصفير الاختبار وإعادة تشغيله بنجاح", " 🔄 ");
+        }
+    </script>
+</body>
+</html>
+
