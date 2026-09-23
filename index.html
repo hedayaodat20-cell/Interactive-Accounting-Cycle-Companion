@@ -260,7 +260,7 @@
             <div id="trial-success-banner" class="hidden bg-emerald-50 border border-emerald-200 p-4 rounded-xl text-emerald-900 text-sm flex items-start gap-3 w-full">
                 <div class="p-2 bg-emerald-100 rounded-lg text-emerald-800 text-lg">  🎉  </div>
                 <div>
-                    <strong class="font-bold block text-base mb-0.5">مبارك! ميزان المراجعة متوازن تماماً (Trial Balance is Balanced)</strong>
+                    <strong class="font-bold block text-base mb-0.5"> ميزان المراجعة متوازن تماماً (Trial Balance is Balanced)</strong>
                     لقد تم إنجاز كافة العمليات وترحيلها بنجاح وبشكل محاسبي سليم. الآن أنت جاهز لصناعة القوائم المالية الختامية.
                 </div>
             </div>
@@ -1228,19 +1228,31 @@
             }
             
             const newTxId = customScenariosStore.transactions.length + 1;
+            const normalizeDigits = text => String(text || '').replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d));
+            const parseAmount = text => { const nums = normalizeDigits(text).match(/\d+(?:\.\d+)?/g); return nums ? Number(nums[nums.length - 1]) : 0; };
+            const accountAliases = { cash: ['صندوق', 'cash', 'نقد'], equipment: ['معدات', 'equipment'], accum_dep: ['مجمع إهلاك', 'accumulated depreciation'], receivable: ['ذمم مدينة', 'accounts receivable', 'عملاء'], payable: ['ذمم دائنة', 'accounts payable', 'مورد'], capital: ['رأس المال', 'capital'], revenue: ['إيراد', 'revenue'], rent: ['إيجار', 'rent'], dep_expense: ['مصروف إهلاك', 'depreciation expense'] };
+            const resolveAccountKey = text => { const source = String(text || '').toLowerCase(); return Object.keys(accounts).find(k => source.includes(String(accounts[k].name || '').toLowerCase()) || (accountAliases[k] || []).some(alias => source.includes(alias.toLowerCase()))) || ''; };
+            const debitKey = resolveAccountKey(debit);
+            const creditKey = resolveAccountKey(credit);
+            const debitAmount = parseAmount(debit);
+            const creditAmount = parseAmount(credit);
+            if (!debitKey || !creditKey || debitAmount <= 0 || creditAmount <= 0 || Math.abs(debitAmount - creditAmount) >= 0.005) {
+                showToast("الرجاء إدخال حسابات موجودة في الحالة مع قيم متساوية في المدين والدائن (مثال: مصروف الإيجار (مدين) بـ 500 / الصندوق (دائن) بـ 500)", " ⚠️ ");
+                return;
+            }
             const newTransaction = {
                 id: newTxId,
                 date: date,
                 title: title,
                 desc: concept,
                 idealJournal: [
-                    { account: 'cash', debit: 500, credit: 0 },
-                    { account: 'revenue', debit: 0, credit: 500 }
+                    { account: debitKey, debit: debitAmount, credit: 0 },
+                    { account: creditKey, debit: 0, credit: creditAmount }
                 ],
                 analysis: {
                     accountsAffected: [
-                        { name: debit || "حساب مدين مخصص", change: "زيادة", effect: "مدين (Debit)", val: 500 },
-                        { name: credit || "حساب دائن مخصص", change: "زيادة", effect: "دائن (Credit)", val: 500 }
+                        { name: debit, change: "زيادة", effect: "مدين (Debit)", val: debitAmount },
+                        { name: credit, change: "زيادة", effect: "دائن (Credit)", val: creditAmount }
                     ],
                     concept: concept
                 },
@@ -1375,6 +1387,8 @@
             document.getElementById('scenario-active-desc').innerText = currentScenario.description;
             document.getElementById('stmt-company-name').innerText = currentScenario.companyName;
             document.getElementById('stmt-company-name-bal').innerText = currentScenario.companyName;
+            const log = document.getElementById('posted-journal-log');
+            if (log) log.innerHTML = '<p class="italic text-slate-400 py-3 text-center bg-white rounded-lg">لم يتم ترحيل أي قيود بعد.</p>';
             renderOperationsList();
             initJournalRows();
             renderLedgerAccounts();
@@ -1390,13 +1404,13 @@
                 return;
             }
             transactions.forEach((tx) => {
-                const isLocked = tx.status === 'locked';
+                const isLocked = tx.status === 'locked' || tx.status === 'completed';
                 const isCompleted = tx.status === 'completed';
                 let badgeHtml = `<span class="px-2.5 py-1 bg-amber-100 text-amber-800 text-xs font-bold rounded-md">مفتوحة للحل (Active)</span>`;
-                if (isLocked) {
-                    badgeHtml = `<span class="px-2.5 py-1 bg-slate-100 text-slate-500 text-xs font-bold rounded-md">مقفل بانتظار إنجاز السابق (Locked)</span>`;
-                } else if (isCompleted) {
+                if (isCompleted) {
                     badgeHtml = `<span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-md">تم الاعتماد والترحيل بنجاح (Completed)  ✓ </span>`;
+                } else if (tx.status === 'locked') {
+                    badgeHtml = `<span class="px-2.5 py-1 bg-slate-100 text-slate-500 text-xs font-bold rounded-md">مقفل بانتظار إنجاز السابق (Locked)</span>`;
                 }
                 container.innerHTML += `
                     <div class="border border-slate-200 rounded-xl p-5 bg-white shadow-sm flex flex-col gap-3 transition hover:border-amber-400">
@@ -1428,7 +1442,6 @@
         function inspectTransactionAnalysis(txId) {
             const tx = transactions.find(t => t.id === txId);
             if (!tx) return;
-            activeTxId = txId;
             
             const expBody = document.getElementById('explanation-body');
             expBody.innerHTML = `
@@ -1495,7 +1508,7 @@
 
         function startJournalForTx(txId) {
             const tx = transactions.find(t => t.id === txId);
-            if (!tx || tx.status === 'locked') return;
+            if (!tx || tx.status !== 'pending') return;
             activeTxId = txId;
             document.getElementById('journal-active-desc').innerText = `العملية (${tx.id}): ${tx.title} - ${tx.desc}`;
             
@@ -1554,33 +1567,44 @@
         function verifyAndPostEntry() {
             const sumDebit = parseFloat(document.getElementById('total-debit-val').innerText) || 0;
             const sumCredit = parseFloat(document.getElementById('total-credit-val').innerText) || 0;
-            if (sumDebit !== sumCredit || sumDebit === 0) {
+            const tolerance = 0.005;
+            if (Math.abs(sumDebit - sumCredit) >= tolerance || sumDebit <= 0) {
                 showToast("خطأ: القيد غير متوازن أو القيم غير مدخلة بشكل صحيح", "  ❌ ");
                 return;
             }
             const rows = document.querySelectorAll('.journal-row-item');
             const entryLines = [];
+            let invalidRow = false;
             rows.forEach(row => {
                 const debitVal = parseFloat(row.querySelector('.row-debit').value) || 0;
                 const creditVal = parseFloat(row.querySelector('.row-credit').value) || 0;
                 const accountKey = row.querySelector('.row-account').value;
-                if ((debitVal > 0 || creditVal > 0) && accountKey) {
-                    entryLines.push({ account: accountKey, debit: debitVal, credit: creditVal });
-                }
+                if (debitVal === 0 && creditVal === 0) return;
+                if (!accountKey || (debitVal > 0 && creditVal > 0)) { invalidRow = true; return; }
+                entryLines.push({ account: accountKey, debit: debitVal, credit: creditVal });
             });
-            if(entryLines.length === 0) {
-                 showToast("الرجاء اختيار الحسابات بشكل صحيح", "  ❌ ");
+            if (invalidRow || entryLines.length === 0) {
+                 showToast("الرجاء اختيار حساب صحيح، ووضع القيمة في جانب واحد فقط لكل سطر", "  ❌ ");
                  return;
             }
 
             const currentTx = transactions.find(t => t.id === activeTxId);
-            if (currentTx) {
-                currentTx.status = 'completed';
-                currentTx.userPostedJournal = entryLines;
-                const nextTx = transactions.find(t => t.id === activeTxId + 1);
-                if (nextTx && nextTx.status === 'locked') {
-                    nextTx.status = 'pending';
-                }
+            if (!currentTx || currentTx.status !== 'pending') {
+                showToast("هذه العملية ليست مفتوحة للتسجيل حالياً. اختر العملية المفتوحة فقط.", "  ⚠️ ");
+                return;
+            }
+            const expected = (currentTx.idealJournal || []).map(line => ({ account: line.account, debit: Number(line.debit) || 0, credit: Number(line.credit) || 0 })).filter(line => line.debit > 0 || line.credit > 0).sort((a, b) => `${a.account}${a.debit}${a.credit}`.localeCompare(`${b.account}${b.debit}${b.credit}`));
+            const actual = entryLines.map(line => ({ account: line.account, debit: Number(line.debit) || 0, credit: Number(line.credit) || 0 })).sort((a, b) => `${a.account}${a.debit}${a.credit}`.localeCompare(`${b.account}${b.debit}${b.credit}`));
+            const matchesExpected = actual.length === expected.length && actual.every((line, index) => line.account === expected[index].account && Math.abs(line.debit - expected[index].debit) < tolerance && Math.abs(line.credit - expected[index].credit) < tolerance);
+            if (!matchesExpected) {
+                showToast("القيد متوازن، لكنه لا يطابق الحسابات والقيم المطلوبة لهذه العملية. راجعي التحليل ثم عدّلي القيد.", "  ❌ ");
+                return;
+            }
+            currentTx.status = 'completed';
+            currentTx.userPostedJournal = entryLines;
+            const nextTx = transactions.find(t => t.id === activeTxId + 1);
+            if (nextTx && nextTx.status === 'locked') {
+                nextTx.status = 'pending';
             }
             entryLines.forEach(line => {
                 if (accounts[line.account]) {
@@ -1591,12 +1615,13 @@
                     });
                 }
             });
+            if (activeScenarioKey === 'custom') customScenariosStore = JSON.parse(JSON.stringify(currentScenario));
             appendPostedLog(activeTxId, entryLines);
             renderOperationsList();
             renderLedgerAccounts();
             renderTrialBalance();
             renderFinancialStatements();
-            showToast(`تم اعتماد وتدوير قيد العملية (${activeTxId}) لدفتر الأستاذ بنجاح!`, "  ✅ ");
+            showToast(`تم اعتماد وترحيل قيد العملية (${activeTxId}) إلى دفتر الأستاذ بنجاح!`, "  ✅ ");
             
             const nextPendingTx = transactions.find(t => t.id === activeTxId + 1 && t.status === 'pending');
             if (nextPendingTx) {
@@ -1899,4 +1924,3 @@
     </script>
 </body>
 </html>
-
