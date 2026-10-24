@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رفيق الدورة المحاسبية - Interactive Accounting Cycle Companion</title>
+    <title>محاكي الدورة المحاسبية - Interactive Accounting Cycle Companion</title>
     <meta name="description" content="أداة تعليمية تفاعلية لطلاب المحاسبة: تحليل العمليات، قيود اليومية، دفتر الأستاذ، موازين المراجعة، القوائم المالية وقيود الإقفال، مع تمارين وشرح للحل.">
     <meta name="theme-color" content="#0f172a">
     <link rel="icon" href="data:,">
@@ -263,21 +263,21 @@
                     <h1 class="text-xl sm:text-2xl font-black tracking-wide flex items-center gap-2">
                         Accounting Cycle <span class="text-xs bg-amber-500 text-slate-950 font-bold px-2 py-1 rounded-md">Interactive Tutor</span>
                     </h1>
-                    <p class="text-xs text-slate-300 font-medium mt-0.5">الدليل التعليمي الشامل لفهم الدورة المحاسبية والمصطلحات</p>
+                    <p class="text-xs text-slate-300 font-medium mt-0.5" data-en="A complete learning guide to the accounting cycle and its terms">الدليل التعليمي الشامل لفهم الدورة المحاسبية والمصطلحات</p>
                 </div>
             </div>
 
             <div class="flex flex-wrap items-end gap-3 w-full md:w-auto justify-end">
                 <div class="w-full sm:w-auto">
-                    <label for="scenario-select" class="block text-[11px] text-amber-400 font-bold mb-1">الحالة الدراسية (Select Scenario):</label>
+                    <label for="scenario-select" class="block text-[11px] text-amber-400 font-bold mb-1" data-en="Select Scenario:">الحالة الدراسية (Select Scenario):</label>
                     <select id="scenario-select" onchange="setMode(this.value)" class="bg-slate-800 border border-slate-700 text-white rounded-lg text-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400 font-bold w-full sm:w-64 cursor-pointer">
-                        <option value="yusr" selected>1. شركة يُسر للاستشارات والتدريب (مثال موجَّه)</option>
-                        <option value="practice">2. تمارين: حل ذاتي مع شرح (Practice)</option>
-                        <option value="custom"> 🛠️  حالة دراسية مخصصة من إنشائك (Custom Builder)</option>
+                        <option value="yusr" selected data-en="1. Yusr Consulting &amp; Training Co. (guided example)">1. شركة يُسر للاستشارات والتدريب (مثال موجَّه)</option>
+                        <option value="practice" data-en="2. Practice: solve on your own, with explanations">2. تمارين: حل ذاتي مع شرح (Practice)</option>
+                        <option value="custom" data-en="🛠️  Your own custom case (Custom Builder)"> 🛠️  حالة دراسية مخصصة من إنشائك (Custom Builder)</option>
                     </select>
                 </div>
                 <button type="button" id="guide-btn" onclick="openTour()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs px-3.5 py-2.5 rounded-lg shadow-md transition flex items-center gap-1">
-                    <span>📘 كيف أستخدم الأداة؟ (How to use)</span>
+                    <span data-en="📘 How to use this tool">📘 كيف أستخدم الأداة؟ (How to use)</span>
                 </button>
             </div>
         </div>
@@ -288,15 +288,15 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-center sm:justify-start gap-3">
             <button type="button" onclick="toggleMasterMode('practical')" id="mode-btn-practical" class="master-btn master-active">
                 <span class="text-lg" aria-hidden="true"> 🛠️ </span>
-                <span>الجانب العملي والتطبيقي (Practical Workspace)</span>
+                <span data-en="Practical Workspace">الجانب العملي والتطبيقي (Practical Workspace)</span>
             </button>
             <button type="button" onclick="toggleMasterMode('theoretical')" id="mode-btn-theoretical" class="master-btn">
                 <span class="text-lg" aria-hidden="true"> 📖 </span>
-                <span>الجانب النظري والأكاديمي (Theory Guide)</span>
+                <span data-en="Theory Guide">الجانب النظري والأكاديمي (Theory Guide)</span>
             </button>
-            <button type="button" onclick="toggleLang()" class="master-btn lang-btn sm:mr-auto" title="لغة الشرح">
+            <button type="button" onclick="toggleLang()" class="master-btn lang-btn sm:mr-auto" title="لغة الشرح" data-en-title="Language">
                 <span class="text-lg" aria-hidden="true"> 🌐 </span>
-                <span id="lang-toggle">الشرح: عربي</span>
+                <span id="lang-toggle">اللغة: عربي</span>
             </button>
         </div>
     </div>
@@ -305,88 +305,88 @@
     <main id="view-practical-container" class="flex-grow max-w-5xl w-full mx-auto px-4 py-5 flex flex-col gap-4">
 
         <!-- v3.1: أزرار سريعة (متزامنة مع قائمة «الحالة الدراسية») -->
-        <nav id="quick-bar" class="qbar" aria-label="اختيار سريع">
+        <nav id="quick-bar" class="qbar" aria-label="اختيار سريع" data-en-aria="Quick picks">
             <button type="button" id="qb-yusr" class="qbtn" onclick="quickPick('yusr')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5V5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M8 7h7M8 11h5"/></svg><span data-ar="مثال يُسر" data-en="Yusr example">مثال يُسر</span></button>
             <button type="button" id="qb-practice" class="qbtn" onclick="quickPick('practice')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg><span data-ar="تمارين" data-en="Exercises">تمارين</span></button>
             <button type="button" id="qb-exam" class="qbtn" onclick="quickPick('exam')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></svg><span data-ar="وضع الامتحان" data-en="Exam mode">وضع الامتحان</span></button>
             <button type="button" id="qb-custom" class="qbtn" onclick="quickPick('custom')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span data-ar="مثالك الخاص" data-en="Your own example">مثالك الخاص</span></button>
         </nav>
 
-        <section id="mode-card" class="card flex flex-col gap-3 hidden" aria-label="المثال المختار">
+        <section id="mode-card" class="card flex flex-col gap-3 hidden" aria-label="المثال المختار" data-en-aria="Selected example">
 
             <div id="practice-picker" class="hidden flex flex-col gap-2">
-                <p class="text-sm text-slate-600">خمسة تمارين على نمط الكتاب. كل تمرين يُحل بتسجيل القيود ثم «التحقق».</p>
+                <p class="text-sm text-slate-600" data-en="Five textbook-style problems. Solve each one by recording the entries, then pressing “Check”.">خمسة تمارين على نمط الكتاب. كل تمرين يُحل بتسجيل القيود ثم «التحقق».</p>
                 <div id="practice-list" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
                 <div class="flex flex-wrap gap-2">
-                    <button type="button" class="btn-ghost" onclick="newRandomProblem()">تمرين جديد</button>
-                    <button type="button" class="btn-ghost" onclick="startExam()">وضع الامتحان</button>
+                    <button type="button" class="btn-ghost" onclick="newRandomProblem()" data-en="New problem">تمرين جديد</button>
+                    <button type="button" class="btn-ghost" onclick="startExam()" data-en="Exam mode">وضع الامتحان</button>
                 </div>
                 <p id="exam-best" class="text-sm text-slate-600"></p>
             </div>
 
             <div id="custom-builder" class="hidden flex flex-col gap-3">
-                <p class="text-sm text-slate-600 leading-relaxed">بناء مثال جديد: اسم الشركة، ثم العمليات واحدة واحدة. كل عملية تدخل الدورة كاملة: التحليل، اليومية، الأستاذ، الموازين، القوائم، والإقفال.</p>
-                <label class="flex flex-col gap-1 text-sm font-bold">اسم الشركة
-                    <input id="cb-company" class="field font-normal" maxlength="80" placeholder="مثال: شركة النخبة للاستشارات" onchange="saveCustomCompany()">
+                <p class="text-sm text-slate-600 leading-relaxed" data-en="Build a new example: the company name, then the transactions one by one. Each transaction goes through the full cycle: analysis, journal, ledger, trial balances, statements and closing.">بناء مثال جديد: اسم الشركة، ثم العمليات واحدة واحدة. كل عملية تدخل الدورة كاملة: التحليل، اليومية، الأستاذ، الموازين، القوائم، والإقفال.</p>
+                <label class="flex flex-col gap-1 text-sm font-bold"><span data-en="Company name">اسم الشركة</span>
+                    <input id="cb-company" class="field font-normal" maxlength="80" placeholder="مثال: شركة النخبة للاستشارات" data-en-ph="e.g. Elite Consulting Co." onchange="saveCustomCompany()">
                 </label>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <label class="flex flex-col gap-1 text-sm font-bold sm:col-span-2">وصف العملية
-                        <input id="cb-text" class="field font-normal" maxlength="300" placeholder="مثال: دفع إيجار المكتب نقداً">
+                    <label class="flex flex-col gap-1 text-sm font-bold sm:col-span-2"><span data-en="Transaction description">وصف العملية</span>
+                        <input id="cb-text" class="field font-normal" maxlength="300" placeholder="مثال: دفع إيجار المكتب نقداً" data-en-ph="e.g. Paid office rent in cash">
                     </label>
-                    <label class="flex flex-col gap-1 text-sm font-bold">التاريخ
-                        <input id="cb-date" class="field font-normal" maxlength="40" placeholder="مثال: 15 يناير 2026">
+                    <label class="flex flex-col gap-1 text-sm font-bold"><span data-en="Date">التاريخ</span>
+                        <input id="cb-date" class="field font-normal" maxlength="40" placeholder="مثال: 15 يناير 2026" data-en-ph="e.g. 15 January 2026">
                     </label>
-                    <label class="flex flex-col gap-1 text-sm font-bold">المبلغ (دينار)
+                    <label class="flex flex-col gap-1 text-sm font-bold"><span data-en="Amount (JOD)">المبلغ (دينار)</span>
                         <input id="cb-amount" class="field font-normal" inputmode="decimal" placeholder="500">
                     </label>
-                    <label class="flex flex-col gap-1 text-sm font-bold">الحساب المدين
+                    <label class="flex flex-col gap-1 text-sm font-bold"><span data-en="Debit account">الحساب المدين</span>
                         <select id="cb-debit" class="field font-normal"></select>
                     </label>
-                    <label class="flex flex-col gap-1 text-sm font-bold">الحساب الدائن
+                    <label class="flex flex-col gap-1 text-sm font-bold"><span data-en="Credit account">الحساب الدائن</span>
                         <select id="cb-credit" class="field font-normal"></select>
                     </label>
                 </div>
-                <label class="flex items-center gap-2 text-sm"><input id="cb-adjusting" type="checkbox" class="w-4 h-4"> قيد تسوية (في نهاية الفترة)</label>
+                <label class="flex items-center gap-2 text-sm"><input id="cb-adjusting" type="checkbox" class="w-4 h-4"> <span data-en="Adjusting entry (end of period)">قيد تسوية (في نهاية الفترة)</span></label>
                 <div class="flex flex-wrap gap-2">
-                    <button type="button" class="btn-main" onclick="addCustomTx()">إضافة العملية</button>
-                    <button type="button" class="btn-ghost" onclick="toggleNewAccount()">حساب جديد</button>
-                    <button type="button" class="btn-ghost" onclick="resetCustom()">مثال جديد</button>
+                    <button type="button" class="btn-main" onclick="addCustomTx()" data-en="Add transaction">إضافة العملية</button>
+                    <button type="button" class="btn-ghost" onclick="toggleNewAccount()" data-en="New account">حساب جديد</button>
+                    <button type="button" class="btn-ghost" onclick="resetCustom()" data-en="New example">مثال جديد</button>
                 </div>
                 <div id="cb-new-account" class="hidden grid grid-cols-1 sm:grid-cols-3 gap-2 items-end">
-                    <label class="flex flex-col gap-1 text-sm font-bold sm:col-span-2">اسم الحساب
-                        <input id="cb-acc-name" class="field font-normal" maxlength="60" placeholder="مثال: مصروف الصيانة">
+                    <label class="flex flex-col gap-1 text-sm font-bold sm:col-span-2"><span data-en="Account name">اسم الحساب</span>
+                        <input id="cb-acc-name" class="field font-normal" maxlength="60" placeholder="مثال: مصروف الصيانة" data-en-ph="e.g. Maintenance Expense">
                     </label>
-                    <label class="flex flex-col gap-1 text-sm font-bold">نوعه
+                    <label class="flex flex-col gap-1 text-sm font-bold"><span data-en="Type">نوعه</span>
                         <select id="cb-acc-type" class="field font-normal">
-                            <option value="asset">أصل</option>
-                            <option value="contra">أصل عاكس (مجمع إهلاك)</option>
-                            <option value="liability">التزام</option>
-                            <option value="equity">حقوق ملكية</option>
-                            <option value="drawings">توزيعات / مسحوبات</option>
-                            <option value="revenue">إيراد</option>
-                            <option value="expense">مصروف</option>
+                            <option value="asset" data-en="Asset">أصل</option>
+                            <option value="contra" data-en="Contra asset (accumulated depreciation)">أصل عاكس (مجمع إهلاك)</option>
+                            <option value="liability" data-en="Liability">التزام</option>
+                            <option value="equity" data-en="Equity">حقوق ملكية</option>
+                            <option value="drawings" data-en="Dividends / Drawings">توزيعات / مسحوبات</option>
+                            <option value="revenue" data-en="Revenue">إيراد</option>
+                            <option value="expense" data-en="Expense">مصروف</option>
                         </select>
                     </label>
-                    <button type="button" class="btn-main sm:col-span-3 justify-self-start" onclick="addCustomAccount()">حفظ الحساب</button>
+                    <button type="button" class="btn-main sm:col-span-3 justify-self-start" onclick="addCustomAccount()" data-en="Save account">حفظ الحساب</button>
                 </div>
             </div>
         </section>
 
         <section id="exam-view" class="card hidden flex flex-col gap-1" aria-live="polite"></section>
 
-        <nav id="steps-nav" class="card !p-3 overflow-x-auto" aria-label="مراحل الدورة المحاسبية">
+        <nav id="steps-nav" class="card !p-3 overflow-x-auto" aria-label="مراحل الدورة المحاسبية" data-en-aria="Accounting cycle steps">
             <div class="flex justify-between items-center min-w-[680px] px-2">
-                <button type="button" id="btn-tab-analysis" class="step step-active" onclick="switchTab('analysis')"><b>1</b><span>تحليل العمليات<br><span class="text-xs font-normal text-slate-400" dir="ltr">Transaction Analysis</span></span></button>
+                <button type="button" id="btn-tab-analysis" class="step step-active" onclick="switchTab('analysis')"><b>1</b><span data-en="Transaction Analysis">تحليل العمليات<br><span class="text-xs font-normal text-slate-400" dir="ltr">Transaction Analysis</span></span></button>
                 <div class="flex-grow h-0.5 bg-slate-200 mx-2" aria-hidden="true"></div>
-                <button type="button" id="btn-tab-journal" class="step" onclick="switchTab('journal')"><b>2</b><span>قيود اليومية<br><span class="text-xs font-normal text-slate-400" dir="ltr">Journal Entries</span></span></button>
+                <button type="button" id="btn-tab-journal" class="step" onclick="switchTab('journal')"><b>2</b><span data-en="Journal Entries">قيود اليومية<br><span class="text-xs font-normal text-slate-400" dir="ltr">Journal Entries</span></span></button>
                 <div class="flex-grow h-0.5 bg-slate-200 mx-2" aria-hidden="true"></div>
-                <button type="button" id="btn-tab-ledger" class="step" onclick="switchTab('ledger')"><b>3</b><span>دفتر الأستاذ<br><span class="text-xs font-normal text-slate-400" dir="ltr">General Ledger</span></span></button>
+                <button type="button" id="btn-tab-ledger" class="step" onclick="switchTab('ledger')"><b>3</b><span data-en="General Ledger">دفتر الأستاذ<br><span class="text-xs font-normal text-slate-400" dir="ltr">General Ledger</span></span></button>
                 <div class="flex-grow h-0.5 bg-slate-200 mx-2" aria-hidden="true"></div>
-                <button type="button" id="btn-tab-trial" class="step" onclick="switchTab('trial')"><b>4</b><span>ميزان المراجعة<br><span class="text-xs font-normal text-slate-400" dir="ltr">Trial Balance</span></span></button>
+                <button type="button" id="btn-tab-trial" class="step" onclick="switchTab('trial')"><b>4</b><span data-en="Trial Balance">ميزان المراجعة<br><span class="text-xs font-normal text-slate-400" dir="ltr">Trial Balance</span></span></button>
                 <div class="flex-grow h-0.5 bg-slate-200 mx-2" aria-hidden="true"></div>
-                <button type="button" id="btn-tab-statements" class="step" onclick="switchTab('statements')"><b>5</b><span>القوائم المالية<br><span class="text-xs font-normal text-slate-400" dir="ltr">Financial Statements</span></span></button>
+                <button type="button" id="btn-tab-statements" class="step" onclick="switchTab('statements')"><b>5</b><span data-en="Financial Statements">القوائم المالية<br><span class="text-xs font-normal text-slate-400" dir="ltr">Financial Statements</span></span></button>
                 <div class="flex-grow h-0.5 bg-slate-200 mx-2" aria-hidden="true"></div>
-                <button type="button" id="btn-tab-closing" class="step" onclick="switchTab('closing')"><b>6</b><span>قيود الإقفال<br><span class="text-xs font-normal text-slate-400" dir="ltr">Closing Entries</span></span></button>
+                <button type="button" id="btn-tab-closing" class="step" onclick="switchTab('closing')"><b>6</b><span data-en="Closing Entries">قيود الإقفال<br><span class="text-xs font-normal text-slate-400" dir="ltr">Closing Entries</span></span></button>
             </div>
         </nav>
 
@@ -397,52 +397,52 @@
 
         <section id="tab-journal" class="tab-pane card hidden flex flex-col gap-5">
             <div>
-                <h2 class="text-xl font-black text-slate-900">دفتر اليومية</h2>
-                <p class="text-slate-600 text-sm leading-relaxed">لكل عملية قيد مزدوج: مجموع المدين يساوي مجموع الدائن. يُكتب القيد ثم «التحقق»؛ القيد الصحيح يُرحَّل تلقائياً إلى دفتر الأستاذ.</p>
+                <h2 class="text-xl font-black text-slate-900" data-en="General Journal">دفتر اليومية</h2>
+                <p class="text-slate-600 text-sm leading-relaxed" data-en="Every transaction has a double entry: total debits equal total credits. Write the entry, then press “Check”; a correct entry is posted to the ledger automatically.">لكل عملية قيد مزدوج: مجموع المدين يساوي مجموع الدائن. يُكتب القيد ثم «التحقق»؛ القيد الصحيح يُرحَّل تلقائياً إلى دفتر الأستاذ.</p>
             </div>
             <div id="journal-work"></div>
             <div>
-                <h3 class="font-black text-slate-900 mb-1">القيود المرحّلة</h3>
+                <h3 class="font-black text-slate-900 mb-1" data-en="Posted entries">القيود المرحّلة</h3>
                 <div id="posted-journal-log"></div>
             </div>
         </section>
 
         <section id="tab-ledger" class="tab-pane card hidden flex flex-col gap-3">
             <div>
-                <h2 class="text-xl font-black text-slate-900">دفتر الأستاذ العام</h2>
-                <p class="text-slate-600 text-sm leading-relaxed">حساب مستقل (حرف T) لكل حساب استُخدم، مرتبة: الأصول، الالتزامات، حقوق الملكية، الإيرادات، المصاريف. الرصيد يُحدَّث بعد كل حركة.</p>
+                <h2 class="text-xl font-black text-slate-900" data-en="General Ledger">دفتر الأستاذ العام</h2>
+                <p class="text-slate-600 text-sm leading-relaxed" data-en="A separate T-account for every account used, in order: assets, liabilities, equity, revenues, expenses. The balance updates after every posting.">حساب مستقل (حرف T) لكل حساب استُخدم، مرتبة: الأصول، الالتزامات، حقوق الملكية، الإيرادات، المصاريف. الرصيد يُحدَّث بعد كل حركة.</p>
             </div>
             <div id="ledger-grid-container" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
         </section>
 
         <section id="tab-trial" class="tab-pane card hidden flex flex-col gap-6">
             <div>
-                <h2 class="text-xl font-black text-slate-900">موازين المراجعة</h2>
-                <p class="text-slate-600 text-sm leading-relaxed">الميزان يجمع أرصدة دفتر الأستاذ للتأكد من أن مجموع الأرصدة المدينة يساوي مجموع الأرصدة الدائنة.</p>
+                <h2 class="text-xl font-black text-slate-900" data-en="Trial Balances">موازين المراجعة</h2>
+                <p class="text-slate-600 text-sm leading-relaxed" data-en="The trial balance lists the ledger balances to check that total debit balances equal total credit balances.">الميزان يجمع أرصدة دفتر الأستاذ للتأكد من أن مجموع الأرصدة المدينة يساوي مجموع الأرصدة الدائنة.</p>
             </div>
             <div id="trial-content" class="flex flex-col gap-8"></div>
         </section>
 
         <section id="tab-statements" class="tab-pane card hidden flex flex-col gap-4">
             <div>
-                <h2 class="text-xl font-black text-slate-900">القوائم المالية</h2>
+                <h2 class="text-xl font-black text-slate-900" data-en="Financial Statements">القوائم المالية</h2>
                 <p id="statements-note" class="text-slate-600 text-sm leading-relaxed"></p>
             </div>
             <div class="grid grid-cols-3 gap-2">
-                <button type="button" id="btn-state-income" class="seg seg-active" onclick="switchStatement('income')">قائمة الدخل</button>
-                <button type="button" id="btn-state-equity" class="seg" onclick="switchStatement('equity')">حقوق الملكية</button>
-                <button type="button" id="btn-state-balance" class="seg" onclick="switchStatement('balance')">المركز المالي</button>
+                <button type="button" id="btn-state-income" class="seg seg-active" onclick="switchStatement('income')" data-en="Income Statement">قائمة الدخل</button>
+                <button type="button" id="btn-state-equity" class="seg" onclick="switchStatement('equity')" data-en="Changes in Equity">حقوق الملكية</button>
+                <button type="button" id="btn-state-balance" class="seg" onclick="switchStatement('balance')" data-en="Balance Sheet">المركز المالي</button>
             </div>
             <div id="sheet-income" class="st-sheet"></div>
             <div id="sheet-equity" class="st-sheet hidden"></div>
             <div id="sheet-balance" class="st-sheet hidden"></div>
-            <p class="text-sm text-slate-600 leading-relaxed">الترتيب منطقي: صافي الدخل من قائمة الدخل يدخل قائمة التغيرات في حقوق الملكية، ورصيد حقوق الملكية آخر الفترة يدخل قائمة المركز المالي.</p>
+            <p class="text-sm text-slate-600 leading-relaxed" data-en="The order matters: net income from the income statement flows into the statement of changes in equity, and ending equity flows into the balance sheet.">الترتيب منطقي: صافي الدخل من قائمة الدخل يدخل قائمة التغيرات في حقوق الملكية، ورصيد حقوق الملكية آخر الفترة يدخل قائمة المركز المالي.</p>
         </section>
 
         <section id="tab-closing" class="tab-pane card hidden flex flex-col gap-5">
             <div>
-                <h2 class="text-xl font-black text-slate-900">قيود الإقفال وميزان المراجعة بعد الإقفال</h2>
-                <p class="text-slate-600 text-sm leading-relaxed">الحسابات المؤقتة (الإيرادات والمصاريف وتوزيعات الأرباح) تقيس فترة واحدة فقط، لذلك تُصفَّر في نهاية الفترة وتُنقل نتيجتها إلى الأرباح المحتجزة. الحسابات الدائمة (الأصول والالتزامات وحقوق الملكية) تبقى أرصدتها للفترة القادمة.</p>
+                <h2 class="text-xl font-black text-slate-900" data-en="Closing Entries and Post-Closing Trial Balance">قيود الإقفال وميزان المراجعة بعد الإقفال</h2>
+                <p class="text-slate-600 text-sm leading-relaxed" data-en="Temporary accounts (revenues, expenses and dividends) measure one period only, so they are closed to zero at the end of the period and their result is transferred to retained earnings. Permanent accounts (assets, liabilities and equity) carry their balances into the next period.">الحسابات المؤقتة (الإيرادات والمصاريف وتوزيعات الأرباح) تقيس فترة واحدة فقط، لذلك تُصفَّر في نهاية الفترة وتُنقل نتيجتها إلى الأرباح المحتجزة. الحسابات الدائمة (الأصول والالتزامات وحقوق الملكية) تبقى أرصدتها للفترة القادمة.</p>
             </div>
             <div id="closing-content" class="flex flex-col gap-6"></div>
         </section>
@@ -451,16 +451,16 @@
     <!-- ===================== الجانب النظري ===================== -->
     <main id="view-theoretical-container" class="hidden flex-grow max-w-5xl w-full mx-auto px-4 py-5 flex flex-col gap-4">
         <section class="card">
-            <h2 class="text-xl font-black text-slate-900">الجانب النظري</h2>
-            <p class="text-slate-600 text-sm leading-relaxed">شرح الدورة المحاسبية وقواعد المدين والدائن وقيود التسوية، بأسلوب مختصر مع أمثلة. كل قسم يُفتح عند الحاجة.</p>
+            <h2 class="text-xl font-black text-slate-900" data-en="Theory Guide">الجانب النظري</h2>
+            <p class="text-slate-600 text-sm leading-relaxed" data-en="The accounting cycle, debit and credit rules and adjusting entries, explained briefly with examples. Open each section when you need it.">شرح الدورة المحاسبية وقواعد المدين والدائن وقيود التسوية، بأسلوب مختصر مع أمثلة. كل قسم يُفتح عند الحاجة.</p>
             <div class="flex flex-wrap gap-2 mt-3">
-                <button type="button" id="theory-tab-btn-cycle" class="seg seg-active" onclick="switchTheorySubTab('cycle')"><span class="seg-ic" aria-hidden="true">🔄</span>الدورة المحاسبية</button>
-                <button type="button" id="theory-tab-btn-drcr" class="seg" onclick="switchTheorySubTab('drcr')"><span class="seg-ic" aria-hidden="true">🗂️</span>المدين والدائن</button>
-                <button type="button" id="theory-tab-btn-equation" class="seg" onclick="switchTheorySubTab('equation')"><span class="seg-ic" aria-hidden="true">⚖️</span>المعادلة المحاسبية</button>
-                <button type="button" id="theory-tab-btn-adjusting" class="seg" onclick="switchTheorySubTab('adjusting')"><span class="seg-ic" aria-hidden="true">⏳</span>قيود التسوية</button>
-                <button type="button" id="theory-tab-btn-principles" class="seg" onclick="switchTheorySubTab('principles')"><span class="seg-ic" aria-hidden="true">🏛️</span>الفروض والمبادئ</button>
-                <button type="button" id="theory-tab-btn-glossary" class="seg" onclick="switchTheorySubTab('glossary')"><span class="seg-ic" aria-hidden="true">📖</span>المصطلحات</button>
-                <button type="button" id="theory-tab-btn-quiz" class="seg" onclick="switchTheorySubTab('quiz')"><span class="seg-ic" aria-hidden="true">📝</span>اختبار قصير</button>
+                <button type="button" id="theory-tab-btn-cycle" class="seg seg-active" onclick="switchTheorySubTab('cycle')"><span class="seg-ic" aria-hidden="true">🔄</span><span data-en="Accounting Cycle">الدورة المحاسبية</span></button>
+                <button type="button" id="theory-tab-btn-drcr" class="seg" onclick="switchTheorySubTab('drcr')"><span class="seg-ic" aria-hidden="true">🗂️</span><span data-en="Debits &amp; Credits">المدين والدائن</span></button>
+                <button type="button" id="theory-tab-btn-equation" class="seg" onclick="switchTheorySubTab('equation')"><span class="seg-ic" aria-hidden="true">⚖️</span><span data-en="Accounting Equation">المعادلة المحاسبية</span></button>
+                <button type="button" id="theory-tab-btn-adjusting" class="seg" onclick="switchTheorySubTab('adjusting')"><span class="seg-ic" aria-hidden="true">⏳</span><span data-en="Adjusting Entries">قيود التسوية</span></button>
+                <button type="button" id="theory-tab-btn-principles" class="seg" onclick="switchTheorySubTab('principles')"><span class="seg-ic" aria-hidden="true">🏛️</span><span data-en="Assumptions &amp; Principles">الفروض والمبادئ</span></button>
+                <button type="button" id="theory-tab-btn-glossary" class="seg" onclick="switchTheorySubTab('glossary')"><span class="seg-ic" aria-hidden="true">📖</span><span data-en="Glossary">المصطلحات</span></button>
+                <button type="button" id="theory-tab-btn-quiz" class="seg" onclick="switchTheorySubTab('quiz')"><span class="seg-ic" aria-hidden="true">📝</span><span data-en="Quick Quiz">اختبار قصير</span></button>
             </div>
         </section>
 
@@ -1081,34 +1081,34 @@
             <div class="flex items-center gap-3">
                 <span class="inline-flex items-center justify-center w-11 h-11 rounded-xl text-xl" style="background:#e0e7ff" aria-hidden="true">📖</span>
                 <div>
-                    <h3 class="text-xl font-black text-slate-900">المصطلحات المحاسبية <bdi class="text-indigo-700 text-base">(Glossary)</bdi></h3>
-                    <p class="text-slate-600 text-sm">كل مصطلح وتعريفه في بطاقة واحدة. بحث بالعربي أو بالإنجليزي.</p>
+                    <h3 class="text-xl font-black text-slate-900" data-en="Accounting Glossary">المصطلحات المحاسبية <bdi class="text-indigo-700 text-base">(Glossary)</bdi></h3>
+                    <p class="text-slate-600 text-sm" data-en="Each term and its definition on one card. Search in Arabic or English.">كل مصطلح وتعريفه في بطاقة واحدة. بحث بالعربي أو بالإنجليزي.</p>
                 </div>
             </div>
-            <input type="search" id="glossary-search" class="field" placeholder="بحث عن مصطلح…" oninput="filterGlossary()" aria-label="بحث عن مصطلح">
+            <input type="search" id="glossary-search" class="field" placeholder="بحث عن مصطلح…" data-en-ph="Search for a term…" oninput="filterGlossary()" aria-label="بحث عن مصطلح" data-en-aria="Search for a term">
             <div id="glossary-rows" class="gl-grid"></div>
             <details class="t-fold">
-                <summary>إضافة مصطلح</summary>
+                <summary data-en="Add a term">إضافة مصطلح</summary>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    <input type="text" id="term-ar-input" class="field" maxlength="80" placeholder="المصطلح بالعربي">
+                    <input type="text" id="term-ar-input" class="field" maxlength="80" placeholder="المصطلح بالعربي" data-en-ph="Term in Arabic">
                     <input type="text" id="term-en-input" class="field" maxlength="80" placeholder="English term" dir="ltr">
-                    <textarea id="term-desc-input" class="field sm:col-span-2" rows="3" maxlength="400" placeholder="شرح مختصر"></textarea>
-                    <button type="button" class="btn-main justify-self-start" onclick="addNewTerm()">إضافة</button>
+                    <textarea id="term-desc-input" class="field sm:col-span-2" rows="3" maxlength="400" placeholder="شرح مختصر" data-en-ph="Short definition"></textarea>
+                    <button type="button" class="btn-main justify-self-start" onclick="addNewTerm()" data-en="Add">إضافة</button>
                 </div>
             </details>
         </section>
 
         <section id="theory-sub-tab-quiz" class="card tab-pane hidden flex flex-col gap-3">
             <div>
-                <h3 class="text-xl font-black text-slate-900">اختبار قصير: الفروض والمبادئ</h3>
-                <p class="text-slate-600 text-sm">العداد يحسب الأسئلة المُجابة صحيحاً من المحاولة الأولى.</p>
+                <h3 class="text-xl font-black text-slate-900" data-en="Quick Quiz: Assumptions &amp; Principles">اختبار قصير: الفروض والمبادئ</h3>
+                <p class="text-slate-600 text-sm" data-en="The counter shows questions answered correctly on the first try.">العداد يحسب الأسئلة المُجابة صحيحاً من المحاولة الأولى.</p>
             </div>
             <div class="flex flex-wrap gap-x-6 gap-y-1 font-bold">
-                <span>الفروض: <span id="quiz-metric-assumptions"></span></span>
-                <span>المبادئ: <span id="quiz-metric-principles"></span></span>
+                <span><span data-en="Assumptions:">الفروض:</span> <span id="quiz-metric-assumptions"></span></span>
+                <span><span data-en="Principles:">المبادئ:</span> <span id="quiz-metric-principles"></span></span>
             </div>
             <div id="quiz-questions" class="flex flex-col"></div>
-            <button type="button" class="btn-ghost self-start" onclick="resetQuiz()">إعادة الاختبار</button>
+            <button type="button" class="btn-ghost self-start" onclick="resetQuiz()" data-en="Restart quiz">إعادة الاختبار</button>
         </section>
     </main>
 
@@ -1117,7 +1117,7 @@
     </div>
 
     <footer class="mt-auto bg-gradient-to-r from-slate-900 to-indigo-950 text-slate-300 text-center text-sm py-6 px-4 border-t-4 border-amber-500">
-        <p>© <span class="num">2026</span> حقوق النشر محفوظة · <bdi>Interactive Accounting Cycle Tutor</bdi></p>
+        <p>© <span class="num">2026</span> <span data-en="All rights reserved ·">حقوق النشر محفوظة ·</span> <bdi>Interactive Accounting Cycle Tutor</bdi></p>
         <p class="mt-1 text-xs text-slate-400" dir="ltr">An educational tool designed by <span class="text-amber-400 font-bold">Hedaya Odat</span></p>
     </footer>
 <script>
@@ -1148,134 +1148,134 @@
 // =====================================================================
 const PRACTICE_PROBLEMS = [
   {
-    title: 'تمرين 1: مكتب تصميم (شركة خدمات)',
-    company: 'مكتب رُوّاد للتصميم',
-    period: 'شهر آذار (مارس) 2026',
-    intro: 'مكتب تصميم جرافيك بدأ عمله في 1 آذار 2026.',
+    title: 'تمرين 1: مكتب تصميم (شركة خدمات)', title_en: 'Problem 1: Design Office (service business)',
+    company: 'مكتب رُوّاد للتصميم', company_en: 'Rowwad Design Office',
+    period: 'شهر آذار (مارس) 2026', period_en: 'March 2026',
+    intro: 'مكتب تصميم جرافيك بدأ عمله في 1 آذار 2026.', intro_en: 'A graphic design office that started operations on 1 March 2026.',
     transactions: [
-      { date: '1 آذار', text: 'استثمر المالك 8,000 دينار نقداً لبدء نشاط المكتب.',
+      { date: '1 آذار', text: 'استثمر المالك 8,000 دينار نقداً لبدء نشاط المكتب.', text_en: 'The owner invested 8,000 JOD in cash to start the office.',
         entry: [['cash', 8000, 0], ['capital', 0, 8000]] },
-      { date: '3 آذار', text: 'اشترى المكتب لوازم مكتبية بمبلغ 600 دينار على الحساب.',
+      { date: '3 آذار', text: 'اشترى المكتب لوازم مكتبية بمبلغ 600 دينار على الحساب.', text_en: 'The office bought office supplies for 600 JOD on account.',
         entry: [['supplies', 600, 0], ['ap', 0, 600]],
         note: 'اللوازم أصل عند شرائها لأنها ستُستخدم لاحقاً، وتتحول إلى مصروف بقدر ما يُستخدم منها.',
         note_en: 'Supplies are an asset when bought because they will be used later; they become an expense as they are used.' },
-      { date: '10 آذار', text: 'قدّم المكتب خدمات تصميم لعميل وقبض 2,400 دينار نقداً.',
+      { date: '10 آذار', text: 'قدّم المكتب خدمات تصميم لعميل وقبض 2,400 دينار نقداً.', text_en: 'The office performed design services for a client and received 2,400 JOD in cash.',
         entry: [['cash', 2400, 0], ['service_rev', 0, 2400]] },
-      { date: '15 آذار', text: 'دفع المكتب إيجار شهر آذار 700 دينار نقداً.',
+      { date: '15 آذار', text: 'دفع المكتب إيجار شهر آذار 700 دينار نقداً.', text_en: 'The office paid March rent of 700 JOD in cash.',
         entry: [['rent_exp', 700, 0], ['cash', 0, 700]],
         note: 'الإيجار يخص الشهر الحالي فقط، لذلك هو مصروف وليس أصلاً مدفوعاً مقدماً.',
         note_en: 'The rent covers the current month only, so it is an expense, not a prepaid asset.' },
-      { date: '20 آذار', text: 'سدد المكتب 300 دينار من المبلغ المستحق للمورد (عن اللوازم).',
+      { date: '20 آذار', text: 'سدد المكتب 300 دينار من المبلغ المستحق للمورد (عن اللوازم).', text_en: 'The office paid 300 JOD of the amount owed to the supplier (for the supplies).',
         entry: [['ap', 300, 0], ['cash', 0, 300]],
         note: 'سداد الدين ليس مصروفاً: نقص الالتزام ونقص الصندوق، ولا أثر على حقوق الملكية.',
         note_en: 'Paying a debt is not an expense: the liability and Cash both decrease, with no effect on equity.' },
-      { date: '31 آذار', adjusting: true, text: 'قيد تسوية: جرد اللوازم في نهاية الشهر أظهر أن المتبقي منها 250 ديناراً.',
+      { date: '31 آذار', adjusting: true, text: 'قيد تسوية: جرد اللوازم في نهاية الشهر أظهر أن المتبقي منها 250 ديناراً.', text_en: 'Adjusting entry: a count of supplies at the end of the month shows 250 JOD on hand.',
         entry: [['supplies_exp', 350, 0], ['supplies', 0, 350]],
         note: 'المستخدم = 600 − 250 = 350 ديناراً. هذا الجزء أصبح مصروفاً، ويبقى رصيد اللوازم 250 كما في الجرد.',
         note_en: 'Used = 600 − 250 = 350. That part becomes an expense, and Supplies is left at 250, matching the count.' }
     ]
   },
   {
-    title: 'تمرين 2: شركة صيانة (قيد مركب ومستحقات)',
-    company: 'شركة سند لخدمات الصيانة',
-    period: 'شهر نيسان (أبريل) 2026',
-    intro: 'شركة تقدّم خدمات صيانة للمنازل والمكاتب، بدأت عملها في 1 نيسان 2026.',
+    title: 'تمرين 2: شركة صيانة (قيد مركب ومستحقات)', title_en: 'Problem 2: Maintenance Company (compound entry and accruals)',
+    company: 'شركة سند لخدمات الصيانة', company_en: 'Sanad Maintenance Services Co.',
+    period: 'شهر نيسان (أبريل) 2026', period_en: 'April 2026',
+    intro: 'شركة تقدّم خدمات صيانة للمنازل والمكاتب، بدأت عملها في 1 نيسان 2026.', intro_en: 'A company providing maintenance services for homes and offices; it started operations on 1 April 2026.',
     transactions: [
-      { date: '1 نيسان', text: 'بدأ المالك النشاط باستثمار 10,000 دينار نقداً.',
+      { date: '1 نيسان', text: 'بدأ المالك النشاط باستثمار 10,000 دينار نقداً.', text_en: 'The owner started the business by investing 10,000 JOD in cash.',
         entry: [['cash', 10000, 0], ['capital', 0, 10000]] },
-      { date: '4 نيسان', text: 'اشترت الشركة معدات وأدوات صيانة بمبلغ 4,000 دينار على الحساب.',
+      { date: '4 نيسان', text: 'اشترت الشركة معدات وأدوات صيانة بمبلغ 4,000 دينار على الحساب.', text_en: 'The company bought maintenance equipment and tools for 4,000 JOD on account.',
         entry: [['equipment', 4000, 0], ['ap', 0, 4000]] },
-      { date: '12 نيسان', text: 'قدّمت الشركة خدمات صيانة بمبلغ 3,000 دينار: قبضت 1,800 نقداً والباقي على الحساب.',
+      { date: '12 نيسان', text: 'قدّمت الشركة خدمات صيانة بمبلغ 3,000 دينار: قبضت 1,800 نقداً والباقي على الحساب.', text_en: 'The company performed maintenance services for 3,000 JOD: 1,800 received in cash and the rest on account.',
         entry: [['cash', 1800, 0], ['ar', 1200, 0], ['service_rev', 0, 3000]],
         note: 'قيد مركب: الإيراد كله 3,000 يُسجَّل الآن لأن الخدمة قُدِّمت، والجزء غير المقبوض يصبح ذمماً مدينة.',
         note_en: 'A compound entry: the full 3,000 of revenue is recorded now because the service was performed; the uncollected part becomes Accounts Receivable.' },
-      { date: '20 نيسان', text: 'دفعت الشركة رواتب الموظفين عن الأيام الماضية 500 دينار نقداً.',
+      { date: '20 نيسان', text: 'دفعت الشركة رواتب الموظفين عن الأيام الماضية 500 دينار نقداً.', text_en: 'The company paid employee salaries for the days worked so far, 500 JOD in cash.',
         entry: [['salaries_exp', 500, 0], ['cash', 0, 500]] },
-      { date: '25 نيسان', text: 'سددت الشركة 2,500 دينار للمورد.',
+      { date: '25 نيسان', text: 'سددت الشركة 2,500 دينار للمورد.', text_en: 'The company paid 2,500 JOD to the supplier.',
         entry: [['ap', 2500, 0], ['cash', 0, 2500]],
         note: 'سداد الدين ليس مصروفاً: نقص الالتزام ونقص الصندوق، ولا أثر على حقوق الملكية.',
         note_en: 'Paying a debt is not an expense: the liability and Cash both decrease, with no effect on equity.' },
-      { date: '30 نيسان', adjusting: true, text: 'قيد تسوية: رواتب مستحقة عن آخر أيام الشهر بمبلغ 200 دينار لم تُدفع بعد.',
+      { date: '30 نيسان', adjusting: true, text: 'قيد تسوية: رواتب مستحقة عن آخر أيام الشهر بمبلغ 200 دينار لم تُدفع بعد.', text_en: 'Adjusting entry: salaries of 200 JOD accrued for the last days of the month and are not yet paid.',
         entry: [['salaries_exp', 200, 0], ['salaries_payable', 0, 200]],
         note: 'مصروف مستحق: الموظفون عملوا في نيسان، فالمصروف يخص نيسان حتى لو دُفع في أيار (أساس الاستحقاق).',
         note_en: 'An accrued expense: the employees worked in April, so the expense belongs to April even if it is paid in May (accrual basis).' }
     ]
   },
   {
-    title: 'تمرين 3: عيادة (ذمم مدينة ومسحوبات)',
-    company: 'عيادة الشفاء',
-    period: 'شهر أيار (مايو) 2026',
-    intro: 'عيادة طبية بدأت عملها في 1 أيار 2026.',
+    title: 'تمرين 3: عيادة (ذمم مدينة ومسحوبات)', title_en: 'Problem 3: Clinic (accounts receivable and drawings)',
+    company: 'عيادة الشفاء', company_en: 'Al-Shifa Clinic',
+    period: 'شهر أيار (مايو) 2026', period_en: 'May 2026',
+    intro: 'عيادة طبية بدأت عملها في 1 أيار 2026.', intro_en: 'A medical clinic that started operations on 1 May 2026.',
     transactions: [
-      { date: '1 أيار', text: 'استثمر المالك 15,000 دينار نقداً في العيادة.',
+      { date: '1 أيار', text: 'استثمر المالك 15,000 دينار نقداً في العيادة.', text_en: 'The owner invested 15,000 JOD in cash in the clinic.',
         entry: [['cash', 15000, 0], ['capital', 0, 15000]] },
-      { date: '2 أيار', text: 'اشترت العيادة أجهزة طبية بمبلغ 6,000 دينار: دفعت 2,000 نقداً، ووقّعت ورقة دفع (كمبيالة) بالباقي.',
+      { date: '2 أيار', text: 'اشترت العيادة أجهزة طبية بمبلغ 6,000 دينار: دفعت 2,000 نقداً، ووقّعت ورقة دفع (كمبيالة) بالباقي.', text_en: 'The clinic bought medical equipment for 6,000 JOD: paid 2,000 in cash and signed a note payable for the rest.',
         entry: [['equipment', 6000, 0], ['cash', 0, 2000], ['notes_payable', 0, 4000]],
         note: 'قيد مركب: أصل واحد زاد بـ 6,000، ومقابله نقص في الصندوق 2,000 والتزام جديد 4,000.',
         note_en: 'A compound entry: one asset increases by 6,000, matched by a 2,000 decrease in Cash and a new 4,000 liability.' },
-      { date: '15 أيار', text: 'قدّمت العيادة خدمات علاجية بمبلغ 3,500 دينار على الحساب.',
+      { date: '15 أيار', text: 'قدّمت العيادة خدمات علاجية بمبلغ 3,500 دينار على الحساب.', text_en: 'The clinic performed medical services for 3,500 JOD on account.',
         entry: [['ar', 3500, 0], ['service_rev', 0, 3500]] },
-      { date: '25 أيار', text: 'قبضت العيادة 1,500 دينار من المرضى عن الخدمات السابقة.',
+      { date: '25 أيار', text: 'قبضت العيادة 1,500 دينار من المرضى عن الخدمات السابقة.', text_en: 'The clinic collected 1,500 JOD from patients for earlier services.',
         entry: [['cash', 1500, 0], ['ar', 0, 1500]],
         note: 'التحصيل ليس إيراداً جديداً: الإيراد سُجِّل يوم تقديم الخدمة، وهنا تحوّل أصل (ذمم مدينة) إلى أصل آخر (نقدية).',
         note_en: 'Collection is not new revenue: revenue was recorded when the service was performed; here one asset (Accounts Receivable) turns into another (Cash).' },
-      { date: '28 أيار', text: 'سحب المالك 400 دينار نقداً لاستخدامه الشخصي.',
+      { date: '28 أيار', text: 'سحب المالك 400 دينار نقداً لاستخدامه الشخصي.', text_en: 'The owner withdrew 400 JOD in cash for personal use.',
         entry: [['drawings', 400, 0], ['cash', 0, 400]],
         note: 'المسحوبات (أو توزيعات الأرباح في الشركات المساهمة) تخفض حقوق الملكية لكنها ليست مصروفاً، فلا تظهر في قائمة الدخل.',
         note_en: 'Drawings (or dividends in a corporation) reduce equity but are not an expense, so they do not appear on the income statement.' },
-      { date: '31 أيار', adjusting: true, text: 'قيد تسوية: إهلاك الأجهزة الطبية لشهر أيار 100 دينار.',
+      { date: '31 أيار', adjusting: true, text: 'قيد تسوية: إهلاك الأجهزة الطبية لشهر أيار 100 دينار.', text_en: 'Adjusting entry: depreciation of the medical equipment for May is 100 JOD.',
         entry: [['dep_exp', 100, 0], ['accum_dep_eq', 0, 100]] }
     ]
   },
   {
-    title: 'تمرين 4: مركز تدريب (مقدمات)',
-    company: 'مركز المسار للتدريب',
-    period: 'شهر حزيران (يونيو) 2026',
-    intro: 'مركز تدريب بدأ عمله في 1 حزيران 2026.',
+    title: 'تمرين 4: مركز تدريب (مقدمات)', title_en: 'Problem 4: Training Center (prepayments and unearned revenue)',
+    company: 'مركز المسار للتدريب', company_en: 'Al-Masar Training Center',
+    period: 'شهر حزيران (يونيو) 2026', period_en: 'June 2026',
+    intro: 'مركز تدريب بدأ عمله في 1 حزيران 2026.', intro_en: 'A training center that started operations on 1 June 2026.',
     transactions: [
-      { date: '1 حزيران', text: 'استثمر المالك 12,000 دينار نقداً.',
+      { date: '1 حزيران', text: 'استثمر المالك 12,000 دينار نقداً.', text_en: 'The owner invested 12,000 JOD in cash.',
         entry: [['cash', 12000, 0], ['capital', 0, 12000]] },
-      { date: '1 حزيران', text: 'دفع المركز 1,200 دينار نقداً قسط تأمين لمدة سنة تبدأ من 1 حزيران.',
+      { date: '1 حزيران', text: 'دفع المركز 1,200 دينار نقداً قسط تأمين لمدة سنة تبدأ من 1 حزيران.', text_en: 'The center paid 1,200 JOD in cash for a one-year insurance policy starting 1 June.',
         entry: [['prepaid_ins', 1200, 0], ['cash', 0, 1200]],
         note: 'التأمين يغطي 12 شهراً قادمة، فهو أصل (مصروف مدفوع مقدماً) وليس مصروفاً كله الآن.',
         note_en: 'The insurance covers the next 12 months, so it is an asset (prepaid expense), not an expense all at once.' },
-      { date: '5 حزيران', text: 'قبض المركز 3,000 دينار مقدماً من شركة عن دورة تدريبية تُقدَّم خلال ثلاثة أشهر.',
+      { date: '5 حزيران', text: 'قبض المركز 3,000 دينار مقدماً من شركة عن دورة تدريبية تُقدَّم خلال ثلاثة أشهر.', text_en: 'The center received 3,000 JOD in advance from a company for a training course to be delivered over three months.',
         entry: [['cash', 3000, 0], ['unearned', 0, 3000]],
         note: 'لم تُقدَّم الخدمة بعد، فالمبلغ التزام على المركز (إيراد مقبوض مقدماً) وليس إيراداً.',
         note_en: 'The service has not been performed yet, so the amount is a liability (unearned revenue), not revenue.' },
-      { date: '20 حزيران', text: 'وصلت فاتورة الكهرباء والماء لشهر حزيران بمبلغ 250 ديناراً، ولم تُدفع بعد.',
+      { date: '20 حزيران', text: 'وصلت فاتورة الكهرباء والماء لشهر حزيران بمبلغ 250 ديناراً، ولم تُدفع بعد.', text_en: 'The electricity and water bill for June arrived, 250 JOD, not yet paid.',
         entry: [['utilities_exp', 250, 0], ['ap', 0, 250]] },
-      { date: '30 حزيران', adjusting: true, text: 'قيد تسوية: قدّم المركز ثلث الدورة التدريبية خلال حزيران.',
+      { date: '30 حزيران', adjusting: true, text: 'قيد تسوية: قدّم المركز ثلث الدورة التدريبية خلال حزيران.', text_en: 'Adjusting entry: the center delivered one third of the training course during June.',
         entry: [['unearned', 1000, 0], ['service_rev', 0, 1000]],
         note: 'المتحقق = 3,000 ÷ 3 = 1,000. ينقص الالتزام ويُعترف بالإيراد بقدر الخدمة المقدَّمة فعلاً.',
         note_en: 'Earned = 3,000 ÷ 3 = 1,000. The liability decreases and revenue is recognised for the service actually performed.' },
-      { date: '30 حزيران', adjusting: true, text: 'قيد تسوية: انتهى شهر واحد من فترة التأمين.',
+      { date: '30 حزيران', adjusting: true, text: 'قيد تسوية: انتهى شهر واحد من فترة التأمين.', text_en: 'Adjusting entry: one month of the insurance period has expired.',
         entry: [['insurance_exp', 100, 0], ['prepaid_ins', 0, 100]],
         note: 'المنتهي = 1,200 ÷ 12 = 100 دينار يصبح مصروفاً، ويبقى 1,100 أصلاً.',
         note_en: 'Expired = 1,200 ÷ 12 = 100, which becomes an expense; 1,100 remains an asset.' }
     ]
   },
   {
-    title: 'تمرين 5: شركة تنظيف (قرض وفوائد)',
-    company: 'شركة لمعة لخدمات التنظيف',
-    period: 'شهر تموز (يوليو) 2026',
-    intro: 'شركة خدمات تنظيف بدأت عملها في 1 تموز 2026.',
+    title: 'تمرين 5: شركة تنظيف (قرض وفوائد)', title_en: 'Problem 5: Cleaning Company (loan and interest)',
+    company: 'شركة لمعة لخدمات التنظيف', company_en: 'Lam’a Cleaning Services Co.',
+    period: 'شهر تموز (يوليو) 2026', period_en: 'July 2026',
+    intro: 'شركة خدمات تنظيف بدأت عملها في 1 تموز 2026.', intro_en: 'A cleaning services company that started operations on 1 July 2026.',
     transactions: [
-      { date: '1 تموز', text: 'استثمر المالك 20,000 دينار نقداً.',
+      { date: '1 تموز', text: 'استثمر المالك 20,000 دينار نقداً.', text_en: 'The owner invested 20,000 JOD in cash.',
         entry: [['cash', 20000, 0], ['capital', 0, 20000]] },
-      { date: '1 تموز', text: 'حصلت الشركة على قرض بنكي بمبلغ 10,000 دينار أُودع في الصندوق، بفائدة سنوية 9%.',
+      { date: '1 تموز', text: 'حصلت الشركة على قرض بنكي بمبلغ 10,000 دينار أُودع في الصندوق، بفائدة سنوية 9%.', text_en: 'The company obtained a 10,000 JOD bank loan, deposited in cash, at 9% annual interest.',
         entry: [['cash', 10000, 0], ['loan', 0, 10000]],
         note: 'القرض ليس إيراداً: زاد النقد وزاد التزام على الشركة.',
         note_en: 'A loan is not revenue: Cash increases and so does a liability.' },
-      { date: '3 تموز', text: 'اشترت الشركة سيارة خدمات بمبلغ 18,000 دينار نقداً.',
+      { date: '3 تموز', text: 'اشترت الشركة سيارة خدمات بمبلغ 18,000 دينار نقداً.', text_en: 'The company bought a service vehicle for 18,000 JOD in cash.',
         entry: [['vehicles', 18000, 0], ['cash', 0, 18000]] },
-      { date: '20 تموز', text: 'قدّمت الشركة خدمات تنظيف بمبلغ 5,200 دينار: قبضت 4,000 نقداً والباقي على الحساب.',
+      { date: '20 تموز', text: 'قدّمت الشركة خدمات تنظيف بمبلغ 5,200 دينار: قبضت 4,000 نقداً والباقي على الحساب.', text_en: 'The company performed cleaning services for 5,200 JOD: 4,000 received in cash and the rest on account.',
         entry: [['cash', 4000, 0], ['ar', 1200, 0], ['service_rev', 0, 5200]],
         note: 'الإيراد كله 5,200 يُسجَّل الآن لأن الخدمة قُدِّمت، بغض النظر عن الجزء غير المقبوض.',
         note_en: 'The full 5,200 of revenue is recorded now because the service was performed, regardless of the uncollected part.' },
-      { date: '28 تموز', text: 'دفعت الشركة أجور العمال عن شهر تموز 1,500 دينار نقداً.',
+      { date: '28 تموز', text: 'دفعت الشركة أجور العمال عن شهر تموز 1,500 دينار نقداً.', text_en: 'The company paid workers’ wages for July, 1,500 JOD in cash.',
         entry: [['salaries_exp', 1500, 0], ['cash', 0, 1500]] },
-      { date: '31 تموز', adjusting: true, text: 'قيد تسوية: فائدة القرض المستحقة عن شهر تموز (لم تُدفع بعد).',
+      { date: '31 تموز', adjusting: true, text: 'قيد تسوية: فائدة القرض المستحقة عن شهر تموز (لم تُدفع بعد).', text_en: 'Adjusting entry: interest on the loan accrued for July (not yet paid).',
         entry: [['interest_exp', 75, 0], ['interest_payable', 0, 75]],
         note: 'الفائدة الشهرية = 10,000 × 9% ÷ 12 = 75 ديناراً. هي مصروف تموز حتى لو دُفعت لاحقاً.',
         note_en: 'Monthly interest = 10,000 × 9% ÷ 12 = 75. It is a July expense even if it is paid later.' }
@@ -1328,33 +1328,33 @@ const ACCOUNTS = {
 // =====================================================================
 const YUSR_CASE = {
   key: 'yusr',
-  title: 'شركة يُسر للاستشارات والتدريب',
-  company: 'شركة يُسر للاستشارات والتدريب',
-  period: 'شهر كانون الثاني (يناير) 2026',
-  intro: 'شركة خدمات صغيرة بدأت نشاطها في 1 يناير 2026. العمليات تشمل رأس المال والشراء بالأجل والإيراد النقدي والإيراد بالأجل، ثم قيد تسوية للإهلاك في نهاية الشهر.',
+  title: 'شركة يُسر للاستشارات والتدريب', title_en: 'Yusr Consulting & Training Co.',
+  company: 'شركة يُسر للاستشارات والتدريب', company_en: 'Yusr Consulting & Training Co.',
+  period: 'شهر كانون الثاني (يناير) 2026', period_en: 'January 2026',
+  intro: 'شركة خدمات صغيرة بدأت نشاطها في 1 يناير 2026. العمليات تشمل رأس المال والشراء بالأجل والإيراد النقدي والإيراد بالأجل، ثم قيد تسوية للإهلاك في نهاية الشهر.', intro_en: 'A small service company that started operations on 1 January 2026. The transactions cover owner capital, a purchase on account, cash revenue and revenue on account, then an adjusting entry for depreciation at month-end.',
   transactions: [
-    { date: '1 يناير 2026', title: 'بدء النشاط برأس مال نقدي',
-      text: 'أسست أمل شركة «يُسر» واستثمرت فيها 10,000 دينار نقداً أُودعت في صندوق الشركة كرأس مال.',
+    { date: '1 يناير 2026', title: 'بدء النشاط برأس مال نقدي', title_en: 'Starting the business with cash capital',
+      text: 'أسست أمل شركة «يُسر» واستثمرت فيها 10,000 دينار نقداً أُودعت في صندوق الشركة كرأس مال.', text_en: 'Amal founded Yusr Co. and invested 10,000 JOD in cash, deposited in the company’s cash account as capital.',
       entry: [['cash', 10000, 0], ['capital', 0, 10000]],
       note: 'الشركة وحدة مستقلة عن مالكتها (فرض الوحدة المحاسبية)، لذلك يُسجَّل المبلغ كرأس مال للشركة: زاد الصندوق وزاد رأس المال بالمبلغ نفسه.',
         note_en: "The business is separate from its owner (economic entity assumption), so the amount is recorded as the company's capital: Cash and Capital both increase by the same amount." },
-    { date: '3 يناير 2026', title: 'شراء معدات مكتبية بالأجل',
-      text: 'اشترت الشركة معدات وأجهزة كمبيوتر بمبلغ 3,000 دينار بالأجل من شركة «الأمل لتجهيزات المكاتب».',
+    { date: '3 يناير 2026', title: 'شراء معدات مكتبية بالأجل', title_en: 'Buying office equipment on account',
+      text: 'اشترت الشركة معدات وأجهزة كمبيوتر بمبلغ 3,000 دينار بالأجل من شركة «الأمل لتجهيزات المكاتب».', text_en: 'The company bought equipment and computers for 3,000 JOD on account from Al-Amal Office Supplies Co.',
       entry: [['equipment', 3000, 0], ['ap', 0, 3000]],
       note: 'الشراء بالأجل لا يمس الصندوق: زاد أصل (المعدات) وزاد التزام (الذمم الدائنة)، وتبقى المعادلة متوازنة.',
         note_en: 'Buying on account does not touch Cash: an asset (Equipment) and a liability (Accounts Payable) both increase, and the equation stays in balance.' },
-    { date: '8 يناير 2026', title: 'تقديم خدمات استشارية نقداً',
-      text: 'قدمت الشركة خدمات استشارية لعملاء وقبضت 2,500 دينار نقداً.',
+    { date: '8 يناير 2026', title: 'تقديم خدمات استشارية نقداً', title_en: 'Performing consulting services for cash',
+      text: 'قدمت الشركة خدمات استشارية لعملاء وقبضت 2,500 دينار نقداً.', text_en: 'The company performed consulting services for clients and received 2,500 JOD in cash.',
       entry: [['cash', 2500, 0], ['service_rev', 0, 2500]],
       note: 'الإيراد يزيد حقوق الملكية، لذلك يُسجَّل في الجانب الدائن، والنقد المقبوض يزيد الصندوق في الجانب المدين.',
         note_en: 'Revenue increases equity, so it is credited; the cash received increases Cash on the debit side.' },
-    { date: '25 يناير 2026', title: 'تقديم خدمات بالأجل',
-      text: 'نفذت الشركة دورة تدريبية لإحدى الشركات بمبلغ 1,200 دينار على الحساب (لم يُقبض المبلغ بعد).',
+    { date: '25 يناير 2026', title: 'تقديم خدمات بالأجل', title_en: 'Performing services on account',
+      text: 'نفذت الشركة دورة تدريبية لإحدى الشركات بمبلغ 1,200 دينار على الحساب (لم يُقبض المبلغ بعد).', text_en: 'The company delivered a training course to another company for 1,200 JOD on account (not yet collected).',
       entry: [['ar', 1200, 0], ['service_rev', 0, 1200]],
       note: 'حسب أساس الاستحقاق يُعترف بالإيراد عند تقديم الخدمة، حتى لو لم يُقبض النقد بعد. المبلغ أصبح حقاً للشركة على العميل (ذمم مدينة).',
         note_en: 'Under the accrual basis, revenue is recognised when the service is performed, even if cash has not been received yet. The customer now owes the company (Accounts Receivable).' },
-    { date: '31 يناير 2026', title: 'إهلاك المعدات لشهر يناير', adjusting: true,
-      text: 'عمر المعدات الإنتاجي 5 سنوات (60 شهراً) بدون قيمة خردة. يُسجَّل إهلاك شهر يناير بالقسط الثابت: 3,000 ÷ 60 = 50 ديناراً.',
+    { date: '31 يناير 2026', title: 'إهلاك المعدات لشهر يناير', title_en: 'Depreciation of equipment for January', adjusting: true,
+      text: 'عمر المعدات الإنتاجي 5 سنوات (60 شهراً) بدون قيمة خردة. يُسجَّل إهلاك شهر يناير بالقسط الثابت: 3,000 ÷ 60 = 50 ديناراً.', text_en: 'The equipment has a useful life of 5 years (60 months) and no salvage value. Record January depreciation using the straight-line method: 3,000 ÷ 60 = 50 JOD.',
       entry: [['dep_exp', 50, 0], ['accum_dep_eq', 0, 50]],
       note: 'قيد تسوية تطبيقاً لمبدأ المقابلة: جزء من تكلفة المعدات استُخدم في توليد إيراد يناير. لا نخفض حساب المعدات مباشرة، بل نستخدم حساباً عاكساً (مجمع الإهلاك) يُطرح من المعدات في قائمة المركز المالي.',
         note_en: 'An adjusting entry under the matching (expense recognition) principle: part of the equipment cost was used to earn January revenue. We do not reduce Equipment directly; we use a contra account (Accumulated Depreciation) that is deducted from Equipment on the balance sheet.' }
@@ -1499,14 +1499,16 @@ function buildScenario() {
   else {
     key = 'custom';
     src = { title: custom.company || 'مثالك الخاص', company: custom.company || 'مثالك الخاص', period: '', intro: '',
+            title_en: custom.company ? '' : 'Your own example', company_en: custom.company ? '' : 'Your own example',
             transactions: custom.transactions.map(t => ({ id: t.id, date: t.date, title: t.text, text: t.text, entry: t.entry, adjusting: t.adjusting })) };
   }
   scenario = {
     key, mode, guided: mode !== 'practice',
     title: src.title, company: src.company, period: src.period || '', intro: src.intro || '',
+    title_en: src.title_en || '', company_en: src.company_en || '', period_en: src.period_en || '', intro_en: src.intro_en || '',
     accounts: mode === 'custom' ? custom.accounts : {},
     txs: src.transactions.map((t, i) => ({
-      id: 'T' + (t.id || (i + 1)), n: i + 1, kind: 'tx', date: t.date || '', title: t.title || '', text: t.text,
+      id: 'T' + (t.id || (i + 1)), n: i + 1, kind: 'tx', date: t.date || '', title: t.title || '', text: t.text, title_en: t.title_en || '', text_en: t.text_en || '',
       adjusting: !!t.adjusting, note: t.note || '', note_en: t.note_en || '', entry: normEntry(t.entry)
     }))
   };
@@ -1549,17 +1551,17 @@ function closingItems() {
     const entry = rev.map(k => ({ acc: k, dr: Math.max(-net(b, k), 0), cr: Math.max(net(b, k), 0) }));
     totalRev = r2(rev.reduce((s, k) => s - net(b, k), 0));
     entry.push(totalRev >= 0 ? { acc: 'income_summary', dr: 0, cr: totalRev } : { acc: 'income_summary', dr: -totalRev, cr: 0 });
-    items.push({ title: 'إقفال الإيرادات في ملخص الدخل', text: 'تُصفَّر حسابات الإيرادات بجعلها مدينة بأرصدتها، ويُنقل مجموعها إلى الجانب الدائن من ملخص الدخل.', text_en: 'Revenue accounts are brought to zero by debiting them for their balances, and the total is credited to Income Summary.', entry });
+    items.push({ title: 'إقفال الإيرادات في ملخص الدخل', title_en: 'Close revenues to Income Summary', text: 'تُصفَّر حسابات الإيرادات بجعلها مدينة بأرصدتها، ويُنقل مجموعها إلى الجانب الدائن من ملخص الدخل.', text_en: 'Revenue accounts are brought to zero by debiting them for their balances, and the total is credited to Income Summary.', entry });
   }
   if (exp.length) {
     totalExp = r2(exp.reduce((s, k) => s + net(b, k), 0));
     const entry = [totalExp >= 0 ? { acc: 'income_summary', dr: totalExp, cr: 0 } : { acc: 'income_summary', dr: 0, cr: -totalExp }];
     exp.forEach(k => entry.push({ acc: k, dr: Math.max(-net(b, k), 0), cr: Math.max(net(b, k), 0) }));
-    items.push({ title: 'إقفال المصاريف في ملخص الدخل', text: 'تُصفَّر حسابات المصاريف بجعلها دائنة بأرصدتها، ويُحمَّل مجموعها على الجانب المدين من ملخص الدخل.', text_en: 'Expense accounts are brought to zero by crediting them for their balances, and the total is debited to Income Summary.', entry });
+    items.push({ title: 'إقفال المصاريف في ملخص الدخل', title_en: 'Close expenses to Income Summary', text: 'تُصفَّر حسابات المصاريف بجعلها دائنة بأرصدتها، ويُحمَّل مجموعها على الجانب المدين من ملخص الدخل.', text_en: 'Expense accounts are brought to zero by crediting them for their balances, and the total is debited to Income Summary.', entry });
   }
   const ni = r2(totalRev - totalExp);
   if (ni !== 0) {
-    items.push({ title: ni > 0 ? 'إقفال ملخص الدخل (صافي الربح) في الأرباح المحتجزة' : 'إقفال ملخص الدخل (صافي الخسارة) في الأرباح المحتجزة',
+    items.push({ title: ni > 0 ? 'إقفال ملخص الدخل (صافي الربح) في الأرباح المحتجزة' : 'إقفال ملخص الدخل (صافي الخسارة) في الأرباح المحتجزة', title_en: ni > 0 ? 'Close Income Summary (net income) to Retained Earnings' : 'Close Income Summary (net loss) to Retained Earnings',
       text: ni > 0 ? `رصيد ملخص الدخل الدائن (${fmt(ni)}) هو صافي الربح، ويُنقل إلى الأرباح المحتجزة فيزيدها.` : `رصيد ملخص الدخل المدين (${fmt(ni)}) هو صافي الخسارة، ويُنقل إلى الأرباح المحتجزة فيخفضها.`,
       text_en: ni > 0 ? `The credit balance of Income Summary (${fmt(ni)}) is net income; it is transferred to Retained Earnings, increasing it.` : `The debit balance of Income Summary (${fmt(ni)}) is a net loss; it is transferred to Retained Earnings, reducing it.`,
       entry: ni > 0 ? [{ acc: 'income_summary', dr: ni, cr: 0 }, { acc: 're', dr: 0, cr: ni }] : [{ acc: 're', dr: -ni, cr: 0 }, { acc: 'income_summary', dr: 0, cr: -ni }] });
@@ -1567,7 +1569,7 @@ function closingItems() {
   if (drw.length) {
     const total = r2(drw.reduce((s, k) => s + net(b, k), 0));
     const entry = [{ acc: 're', dr: total, cr: 0 }].concat(drw.map(k => ({ acc: k, dr: 0, cr: net(b, k) })));
-    items.push({ title: 'إقفال توزيعات الأرباح / المسحوبات في الأرباح المحتجزة', text: 'التوزيعات ليست مصروفاً، لذلك لا تمر بملخص الدخل، بل تُقفل مباشرة في الأرباح المحتجزة فتخفضها.', text_en: 'Dividends are not an expense, so they skip Income Summary and are closed directly to Retained Earnings, reducing it.', entry });
+    items.push({ title: 'إقفال توزيعات الأرباح / المسحوبات في الأرباح المحتجزة', title_en: 'Close dividends / drawings to Retained Earnings', text: 'التوزيعات ليست مصروفاً، لذلك لا تمر بملخص الدخل، بل تُقفل مباشرة في الأرباح المحتجزة فتخفضها.', text_en: 'Dividends are not an expense, so they skip Income Summary and are closed directly to Retained Earnings, reducing it.', entry });
   }
   return items.map((it, i) => ({ id: 'C' + (i + 1), n: i + 1, kind: 'closing', date: 'نهاية الفترة', adjusting: false, note: '', ...it }));
 }
@@ -1578,8 +1580,8 @@ function isOpen(item) {
   return i >= 0 && !isPosted(item.id) && q.slice(0, i).every(x => isPosted(x.id));
 }
 function nextOpenItem() { return queue().find(it => !isPosted(it.id)) || null; }
-function itemLabel(item) { return item.kind === 'closing' ? `قيد إقفال ${item.n}` : `العملية ${item.n}`; }
-function itemShort(item) { return item.kind === 'closing' ? `إقفال ${item.n}` : `عملية ${item.n}`; }
+function itemLabel(item) { return item.kind === 'closing' ? L(`قيد إقفال ${item.n}`, `Closing entry ${item.n}`) : L(`العملية ${item.n}`, `Transaction ${item.n}`); }
+function itemShort(item) { return item.kind === 'closing' ? L(`إقفال ${item.n}`, `Closing ${item.n}`) : L(`عملية ${item.n}`, `Tx ${item.n}`); }
 
 function save() {
   store('cycle.progress', progress);
@@ -1638,30 +1640,32 @@ function generateProblem(seed) {
   const pick = arr => arr[Math.floor(R() * arr.length)];
   const amt = (min, max, step) => Math.round((min + R() * (max - min)) / step) * step;
   const names = ['شركة الأفق للخدمات', 'مكتب البيان للاستشارات', 'شركة رواحل للتوصيل', 'مركز إتقان للتدريب', 'شركة نَسَق للتصميم', 'مكتب دقة للمحاسبة', 'شركة سَما للتسويق', 'عيادة الرعاية'];
+  const names_en = ['Al-Ufuq Services Co.', 'Al-Bayan Consulting Office', 'Rawahel Delivery Co.', 'Itqan Training Center', 'Nasaq Design Co.', 'Diqqa Accounting Office', 'Sama Marketing Co.', 'Al-Ri’aya Clinic'];
+  const months_en = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   const months = [['كانون الثاني (يناير)', 31], ['شباط (فبراير)', 28], ['آذار (مارس)', 31], ['نيسان (أبريل)', 30], ['أيار (مايو)', 31], ['حزيران (يونيو)', 30], ['تموز (يوليو)', 31], ['آب (أغسطس)', 31], ['أيلول (سبتمبر)', 30], ['تشرين الأول (أكتوبر)', 31], ['تشرين الثاني (نوفمبر)', 30], ['كانون الأول (ديسمبر)', 31]];
-  const [month, last] = pick(months);
+  const mi = Math.floor(R() * months.length), [month, last] = months[mi];
   const mShort = month.split(' ')[0] + (month.split(' ').length > 2 ? ' ' + month.split(' ')[1] : '');
   const f = n => n.toLocaleString('en-US');
   const st = { cash: 0, ar: 0, ap: 0, equipment: 0, supplies: 0, unearned: 0, prepaid: 0, prepaidRent: 0 };
   const txs = [];
   const capital = amt(8000, 25000, 1000);
   st.cash += capital;
-  txs.push({ date: '1 ' + mShort, text: `استثمر المالك ${f(capital)} دينار نقداً لبدء النشاط.`, entry: [['cash', capital, 0], ['capital', 0, capital]] });
+  txs.push({ date: '1 ' + mShort, text: `استثمر المالك ${f(capital)} دينار نقداً لبدء النشاط.`, text_en: `The owner invested ${f(capital)} JOD in cash to start the business.`, entry: [['cash', capital, 0], ['capital', 0, capital]] });
   const pool = [
-    () => { if (st.equipment) return null; const c = amt(3000, 12000, 600); if (R() < 0.5 && st.cash > c + 1000) { st.cash -= c; st.equipment = c; return { text: `اشترت الشركة معدات بمبلغ ${f(c)} دينار نقداً.`, entry: [['equipment', c, 0], ['cash', 0, c]] }; } st.ap += c; st.equipment = c; return { text: `اشترت الشركة معدات بمبلغ ${f(c)} دينار على الحساب.`, entry: [['equipment', c, 0], ['ap', 0, c]] }; },
-    () => { if (st.supplies) return null; const c = amt(300, 1200, 50); st.ap += c; st.supplies = c; return { text: `اشترت الشركة لوازم مكتبية بمبلغ ${f(c)} دينار على الحساب.`, entry: [['supplies', c, 0], ['ap', 0, c]] }; },
-    () => { if (st.supplies) return null; const c = amt(200, 900, 50); if (st.cash < c + 500) return null; st.cash -= c; st.supplies = c; return { text: `اشترت الشركة لوازم مكتبية بمبلغ ${f(c)} دينار نقداً.`, entry: [['supplies', c, 0], ['cash', 0, c]] }; },
-    () => { if (st.prepaidRent) return null; const c = amt(900, 3600, 300); if (st.cash < c + 500) return null; st.cash -= c; st.prepaidRent = c; return { text: `دفعت الشركة ${f(c)} دينار نقداً إيجاراً مقدماً عن 3 أشهر تبدأ من أول هذا الشهر.`, entry: [['prepaid_rent', c, 0], ['cash', 0, c]] }; },
-    () => { const c = amt(1000, 5000, 100); st.cash += c; return { text: `قدّمت الشركة خدمات لعملاء وقبضت ${f(c)} دينار نقداً.`, entry: [['cash', c, 0], ['service_rev', 0, c]] }; },
-    () => { const c = amt(800, 4000, 100); st.ar += c; return { text: `قدّمت الشركة خدمات بمبلغ ${f(c)} دينار على الحساب.`, entry: [['ar', c, 0], ['service_rev', 0, c]] }; },
-    () => { if (!st.ar) return null; const c = Math.round(st.ar / 2 / 50) * 50 || st.ar; st.ar -= c; st.cash += c; return { text: `حصّلت الشركة ${f(c)} دينار من العملاء عن خدمات سابقة.`, entry: [['cash', c, 0], ['ar', 0, c]] }; },
-    () => { if (!st.ap) return null; const c = Math.min(st.ap, Math.round(st.ap / 2 / 50) * 50 || st.ap); if (st.cash < c) return null; st.ap -= c; st.cash -= c; return { text: `سددت الشركة ${f(c)} دينار للموردين.`, entry: [['ap', c, 0], ['cash', 0, c]] }; },
-    () => { const c = amt(300, 1200, 50); if (st.cash < c) return null; st.cash -= c; return { text: `دفعت الشركة إيجار المكتب عن هذا الشهر ${f(c)} دينار نقداً.`, entry: [['rent_exp', c, 0], ['cash', 0, c]] }; },
-    () => { const c = amt(400, 1500, 50); if (st.cash < c) return null; st.cash -= c; return { text: `دفعت الشركة رواتب الموظفين ${f(c)} دينار نقداً.`, entry: [['salaries_exp', c, 0], ['cash', 0, c]] }; },
-    () => { if (st.unearned) return null; const c = amt(1200, 3600, 600); st.cash += c; st.unearned = c; return { text: `قبضت الشركة ${f(c)} دينار مقدماً من عميل عن خدمات تُقدَّم بالتساوي خلال 3 أشهر تبدأ هذا الشهر.`, entry: [['cash', c, 0], ['unearned', 0, c]] }; },
-    () => { if (st.prepaid) return null; const c = amt(600, 2400, 120); if (st.cash < c) return null; st.cash -= c; st.prepaid = c; return { text: `دفعت الشركة ${f(c)} دينار نقداً قسط تأمين لمدة سنة تبدأ من أول هذا الشهر.`, entry: [['prepaid_ins', c, 0], ['cash', 0, c]] }; },
-    () => { const c = amt(100, 400, 10); st.ap += c; return { text: `وصلت فاتورة الكهرباء والماء لهذا الشهر بمبلغ ${f(c)} دينار ولم تُدفع بعد.`, entry: [['utilities_exp', c, 0], ['ap', 0, c]] }; },
-    () => { const c = amt(200, 800, 50); if (st.cash < c + 500) return null; st.cash -= c; return { text: `سحب المالك ${f(c)} دينار نقداً لاستخدامه الشخصي.`, entry: [['drawings', c, 0], ['cash', 0, c]] }; }
+    () => { if (st.equipment) return null; const c = amt(3000, 12000, 600); if (R() < 0.5 && st.cash > c + 1000) { st.cash -= c; st.equipment = c; return { text: `اشترت الشركة معدات بمبلغ ${f(c)} دينار نقداً.`, text_en: `The company bought equipment for ${f(c)} JOD in cash.`, entry: [['equipment', c, 0], ['cash', 0, c]] }; } st.ap += c; st.equipment = c; return { text: `اشترت الشركة معدات بمبلغ ${f(c)} دينار على الحساب.`, text_en: `The company bought equipment for ${f(c)} JOD on account.`, entry: [['equipment', c, 0], ['ap', 0, c]] }; },
+    () => { if (st.supplies) return null; const c = amt(300, 1200, 50); st.ap += c; st.supplies = c; return { text: `اشترت الشركة لوازم مكتبية بمبلغ ${f(c)} دينار على الحساب.`, text_en: `The company bought office supplies for ${f(c)} JOD on account.`, entry: [['supplies', c, 0], ['ap', 0, c]] }; },
+    () => { if (st.supplies) return null; const c = amt(200, 900, 50); if (st.cash < c + 500) return null; st.cash -= c; st.supplies = c; return { text: `اشترت الشركة لوازم مكتبية بمبلغ ${f(c)} دينار نقداً.`, text_en: `The company bought office supplies for ${f(c)} JOD in cash.`, entry: [['supplies', c, 0], ['cash', 0, c]] }; },
+    () => { if (st.prepaidRent) return null; const c = amt(900, 3600, 300); if (st.cash < c + 500) return null; st.cash -= c; st.prepaidRent = c; return { text: `دفعت الشركة ${f(c)} دينار نقداً إيجاراً مقدماً عن 3 أشهر تبدأ من أول هذا الشهر.`, text_en: `The company paid ${f(c)} JOD in cash as rent in advance for 3 months starting at the beginning of this month.`, entry: [['prepaid_rent', c, 0], ['cash', 0, c]] }; },
+    () => { const c = amt(1000, 5000, 100); st.cash += c; return { text: `قدّمت الشركة خدمات لعملاء وقبضت ${f(c)} دينار نقداً.`, text_en: `The company performed services for customers and received ${f(c)} JOD in cash.`, entry: [['cash', c, 0], ['service_rev', 0, c]] }; },
+    () => { const c = amt(800, 4000, 100); st.ar += c; return { text: `قدّمت الشركة خدمات بمبلغ ${f(c)} دينار على الحساب.`, text_en: `The company performed services for ${f(c)} JOD on account.`, entry: [['ar', c, 0], ['service_rev', 0, c]] }; },
+    () => { if (!st.ar) return null; const c = Math.round(st.ar / 2 / 50) * 50 || st.ar; st.ar -= c; st.cash += c; return { text: `حصّلت الشركة ${f(c)} دينار من العملاء عن خدمات سابقة.`, text_en: `The company collected ${f(c)} JOD from customers for earlier services.`, entry: [['cash', c, 0], ['ar', 0, c]] }; },
+    () => { if (!st.ap) return null; const c = Math.min(st.ap, Math.round(st.ap / 2 / 50) * 50 || st.ap); if (st.cash < c) return null; st.ap -= c; st.cash -= c; return { text: `سددت الشركة ${f(c)} دينار للموردين.`, text_en: `The company paid ${f(c)} JOD to suppliers.`, entry: [['ap', c, 0], ['cash', 0, c]] }; },
+    () => { const c = amt(300, 1200, 50); if (st.cash < c) return null; st.cash -= c; return { text: `دفعت الشركة إيجار المكتب عن هذا الشهر ${f(c)} دينار نقداً.`, text_en: `The company paid office rent for this month, ${f(c)} JOD in cash.`, entry: [['rent_exp', c, 0], ['cash', 0, c]] }; },
+    () => { const c = amt(400, 1500, 50); if (st.cash < c) return null; st.cash -= c; return { text: `دفعت الشركة رواتب الموظفين ${f(c)} دينار نقداً.`, text_en: `The company paid employee salaries of ${f(c)} JOD in cash.`, entry: [['salaries_exp', c, 0], ['cash', 0, c]] }; },
+    () => { if (st.unearned) return null; const c = amt(1200, 3600, 600); st.cash += c; st.unearned = c; return { text: `قبضت الشركة ${f(c)} دينار مقدماً من عميل عن خدمات تُقدَّم بالتساوي خلال 3 أشهر تبدأ هذا الشهر.`, text_en: `The company received ${f(c)} JOD in advance from a customer for services to be performed evenly over 3 months starting this month.`, entry: [['cash', c, 0], ['unearned', 0, c]] }; },
+    () => { if (st.prepaid) return null; const c = amt(600, 2400, 120); if (st.cash < c) return null; st.cash -= c; st.prepaid = c; return { text: `دفعت الشركة ${f(c)} دينار نقداً قسط تأمين لمدة سنة تبدأ من أول هذا الشهر.`, text_en: `The company paid ${f(c)} JOD in cash for a one-year insurance policy starting at the beginning of this month.`, entry: [['prepaid_ins', c, 0], ['cash', 0, c]] }; },
+    () => { const c = amt(100, 400, 10); st.ap += c; return { text: `وصلت فاتورة الكهرباء والماء لهذا الشهر بمبلغ ${f(c)} دينار ولم تُدفع بعد.`, text_en: `This month's electricity and water bill of ${f(c)} JOD arrived and is not yet paid.`, entry: [['utilities_exp', c, 0], ['ap', 0, c]] }; },
+    () => { const c = amt(200, 800, 50); if (st.cash < c + 500) return null; st.cash -= c; return { text: `سحب المالك ${f(c)} دينار نقداً لاستخدامه الشخصي.`, text_en: `The owner withdrew ${f(c)} JOD in cash for personal use.`, entry: [['drawings', c, 0], ['cash', 0, c]] }; }
   ];
   const nRegular = 2 + Math.floor(R() * 3);   // 2-4 بعد رأس المال
   let guard = 0; const usedIdx = new Set();
@@ -1674,22 +1678,23 @@ function generateProblem(seed) {
     t.date = days[txs.length - 1] + ' ' + mShort; txs.push(t);
   }
   const adj = [];
-  if (st.equipment) adj.push({ text: `قيد تسوية: إهلاك المعدات لهذا الشهر. عمرها الإنتاجي 5 سنوات بدون قيمة خردة (${f(st.equipment)} ÷ 60 شهراً).`, entry: [['dep_exp', st.equipment / 60, 0], ['accum_dep_eq', 0, st.equipment / 60]] });
-  if (st.supplies) { const left = Math.round(st.supplies * (0.2 + R() * 0.5) / 10) * 10; const used = st.supplies - left; adj.push({ text: `قيد تسوية: جرد اللوازم في نهاية الشهر أظهر أن المتبقي منها ${f(left)} دينار.`, entry: [['supplies_exp', used, 0], ['supplies', 0, used]] }); }
-  if (st.unearned) adj.push({ text: 'قيد تسوية: قُدِّم ثلث الخدمة المقبوضة مقدماً خلال هذا الشهر.', entry: [['unearned', st.unearned / 3, 0], ['service_rev', 0, st.unearned / 3]] });
-  if (st.prepaidRent) adj.push({ text: 'قيد تسوية: انقضى شهر واحد من الإيجار المدفوع مقدماً.', entry: [['rent_exp', st.prepaidRent / 3, 0], ['prepaid_rent', 0, st.prepaidRent / 3]] });
-  if (st.prepaid) adj.push({ text: 'قيد تسوية: انتهى شهر واحد من فترة التأمين.', entry: [['insurance_exp', st.prepaid / 12, 0], ['prepaid_ins', 0, st.prepaid / 12]] });
-  if (!adj.length || R() < 0.4) { const c = amt(100, 500, 50); adj.push({ text: `قيد تسوية: رواتب مستحقة عن آخر أيام الشهر بمبلغ ${f(c)} دينار لم تُدفع بعد.`, entry: [['salaries_exp', c, 0], ['salaries_payable', 0, c]] }); }
+  if (st.equipment) adj.push({ text: `قيد تسوية: إهلاك المعدات لهذا الشهر. عمرها الإنتاجي 5 سنوات بدون قيمة خردة (${f(st.equipment)} ÷ 60 شهراً).`, text_en: `Adjusting entry: depreciation of the equipment for this month. Useful life 5 years, no salvage value (${f(st.equipment)} ÷ 60 months).`, entry: [['dep_exp', st.equipment / 60, 0], ['accum_dep_eq', 0, st.equipment / 60]] });
+  if (st.supplies) { const left = Math.round(st.supplies * (0.2 + R() * 0.5) / 10) * 10; const used = st.supplies - left; adj.push({ text: `قيد تسوية: جرد اللوازم في نهاية الشهر أظهر أن المتبقي منها ${f(left)} دينار.`, text_en: `Adjusting entry: a count of supplies at month-end shows ${f(left)} JOD on hand.`, entry: [['supplies_exp', used, 0], ['supplies', 0, used]] }); }
+  if (st.unearned) adj.push({ text: 'قيد تسوية: قُدِّم ثلث الخدمة المقبوضة مقدماً خلال هذا الشهر.', text_en: 'Adjusting entry: one third of the service paid for in advance was performed this month.', entry: [['unearned', st.unearned / 3, 0], ['service_rev', 0, st.unearned / 3]] });
+  if (st.prepaidRent) adj.push({ text: 'قيد تسوية: انقضى شهر واحد من الإيجار المدفوع مقدماً.', text_en: 'Adjusting entry: one month of the prepaid rent has expired.', entry: [['rent_exp', st.prepaidRent / 3, 0], ['prepaid_rent', 0, st.prepaidRent / 3]] });
+  if (st.prepaid) adj.push({ text: 'قيد تسوية: انتهى شهر واحد من فترة التأمين.', text_en: 'Adjusting entry: one month of the insurance period has expired.', entry: [['insurance_exp', st.prepaid / 12, 0], ['prepaid_ins', 0, st.prepaid / 12]] });
+  if (!adj.length || R() < 0.4) { const c = amt(100, 500, 50); adj.push({ text: `قيد تسوية: رواتب مستحقة عن آخر أيام الشهر بمبلغ ${f(c)} دينار لم تُدفع بعد.`, text_en: `Adjusting entry: salaries of ${f(c)} JOD accrued for the last days of the month and are not yet paid.`, entry: [['salaries_exp', c, 0], ['salaries_payable', 0, c]] }); }
   const chosen = adj.sort(() => R() - 0.5).slice(0, 1 + Math.floor(R() * 2));
   chosen.forEach(a => { a.adjusting = true; a.date = last + ' ' + mShort; txs.push(a); });
-  return { seed, title: 'تمرين جديد (أرقام عشوائية)', company: pick(names), period: 'شهر ' + month + ' 2026', intro: 'مسألة مولَّدة بأرقام جديدة. كل ضغطة على «تمرين جديد» تعطي مسألة مختلفة.', transactions: txs };
+  const ni = Math.floor(R() * names.length);
+  return { seed, title: 'تمرين جديد (أرقام عشوائية)', title_en: 'New problem (random numbers)', company: names[ni], company_en: names_en[ni], period: 'شهر ' + month + ' 2026', period_en: months_en[mi] + ' 2026', intro: 'مسألة مولَّدة بأرقام جديدة. كل ضغطة على «تمرين جديد» تعطي مسألة مختلفة.', intro_en: 'A generated problem with new numbers. Each press of “New problem” gives a different problem.', transactions: txs };
 }
 function newRandomProblem() {
   generatedProblem = generateProblem(Math.floor(Math.random() * 1e9));
   store('cycle.generatedSeed', generatedProblem.seed);
   practiceIndex = PRACTICE_PROBLEMS.length;
   setMode('practice');
-  showToast('تمرين جديد بأرقام مختلفة');
+  showToast(L('تمرين جديد بأرقام مختلفة', 'New problem with different numbers'));
 }
 
 // =====================================================================
@@ -1702,7 +1707,7 @@ let examState = null;   // { questions, index, answers, endsAt, timer, finished,
 
 function examPool() {
   const pool = [];
-  const add = (p) => p.transactions.forEach(t => pool.push({ ...t, company: p.company }));
+  const add = (p) => p.transactions.forEach(t => pool.push({ ...t, company: p.company, company_en: p.company_en || '' }));
   add(YUSR_CASE); PRACTICE_PROBLEMS.forEach(add);
   for (let i = 0; i < 4; i++) add(generateProblem(Math.floor(Math.random() * 1e9)));
   return pool;
@@ -1712,7 +1717,7 @@ function startExam() {
   const adj = pool.filter(t => t.adjusting).slice(0, 3);
   const reg = pool.filter(t => !t.adjusting).slice(0, EXAM_QUESTIONS - adj.length);
   const questions = reg.concat(adj).sort(() => Math.random() - 0.5).map((t, i) => ({
-    id: 'Q' + (i + 1), n: i + 1, kind: 'tx', date: t.date || '', title: '', text: t.text, company: t.company,
+    id: 'Q' + (i + 1), n: i + 1, kind: 'tx', date: t.date || '', title: '', text: t.text, text_en: t.text_en || '', company: t.company, company_en: t.company_en || '',
     adjusting: !!t.adjusting, note: t.note || '', note_en: t.note_en || '', entry: normEntry(t.entry)
   }));
   if (examState && examState.timer) clearInterval(examState.timer);
@@ -1753,7 +1758,7 @@ function finishExam(timeUp) {
   examState.newBest = !best || score / examState.questions.length > best.score / best.total;
   if (examState.newBest) store('cycle.examBest', { score, total: examState.questions.length });
   renderExam();
-  showToast(timeUp ? 'انتهى الوقت' : 'انتهى الامتحان');
+  showToast(timeUp ? L('انتهى الوقت', 'Time is up') : L('انتهى الامتحان', 'Exam finished'));
 }
 function endExamView() {
   if (examState && examState.timer) clearInterval(examState.timer);
@@ -1765,7 +1770,7 @@ function endExamView() {
 function renderBest() {
   const b = restore('cycle.examBest', null);
   const el = document.getElementById('exam-best');
-  if (el) el.innerHTML = `الامتحان: ${num(EXAM_QUESTIONS)} أسئلة قيود خلال ${num(EXAM_MINUTES)} دقيقة، بدون تلميحات حتى النهاية.` + (b && b.total ? ` أفضل نتيجة: ${num(b.score)} من ${num(b.total)}.` : '');
+  if (el) el.innerHTML = L(`الامتحان: ${num(EXAM_QUESTIONS)} أسئلة قيود خلال ${num(EXAM_MINUTES)} دقيقة، بدون تلميحات حتى النهاية.`, `Exam: ${num(EXAM_QUESTIONS)} journal-entry questions in ${num(EXAM_MINUTES)} minutes, no hints until the end.`) + (b && b.total ? L(` أفضل نتيجة: ${num(b.score)} من ${num(b.total)}.`, ` Best score: ${num(b.score)} of ${num(b.total)}.`) : '');
 }
 function renderExam() {
   const box = document.getElementById('exam-view');
@@ -1774,24 +1779,24 @@ function renderExam() {
     const q = examState.questions[examState.index];
     box.innerHTML = `
       <div class="flex justify-between items-center gap-3 flex-wrap">
-        <h2 class="text-xl font-black text-slate-900">الامتحان</h2>
-        <p class="font-bold">الوقت المتبقي <span id="exam-timer" class="num font-black" dir="ltr">${clock(examState.endsAt - Date.now())}</span></p>
+        <h2 class="text-xl font-black text-slate-900">${L('الامتحان', 'Exam')}</h2>
+        <p class="font-bold">${L('الوقت المتبقي', 'Time left')} <span id="exam-timer" class="num font-black" dir="ltr">${clock(examState.endsAt - Date.now())}</span></p>
       </div>
-      <p class="text-sm font-bold text-slate-500 mt-2">السؤال ${num(q.n)} من ${num(examState.questions.length)}${q.adjusting ? ' · قيد تسوية' : ''}</p>
-      <p class="text-sm text-slate-600">${esc(q.company)}${q.date ? ' · ' + esc(q.date) : ''}</p>
-      <p class="mt-1 leading-relaxed text-slate-900">${esc(q.text)}</p>
-      <p class="text-sm text-slate-600 mt-2">المطلوب: قيد اليومية لهذه العملية.</p>
+      <p class="text-sm font-bold text-slate-500 mt-2">${L('السؤال', 'Question')} ${num(q.n)} ${L('من', 'of')} ${num(examState.questions.length)}${q.adjusting ? ' · ' + L('قيد تسوية', 'Adjusting entry') : ''}</p>
+      <p class="text-sm text-slate-600">${esc(tr(q, 'company'))}${q.date ? ' · ' + esc(dateTr(q.date)) : ''}</p>
+      <p class="mt-1 leading-relaxed text-slate-900">${esc(tr(q, 'text'))}</p>
+      <p class="text-sm text-slate-600 mt-2">${L('المطلوب: قيد اليومية لهذه العملية.', 'Required: the journal entry for this transaction.')}</p>
       <div class="hidden sm:grid grid-cols-12 gap-2 text-sm font-bold text-slate-500 mt-4 px-1">
-        <span class="col-span-6">الحساب</span><span class="col-span-2">مدين</span><span class="col-span-2">دائن</span>
+        <span class="col-span-6">${L('الحساب', 'Account')}</span><span class="col-span-2">${L('مدين', 'Debit')}</span><span class="col-span-2">${L('دائن', 'Credit')}</span>
       </div>
       <div id="exam-rows" class="flex flex-col gap-3 mt-2"></div>
       <div class="flex flex-wrap gap-2 mt-3">
-        <button type="button" class="btn-ghost" onclick="addJournalRow('exam-rows')">+ سطر</button>
+        <button type="button" class="btn-ghost" onclick="addJournalRow('exam-rows')">+ ${L('سطر', 'Line')}</button>
       </div>
       <div class="flex flex-wrap gap-2 mt-4">
-        <button type="button" class="btn-main" onclick="examNext()">${examState.index < examState.questions.length - 1 ? 'السؤال التالي' : 'تسليم الامتحان'}</button>
-        <button type="button" class="btn-ghost" onclick="if (confirm('تسليم الامتحان الآن؟ الأسئلة المتبقية تُحسب خطأ.')) finishExam(false)">تسليم الآن</button>
-        <button type="button" class="btn-ghost" onclick="if (confirm('الخروج من الامتحان بدون نتيجة؟')) endExamView()">خروج</button>
+        <button type="button" class="btn-main" onclick="examNext()">${examState.index < examState.questions.length - 1 ? L('السؤال التالي', 'Next question') : L('تسليم الامتحان', 'Submit exam')}</button>
+        <button type="button" class="btn-ghost" onclick="if (confirm(L('تسليم الامتحان الآن؟ الأسئلة المتبقية تُحسب خطأ.', 'Submit the exam now? Unanswered questions count as wrong.'))) finishExam(false)">${L('تسليم الآن', 'Submit now')}</button>
+        <button type="button" class="btn-ghost" onclick="if (confirm(L('الخروج من الامتحان بدون نتيجة؟', 'Leave the exam without a score?'))) endExamView()">${L('خروج', 'Exit')}</button>
       </div>`;
     addJournalRow('exam-rows'); addJournalRow('exam-rows');
     const prev = examState.answers[q.id];
@@ -1805,37 +1810,49 @@ function renderExam() {
   const best = restore('cycle.examBest', null);
   box.innerHTML = `
     <div class="fb fb-info">
-      <p class="text-lg font-black">النتيجة: ${num(score)} من ${num(total)}${examState.timeUp ? ' (انتهى الوقت)' : ''}</p>
-      <p class="text-sm">الوقت المستخدم <span class="num" dir="ltr">${clock(examState.usedMs)}</span> من <span class="num" dir="ltr">${EXAM_MINUTES}:00</span>${best ? ` · أفضل نتيجة: ${num(best.score)} من ${num(best.total)}${examState.newBest ? ' (نتيجة جديدة)' : ''}` : ''}</p>
+      <p class="text-lg font-black">${L('النتيجة', 'Score')}: ${num(score)} ${L('من', 'of')} ${num(total)}${examState.timeUp ? L(' (انتهى الوقت)', ' (time is up)') : ''}</p>
+      <p class="text-sm">${L('الوقت المستخدم', 'Time used')} <span class="num" dir="ltr">${clock(examState.usedMs)}</span> ${L('من', 'of')} <span class="num" dir="ltr">${EXAM_MINUTES}:00</span>${best ? ` · ${L('أفضل نتيجة', 'Best score')}: ${num(best.score)} ${L('من', 'of')} ${num(best.total)}${examState.newBest ? L(' (نتيجة جديدة)', ' (new best)') : ''}` : ''}</p>
     </div>
     <ol class="flex flex-col mt-2">${qs.map(q => {
       const a = examState.answers[q.id];
       const ok = a && a.correct;
-      return `<li class="op"><p class="font-bold">السؤال ${num(q.n)}: <span class="${ok ? 'text-emerald-700' : 'text-red-700'}">${ok ? 'صحيح' : a && a.lines.length ? 'خطأ' : 'بدون إجابة'}</span></p>
-        <p class="text-slate-700 leading-relaxed">${esc(q.text)}</p>
-        ${!ok && a && a.lines.length ? `<p class="text-sm font-bold text-slate-500 mt-2">الإجابة المسجَّلة</p>${linesTable(a.lines)}
+      return `<li class="op"><p class="font-bold">${L('السؤال', 'Question')} ${num(q.n)}: <span class="${ok ? 'text-emerald-700' : 'text-red-700'}">${ok ? L('صحيح', 'Correct') : a && a.lines.length ? L('خطأ', 'Wrong') : L('بدون إجابة', 'No answer')}</span></p>
+        <p class="text-slate-700 leading-relaxed">${esc(tr(q, 'text'))}</p>
+        ${!ok && a && a.lines.length ? `<p class="text-sm font-bold text-slate-500 mt-2">${L('الإجابة المسجَّلة', 'Your answer')}</p>${linesTable(a.lines)}
           <div class="mt-2 fb fb-warn" ${xdir()}>${problemsHTML(checkEntry(q, a.lines))}</div>` : ''}
-        <details class="t-fold mt-1"><summary>الحل والشرح</summary>${explanationHTML(q)}</details></li>`;
+        <details class="t-fold mt-1"><summary>${L('الحل والشرح', 'Solution and explanation')}</summary>${explanationHTML(q)}</details></li>`;
     }).join('')}</ol>
     <div class="flex flex-wrap gap-2 mt-4">
-      <button type="button" class="btn-main" onclick="startExam()">امتحان جديد</button>
-      <button type="button" class="btn-ghost" onclick="endExamView()">العودة للتمارين</button>
+      <button type="button" class="btn-main" onclick="startExam()">${L('امتحان جديد', 'New exam')}</button>
+      <button type="button" class="btn-ghost" onclick="endExamView()">${L('العودة للتمارين', 'Back to practice')}</button>
     </div>`;
 }
 function linesTable(lines) {
   const dr = lines.filter(l => l.dr > 0), cr = lines.filter(l => l.cr > 0);
-  return `<table class="j-table"><tbody>
-    ${dr.map(l => `<tr><td>من حـ/ ${esc(l.acc ? acct(l.acc).ar : '—')}</td><td>${num(l.dr)}</td><td></td></tr>`).join('')}
-    ${cr.map(l => `<tr><td class="pr-6">إلى حـ/ ${esc(l.acc ? acct(l.acc).ar : '—')}</td><td></td><td>${num(l.cr)}</td></tr>`).join('')}
+  const en = lang === 'en';
+  return `<table class="j-table" ${en ? 'dir="ltr"' : ''}><tbody>
+    ${dr.map(l => `<tr><td>${en ? '' : 'من حـ/ '}${esc(l.acc ? accName(l.acc) : '—')}</td><td>${num(l.dr)}</td><td></td></tr>`).join('')}
+    ${cr.map(l => `<tr><td class="${en ? 'pl-6' : 'pr-6'}">${en ? '' : 'إلى حـ/ '}${esc(l.acc ? accName(l.acc) : '—')}</td><td></td><td>${num(l.cr)}</td></tr>`).join('')}
   </tbody></table>`;
 }
 
 // =====================================================================
-//  اللغة: الشرح بالعربي أو بالإنجليزي (الواجهة تبقى بالعربي)
+//  اللغة: الأداة كاملة بالعربي أو بالإنجليزي (الواجهة والشرح)
 // =====================================================================
 let lang = 'ar';
 const L = (ar, en) => lang === 'en' ? en : ar;
 function accName(k) { const a = acct(k); return lang === 'en' && a.en ? a.en : a.ar; }
+function tr(o, f) { return o ? (lang === 'en' && o[f + '_en'] ? o[f + '_en'] : o[f]) : ''; }
+const MONTHS_EN = [['كانون الثاني', 'January'], ['شباط', 'February'], ['آذار', 'March'], ['نيسان', 'April'], ['أيار', 'May'], ['حزيران', 'June'], ['تموز', 'July'], ['آب', 'August'], ['أيلول', 'September'], ['تشرين الأول', 'October'], ['تشرين الثاني', 'November'], ['كانون الأول', 'December'],
+  ['يناير', 'January'], ['فبراير', 'February'], ['مارس', 'March'], ['أبريل', 'April'], ['مايو', 'May'], ['يونيو', 'June'], ['يوليو', 'July'], ['أغسطس', 'August'], ['سبتمبر', 'September'], ['أكتوبر', 'October'], ['نوفمبر', 'November'], ['ديسمبر', 'December']];
+function dateTr(s) {
+  if (lang !== 'en' || !s) return s;
+  if (s === 'نهاية الفترة') return 'End of period';
+  let o = String(s); MONTHS_EN.forEach(([a, e]) => { o = o.split(a).join(e); });
+  return o.replace(/(\w+) \(\1\)/g, '$1');
+}
+const TYPE_GROUP_EN = { asset: 'Assets', contra: 'Assets', liability: 'Liabilities', equity: 'Equity', drawings: 'Equity', summary: 'Closing accounts', revenue: 'Revenues', expense: 'Expenses' };
+function groupName(type) { return lang === 'en' ? TYPE_GROUP_EN[type] : TYPE_INFO[type].group; }
 const TYPE_EN = { asset: 'asset', contra: 'contra-asset (deducted from its asset)', liability: 'liability', equity: 'equity', drawings: 'dividends / drawings (reduces equity)', summary: 'temporary closing account', revenue: 'revenue (increases equity)', expense: 'expense (reduces equity)' };
 const SIDE_EN = { dr: 'debit', cr: 'credit' };
 function sideWord(s) { return lang === 'en' ? SIDE_EN[s] : SIDE_AR[s]; }
@@ -1844,11 +1861,26 @@ function setLang(l) {
   lang = l === 'en' ? 'en' : 'ar';
   store('cycle.lang', lang);
   document.body.classList.toggle('lang-en', lang === 'en');
-  document.getElementById('lang-toggle').textContent = lang === 'en' ? 'الشرح: English' : 'الشرح: عربي';
+  document.documentElement.lang = lang; document.documentElement.dir = lang === 'en' ? 'ltr' : 'rtl';
+  document.title = lang === 'en' ? 'Interactive Accounting Cycle Companion' : 'رفيق الدورة المحاسبية - Interactive Accounting Cycle Companion';
+  document.getElementById('lang-toggle').textContent = lang === 'en' ? 'Language: English' : 'اللغة: عربي';
+  applyStaticLang();
   document.querySelectorAll('[data-explain]').forEach(el => { el.dir = lang === 'en' ? 'ltr' : 'rtl'; el.lang = lang; });
-  if (scenario) { renderAnalysis(); renderJournal(); if (typeof renderExam === 'function') renderExam(); }
+  if (scenario) { renderAll(); renderBest(); if (typeof renderExam === 'function') renderExam(); }
   loadGlossary(); renderQuiz(); renderEqWidget();
   if (typeof updateQuickBar === 'function') updateQuickBar();
+  if (typeof tourIdx !== 'undefined' && tourIdx >= 0 && tourEl) tourRender();
+}
+// النصوص الثابتة في الصفحة: data-en (النص) و data-en-ph / data-en-title / data-en-aria (الخصائص)
+function applyStaticLang() {
+  const en = lang === 'en';
+  document.querySelectorAll('[data-en]').forEach(el => { if (el.dataset.ar === undefined) el.dataset.ar = el.innerHTML; el.innerHTML = en ? el.dataset.en : el.dataset.ar; });
+  [['enPh', 'arPh', 'placeholder'], ['enTitle', 'arTitle', 'title'], ['enAria', 'arAria', 'aria-label']].forEach(([e, a, attr]) => {
+    document.querySelectorAll('[data-' + e.replace(/[A-Z]/g, c => '-' + c.toLowerCase()) + ']').forEach(el => {
+      if (el.dataset[a] === undefined) el.dataset[a] = el.getAttribute(attr) || '';
+      el.setAttribute(attr, en ? el.dataset[e] : el.dataset[a]);
+    });
+  });
 }
 function toggleLang() { setLang(lang === 'en' ? 'ar' : 'en'); }
 
@@ -2007,28 +2039,28 @@ function renderPracticePicker() {
     const pk = i < PRACTICE_PROBLEMS.length ? 'practice-' + i : 'gen-' + p.seed;
     const done = (progress[pk] || []).filter(id => id[0] === 'T').length;
     return `<button type="button" onclick="setPractice(${i})" class="pick ${i === practiceIndex ? 'pick-active' : ''}">
-      <span class="block font-bold">${esc(p.title)}</span>
-      <span class="block text-sm text-slate-500">${esc(p.company)} · ${num(done)} من ${num(p.transactions.length)}</span></button>`;
+      <span class="block font-bold">${esc(tr(p, 'title'))}</span>
+      <span class="block text-sm text-slate-500">${esc(tr(p, 'company'))} · ${num(done)} ${L('من', 'of')} ${num(p.transactions.length)}</span></button>`;
   }).join('');
 }
 
 function statusText(item) {
-  if (isPosted(item.id)) return '<span class="text-emerald-700 font-bold">مُرحَّلة</span>';
-  if (isOpen(item)) return '<span class="text-amber-700 font-bold">مفتوحة للتسجيل</span>';
-  return '<span class="text-slate-400">بعد ترحيل ما قبلها</span>';
+  if (isPosted(item.id)) return `<span class="text-emerald-700 font-bold">${L('مُرحَّلة', 'Posted')}</span>`;
+  if (isOpen(item)) return `<span class="text-amber-700 font-bold">${L('مفتوحة للتسجيل', 'Open for entry')}</span>`;
+  return `<span class="text-slate-400">${L('بعد ترحيل ما قبلها', 'After the previous ones are posted')}</span>`;
 }
 
 function renderAnalysis() {
   const s = scenario;
   document.getElementById('scenario-head').innerHTML = `
-    <h2 class="text-xl font-black text-slate-900">${esc(s.title)}</h2>
-    ${s.period ? `<p class="text-slate-600">${esc(s.period)}</p>` : ''}
-    ${s.intro ? `<p class="text-slate-700 mt-1 leading-relaxed">${esc(s.intro)}</p>` : ''}
-    ${mode === 'practice' ? '<p class="text-slate-700 mt-2 leading-relaxed">المطلوب: تسجيل قيد كل عملية في دفتر اليومية ثم «التحقق». بعد التحقق يظهر الشرح الكامل للحل.</p>' : ''}
-    ${mode === 'yusr' ? '<p class="text-slate-700 mt-2 leading-relaxed">مثال موجَّه: تحليل كل عملية متاح قبل التسجيل، والقيد يُكتب في دفتر اليومية ثم «التحقق».</p>' : ''}`;
+    <h2 class="text-xl font-black text-slate-900">${esc(tr(s, 'title'))}</h2>
+    ${s.period ? `<p class="text-slate-600">${esc(tr(s, 'period'))}</p>` : ''}
+    ${s.intro ? `<p class="text-slate-700 mt-1 leading-relaxed">${esc(tr(s, 'intro'))}</p>` : ''}
+    ${mode === 'practice' ? `<p class="text-slate-700 mt-2 leading-relaxed">${L('المطلوب: تسجيل قيد كل عملية في دفتر اليومية ثم «التحقق». بعد التحقق يظهر الشرح الكامل للحل.', 'Required: record the entry for each transaction in the journal, then press “Check”. After checking, the full explanation of the solution appears.')}</p>` : ''}
+    ${mode === 'yusr' ? `<p class="text-slate-700 mt-2 leading-relaxed">${L('مثال موجَّه: تحليل كل عملية متاح قبل التسجيل، والقيد يُكتب في دفتر اليومية ثم «التحقق».', 'Guided example: the analysis of each transaction is available before you record it; write the entry in the journal, then press “Check”.')}</p>` : ''}`;
   const list = document.getElementById('operations-list');
   if (!s.txs.length) {
-    list.innerHTML = '<p class="text-slate-500 py-4">لا توجد عمليات بعد. تُضاف العمليات من نموذج «إضافة عملية» بالأعلى.</p>';
+    list.innerHTML = `<p class="text-slate-500 py-4">${L('لا توجد عمليات بعد. تُضاف العمليات من نموذج «إضافة عملية» بالأعلى.', 'No transactions yet. Add them with the “Add transaction” form above.')}</p>`;
     return;
   }
   list.innerHTML = s.txs.map(tx => {
@@ -2036,15 +2068,15 @@ function renderAnalysis() {
     const open = openAnalysis[tx.id] && canAnalyse;
     return `<article class="op">
       <div class="flex flex-wrap justify-between gap-2 text-sm">
-        <span class="font-bold text-slate-500">${esc(itemLabel(tx))}${tx.date ? ' · ' + esc(tx.date) : ''}${tx.adjusting ? ' · <span class="text-amber-700">قيد تسوية</span>' : ''}</span>
+        <span class="font-bold text-slate-500">${esc(itemLabel(tx))}${tx.date ? ' · ' + esc(dateTr(tx.date)) : ''}${tx.adjusting ? ` · <span class="text-amber-700">${L('قيد تسوية', 'Adjusting entry')}</span>` : ''}</span>
         ${statusText(tx)}
       </div>
-      ${tx.title && tx.title !== tx.text ? `<h3 class="font-black text-slate-900 mt-1">${esc(tx.title)}</h3>` : ''}
-      <p class="mt-1 leading-relaxed text-slate-800">${esc(tx.text)}</p>
+      ${tx.title && tx.title !== tx.text ? `<h3 class="font-black text-slate-900 mt-1">${esc(tr(tx, 'title'))}</h3>` : ''}
+      <p class="mt-1 leading-relaxed text-slate-800">${esc(tr(tx, 'text'))}</p>
       <div class="flex flex-wrap gap-2 mt-3">
-        ${canAnalyse ? `<button type="button" class="btn-ghost" onclick="toggleAnalysis('${tx.id}')">${open ? 'إخفاء التحليل' : 'تحليل العملية'}</button>` : ''}
-        ${isOpen(tx) ? `<button type="button" class="btn-main" onclick="openJournal('${tx.id}')">تسجيل القيد</button>` : ''}
-        ${mode === 'custom' && !isPosted(tx.id) ? `<button type="button" class="btn-ghost text-red-700" onclick="deleteCustomTx('${tx.id}')">حذف</button>` : ''}
+        ${canAnalyse ? `<button type="button" class="btn-ghost" onclick="toggleAnalysis('${tx.id}')">${open ? L('إخفاء التحليل', 'Hide analysis') : L('تحليل العملية', 'Analyse transaction')}</button>` : ''}
+        ${isOpen(tx) ? `<button type="button" class="btn-main" onclick="openJournal('${tx.id}')">${L('تسجيل القيد', 'Record entry')}</button>` : ''}
+        ${mode === 'custom' && !isPosted(tx.id) ? `<button type="button" class="btn-ghost text-red-700" onclick="deleteCustomTx('${tx.id}')">${L('حذف', 'Delete')}</button>` : ''}
       </div>
       ${open ? `<div class="mt-3 pt-3 border-t border-slate-200">${explanationHTML(tx)}</div>` : ''}
     </article>`;
@@ -2062,16 +2094,16 @@ function accountOptions(selected) {
   const keys = allAccountKeys().filter(k => mode === 'custom' || k !== 'income_summary' || true);
   const groups = {};
   keys.forEach(k => { const g = TYPE_INFO[acct(k).type].group; (groups[g] = groups[g] || []).push(k); });
-  return '<option value="">— الحساب —</option>' + Object.keys(groups).map(g =>
-    `<optgroup label="${esc(g)}">${groups[g].map(k => `<option value="${esc(k)}" ${k === selected ? 'selected' : ''}>${esc(acct(k).ar)}</option>`).join('')}</optgroup>`).join('');
+  return `<option value="">${L('— الحساب —', '— Account —')}</option>` + Object.keys(groups).map(g =>
+    `<optgroup label="${esc(groupName(acct(groups[g][0]).type))}">${groups[g].map(k => `<option value="${esc(k)}" ${k === selected ? 'selected' : ''}>${esc(accName(k))}</option>`).join('')}</optgroup>`).join('');
 }
 
 function journalRowHTML() {
   return `<div class="j-row">
-      <select class="row-account field col-span-12 sm:col-span-6" aria-label="الحساب">${accountOptions('')}</select>
-      <input class="row-debit field col-span-5 sm:col-span-2" inputmode="decimal" placeholder="مدين" aria-label="مدين" oninput="calcJournalTotals()">
-      <input class="row-credit field col-span-5 sm:col-span-2" inputmode="decimal" placeholder="دائن" aria-label="دائن" oninput="calcJournalTotals()">
-      <button type="button" class="col-span-2 text-sm text-slate-500 hover:text-red-700" onclick="this.closest('.j-row').remove(); calcJournalTotals();" aria-label="حذف السطر">حذف</button>
+      <select class="row-account field col-span-12 sm:col-span-6" aria-label="${L('الحساب', 'Account')}">${accountOptions('')}</select>
+      <input class="row-debit field col-span-5 sm:col-span-2" inputmode="decimal" placeholder="${L('مدين', 'Debit')}" aria-label="${L('مدين', 'Debit')}" oninput="calcJournalTotals()">
+      <input class="row-credit field col-span-5 sm:col-span-2" inputmode="decimal" placeholder="${L('دائن', 'Credit')}" aria-label="${L('دائن', 'Credit')}" oninput="calcJournalTotals()">
+      <button type="button" class="col-span-2 text-sm text-slate-500 hover:text-red-700" onclick="this.closest('.j-row').remove(); calcJournalTotals();" aria-label="${L('حذف السطر', 'Delete line')}">${L('حذف', 'Delete')}</button>
     </div>`;
 }
 function addJournalRow(id) { document.getElementById(id || 'journal-rows').insertAdjacentHTML('beforeend', journalRowHTML()); }
@@ -2090,28 +2122,28 @@ function renderJournal() {
   const box = document.getElementById('journal-work');
   if (!item) {
     box.innerHTML = scenario.txs.length
-      ? '<p class="text-emerald-700 font-bold">كل القيود مُسجَّلة ومُرحَّلة، بما فيها قيود الإقفال.</p>'
-      : '<p class="text-slate-500">لا توجد عمليات لتسجيلها بعد.</p>';
+      ? `<p class="text-emerald-700 font-bold">${L('كل القيود مُسجَّلة ومُرحَّلة، بما فيها قيود الإقفال.', 'All entries are recorded and posted, including the closing entries.')}</p>`
+      : `<p class="text-slate-500">${L('لا توجد عمليات لتسجيلها بعد.', 'No transactions to record yet.')}</p>`;
   } else {
     const open = isOpen(item);
     box.innerHTML = `
       <div>
-        <p class="text-sm font-bold text-slate-500">${esc(itemLabel(item))}${item.date ? ' · ' + esc(item.date) : ''}${item.adjusting ? ' · قيد تسوية' : ''}</p>
-        ${item.kind === 'closing' ? `<p class="font-black text-slate-900">${esc(item.title)}</p>` : ''}
-        <p class="mt-1 leading-relaxed text-slate-900">${esc(item.kind === 'closing' ? 'المطلوب: تسجيل هذا القيد من أرصدة ميزان المراجعة بعد التسويات.' : item.text)}</p>
-        ${open ? '' : '<p class="text-amber-700 mt-1">هذا القيد يُسجَّل بعد ترحيل القيود التي قبله.</p>'}
+        <p class="text-sm font-bold text-slate-500">${esc(itemLabel(item))}${item.date ? ' · ' + esc(dateTr(item.date)) : ''}${item.adjusting ? ' · ' + L('قيد تسوية', 'Adjusting entry') : ''}</p>
+        ${item.kind === 'closing' ? `<p class="font-black text-slate-900">${esc(tr(item, 'title'))}</p>` : ''}
+        <p class="mt-1 leading-relaxed text-slate-900">${esc(item.kind === 'closing' ? L('المطلوب: تسجيل هذا القيد من أرصدة ميزان المراجعة بعد التسويات.', 'Required: record this entry from the balances in the adjusted trial balance.') : tr(item, 'text'))}</p>
+        ${open ? '' : `<p class="text-amber-700 mt-1">${L('هذا القيد يُسجَّل بعد ترحيل القيود التي قبله.', 'This entry is recorded after the entries before it are posted.')}</p>`}
       </div>
       <div class="hidden sm:grid grid-cols-12 gap-2 text-sm font-bold text-slate-500 mt-4 px-1">
-        <span class="col-span-6">الحساب</span><span class="col-span-2">مدين</span><span class="col-span-2">دائن</span>
+        <span class="col-span-6">${L('الحساب', 'Account')}</span><span class="col-span-2">${L('مدين', 'Debit')}</span><span class="col-span-2">${L('دائن', 'Credit')}</span>
       </div>
       <div id="journal-rows" class="flex flex-col gap-3 mt-2"></div>
       <div class="flex flex-wrap justify-between items-center gap-3 mt-3">
-        <button type="button" class="btn-ghost" onclick="addJournalRow()">+ سطر</button>
-        <p class="text-sm text-slate-700">مجموع المدين <strong id="total-debit-val">${num(0)}</strong> · مجموع الدائن <strong id="total-credit-val">${num(0)}</strong></p>
+        <button type="button" class="btn-ghost" onclick="addJournalRow()">+ ${L('سطر', 'Line')}</button>
+        <p class="text-sm text-slate-700">${L('مجموع المدين', 'Total debits')} <strong id="total-debit-val">${num(0)}</strong> · ${L('مجموع الدائن', 'Total credits')} <strong id="total-credit-val">${num(0)}</strong></p>
       </div>
       <div class="flex flex-wrap gap-2 mt-4">
-        <button type="button" class="btn-main" onclick="checkAndPost()" ${open ? '' : 'disabled'}>التحقق</button>
-        <button type="button" class="btn-ghost" onclick="revealSolution()">عرض الحل</button>
+        <button type="button" class="btn-main" onclick="checkAndPost()" ${open ? '' : 'disabled'}>${L('التحقق', 'Check')}</button>
+        <button type="button" class="btn-ghost" onclick="revealSolution()">${L('عرض الحل', 'Show solution')}</button>
       </div>
       <div id="journal-feedback" class="mt-4" aria-live="polite"></div>`;
     addJournalRow(); addJournalRow();
@@ -2133,7 +2165,7 @@ function checkAndPost() {
   if (!item || !isOpen(item)) return;
   const problems = checkEntry(item, readJournalRows());
   if (problems.length) {
-    feedback(problemsHTML(problems) + `<p class="mt-2 text-sm">${L('بعد التعديل يُضغط «التحقق» مرة أخرى، أو «عرض الحل» لعرض الحل مع الشرح.', 'Fix the entry and press «التحقق» again, or «عرض الحل» to see the solution with its explanation.')}</p>`, 'warn');
+    feedback(problemsHTML(problems) + `<p class="mt-2 text-sm">${L('بعد التعديل يُضغط «التحقق» مرة أخرى، أو «عرض الحل» لعرض الحل مع الشرح.', 'Fix the entry and press “Check” again, or “Show solution” to see the solution with its explanation.')}</p>`, 'warn');
     return;
   }
   progress[scenario.key].push(item.id);
@@ -2145,11 +2177,11 @@ function checkAndPost() {
   box.innerHTML = `<div class="fb fb-ok" ${xdir()}><p class="font-bold">${L('إجابة صحيحة، وتم ترحيل القيد إلى دفتر الأستاذ.', 'Correct. The entry has been posted to the ledger.')}</p></div>
     <div class="mt-4">${explanationHTML(item)}</div>
     <div class="flex flex-wrap gap-2 mt-4">
-      ${next ? `<button type="button" class="btn-main" onclick="activeItemId=null; renderJournal(); window.scrollTo({top: document.getElementById('steps-nav').offsetTop, behavior:'smooth'})">${next.kind === 'closing' && item.kind === 'tx' ? 'الانتقال إلى قيود الإقفال' : 'القيد التالي'}</button>` : ''}
-      ${!next || next.kind === 'closing' && item.kind === 'tx' ? `<button type="button" class="btn-ghost" onclick="switchTab('trial')">ميزان المراجعة</button><button type="button" class="btn-ghost" onclick="switchTab('statements')">القوائم المالية</button>` : `<button type="button" class="btn-ghost" onclick="switchTab('ledger')">دفتر الأستاذ</button>`}
+      ${next ? `<button type="button" class="btn-main" onclick="activeItemId=null; renderJournal(); window.scrollTo({top: document.getElementById('steps-nav').offsetTop, behavior:'smooth'})">${next.kind === 'closing' && item.kind === 'tx' ? L('الانتقال إلى قيود الإقفال', 'Go to closing entries') : L('القيد التالي', 'Next entry')}</button>` : ''}
+      ${!next || next.kind === 'closing' && item.kind === 'tx' ? `<button type="button" class="btn-ghost" onclick="switchTab('trial')">${L('ميزان المراجعة', 'Trial Balance')}</button><button type="button" class="btn-ghost" onclick="switchTab('statements')">${L('القوائم المالية', 'Financial Statements')}</button>` : `<button type="button" class="btn-ghost" onclick="switchTab('ledger')">دفتر الأستاذ</button>`}
     </div>`;
   renderJournalLog();
-  showToast('تم ترحيل ' + itemLabel(item));
+  showToast(L('تم ترحيل ', 'Posted: ') + itemLabel(item));
 }
 
 function revealSolution() {
@@ -2160,52 +2192,53 @@ function revealSolution() {
   renderAnalysis();
 }
 function showSolution(item, scroll) {
-  feedback(`${explanationHTML(item)}<p class="mt-3 text-sm">${L('يُكتب القيد في الأسطر أعلاه ثم «التحقق» لترحيله.', 'Type the entry in the lines above, then press «التحقق» to post it.')}</p>`, 'info');
+  feedback(`${explanationHTML(item)}<p class="mt-3 text-sm">${L('يُكتب القيد في الأسطر أعلاه ثم «التحقق» لترحيله.', 'Type the entry in the lines above, then press “Check” to post it.')}</p>`, 'info');
   if (scroll) document.getElementById('journal-feedback').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function renderJournalLog() {
   const items = queue().filter(it => isPosted(it.id));
   const el = document.getElementById('posted-journal-log');
-  if (!items.length) { el.innerHTML = '<p class="text-slate-500">لم يُرحَّل أي قيد بعد.</p>'; return; }
-  el.innerHTML = `<div class="overflow-x-auto"><table class="j-table w-full"><thead><tr><th>البيان</th><th>مدين</th><th>دائن</th></tr></thead><tbody>
+  if (!items.length) { el.innerHTML = `<p class="text-slate-500">${L('لم يُرحَّل أي قيد بعد.', 'No entries posted yet.')}</p>`; return; }
+  const en = lang === 'en';
+  el.innerHTML = `<div class="overflow-x-auto"><table class="j-table w-full"><thead><tr><th>${L('البيان', 'Account')}</th><th>${L('مدين', 'Debit')}</th><th>${L('دائن', 'Credit')}</th></tr></thead><tbody>
     ${items.map(it => {
       const dr = it.entry.filter(l => l.dr > 0), cr = it.entry.filter(l => l.cr > 0);
-      return `<tr class="j-head"><td colspan="3">${esc(itemLabel(it))}${it.date ? ' · ' + esc(it.date) : ''}${it.adjusting ? ' · قيد تسوية' : ''}</td></tr>
-        ${dr.map(l => `<tr><td>من حـ/ ${esc(acct(l.acc).ar)}</td><td>${num(l.dr)}</td><td></td></tr>`).join('')}
-        ${cr.map(l => `<tr><td class="pr-6">إلى حـ/ ${esc(acct(l.acc).ar)}</td><td></td><td>${num(l.cr)}</td></tr>`).join('')}`;
+      return `<tr class="j-head"><td colspan="3">${esc(itemLabel(it))}${it.date ? ' · ' + esc(dateTr(it.date)) : ''}${it.adjusting ? ' · ' + L('قيد تسوية', 'Adjusting entry') : ''}</td></tr>
+        ${dr.map(l => `<tr><td>${en ? '' : 'من حـ/ '}${esc(accName(l.acc))}</td><td>${num(l.dr)}</td><td></td></tr>`).join('')}
+        ${cr.map(l => `<tr><td class="${en ? 'pl-6' : 'pr-6'}">${en ? '' : 'إلى حـ/ '}${esc(accName(l.acc))}</td><td></td><td>${num(l.cr)}</td></tr>`).join('')}`;
     }).join('')}
   </tbody></table></div>`;
 }
 
-function sideAmount(n) { return n === 0 ? num(0) : `${num(n)} <span class="text-xs text-slate-500">${n > 0 ? 'مدين' : 'دائن'}</span>`; }
+function sideAmount(n) { return n === 0 ? num(0) : `${num(n)} <span class="text-xs text-slate-500">${n > 0 ? L('مدين', 'Dr') : L('دائن', 'Cr')}</span>`; }
 
 function renderLedger() {
   const b = balances(null, true);
   const keys = Object.keys(b).sort(accountOrder);
   const el = document.getElementById('ledger-grid-container');
-  if (!keys.length) { el.innerHTML = '<p class="text-slate-500">يظهر هنا حساب مستقل (حرف T) لكل حساب بمجرد ترحيل أول قيد يخصه.</p>'; return; }
+  if (!keys.length) { el.innerHTML = `<p class="text-slate-500">${L('يظهر هنا حساب مستقل (حرف T) لكل حساب بمجرد ترحيل أول قيد يخصه.', 'A T-account appears here for each account as soon as its first entry is posted.')}</p>`; return; }
   let html = '', lastGroup = '';
   keys.forEach(k => {
     const a = acct(k), info = TYPE_INFO[a.type];
-    if (info.group !== lastGroup) { html += `<h3 class="ledger-group">${esc(info.group)}</h3>`; lastGroup = info.group; }
+    if (info.group !== lastGroup) { html += `<h3 class="ledger-group">${esc(groupName(a.type))}</h3>`; lastGroup = info.group; }
     let run = 0;
     const rows = b[k].lines.map(x => {
       run = r2(run + x.dr - x.cr);
-      return `<tr><td>${esc(itemShort(x.item))}${x.item.date ? `<span class="block text-xs text-slate-500">${esc(x.item.date)}</span>` : ''}</td>
+      return `<tr><td>${esc(itemShort(x.item))}${x.item.date ? `<span class="block text-xs text-slate-500">${esc(dateTr(x.item.date))}</span>` : ''}</td>
         <td>${x.dr ? num(x.dr) : ''}</td><td>${x.cr ? num(x.cr) : ''}</td><td>${sideAmount(run)}</td></tr>`;
     }).join('');
     const fin = net(b, k);
     html += `<section class="t-acc">
       <div class="flex justify-between items-baseline gap-2 flex-wrap">
-        <h4 class="font-black text-slate-900">${esc(a.ar)} <bdi class="text-xs text-slate-500 font-normal">${esc(a.en)}</bdi></h4>
-        <span class="text-sm text-slate-600">طبيعته: ${SIDE_AR[info.normal]}</span>
+        <h4 class="font-black text-slate-900">${lang === 'en' ? esc(accName(k)) : `${esc(a.ar)} <bdi class="text-xs text-slate-500 font-normal">${esc(a.en)}</bdi>`}</h4>
+        <span class="text-sm text-slate-600">${L('طبيعته', 'Normal balance')}: ${sideWord(info.normal)}</span>
       </div>
-      <table class="ledger-table"><thead><tr><th>البيان</th><th>مدين</th><th>دائن</th><th>الرصيد</th></tr></thead>
+      <table class="ledger-table"><thead><tr><th>${L('البيان', 'Item')}</th><th>${L('مدين', 'Debit')}</th><th>${L('دائن', 'Credit')}</th><th>${L('الرصيد', 'Balance')}</th></tr></thead>
         <tbody>${rows}</tbody>
-        <tfoot><tr><td>المجموع</td><td>${num(b[k].dr)}</td><td>${num(b[k].cr)}</td><td>${sideAmount(fin)}</td></tr></tfoot></table>
-      ${fin !== 0 && (fin > 0 ? 'dr' : 'cr') !== info.normal && a.type !== 'summary' ? '<p class="text-sm text-amber-700 mt-1">الرصيد عكس طبيعة الحساب، ويستحق المراجعة.</p>' : ''}
-      ${fin === 0 && TEMPORARY.includes(a.type) && b[k].lines.some(x => x.item.kind === 'closing') ? '<p class="text-sm text-slate-600 mt-1">حساب مؤقت أُقفل، ورصيده صفر.</p>' : ''}
+        <tfoot><tr><td>${L('المجموع', 'Total')}</td><td>${num(b[k].dr)}</td><td>${num(b[k].cr)}</td><td>${sideAmount(fin)}</td></tr></tfoot></table>
+      ${fin !== 0 && (fin > 0 ? 'dr' : 'cr') !== info.normal && a.type !== 'summary' ? `<p class="text-sm text-amber-700 mt-1">${L('الرصيد عكس طبيعة الحساب، ويستحق المراجعة.', 'The balance is opposite to the account’s normal balance; worth checking.')}</p>` : ''}
+      ${fin === 0 && TEMPORARY.includes(a.type) && b[k].lines.some(x => x.item.kind === 'closing') ? `<p class="text-sm text-slate-600 mt-1">${L('حساب مؤقت أُقفل، ورصيده صفر.', 'Temporary account, closed; its balance is zero.')}</p>` : ''}
     </section>`;
   });
   el.innerHTML = html;
@@ -2216,16 +2249,16 @@ function tbTable(b, title, subtitle) {
   let d = 0, c = 0;
   const rows = keys.map(k => {
     const n = net(b, k); if (n > 0) d = r2(d + n); else c = r2(c - n);
-    return `<tr><td>${esc(acct(k).ar)}</td><td>${n > 0 ? num(n) : ''}</td><td>${n < 0 ? num(n) : ''}</td></tr>`;
+    return `<tr><td>${esc(accName(k))}</td><td>${n > 0 ? num(n) : ''}</td><td>${n < 0 ? num(n) : ''}</td></tr>`;
   }).join('');
   const ok = d === c && d > 0;
   return `<section class="flex flex-col gap-2">
     <h3 class="text-lg font-black text-slate-900">${title}</h3>
     ${subtitle ? `<p class="text-slate-600 text-sm leading-relaxed">${subtitle}</p>` : ''}
-    <div class="overflow-x-auto"><table class="tb-table"><thead><tr><th>الحساب</th><th>مدين</th><th>دائن</th></tr></thead>
-      <tbody>${rows || '<tr><td colspan="3" class="text-slate-500">لا توجد أرصدة بعد.</td></tr>'}</tbody>
-      <tfoot><tr><td>المجموع</td><td>${num(d)}</td><td>${num(c)}</td></tr></tfoot></table></div>
-    ${d > 0 ? `<p class="${ok ? 'text-emerald-700' : 'text-red-700'} font-bold text-sm">${ok ? 'الميزان متوازن: مجموع المدين = مجموع الدائن.' : 'الميزان غير متوازن.'}</p>` : ''}
+    <div class="overflow-x-auto"><table class="tb-table"><thead><tr><th>${L('الحساب', 'Account')}</th><th>${L('مدين', 'Debit')}</th><th>${L('دائن', 'Credit')}</th></tr></thead>
+      <tbody>${rows || `<tr><td colspan="3" class="text-slate-500">${L('لا توجد أرصدة بعد.', 'No balances yet.')}</td></tr>`}</tbody>
+      <tfoot><tr><td>${L('المجموع', 'Total')}</td><td>${num(d)}</td><td>${num(c)}</td></tr></tfoot></table></div>
+    ${d > 0 ? `<p class="${ok ? 'text-emerald-700' : 'text-red-700'} font-bold text-sm">${ok ? L('الميزان متوازن: مجموع المدين = مجموع الدائن.', 'The trial balance is in balance: total debits = total credits.') : L('الميزان غير متوازن.', 'The trial balance does not balance.')}</p>` : ''}
   </section>`;
 }
 
@@ -2236,12 +2269,12 @@ function renderTrial() {
   const adjDone = allTxPosted();
   let html = '';
   if (hasAdj) {
-    html += tbTable(balances(onlyRegular), 'ميزان المراجعة قبل التسويات', 'أرصدة الحسابات بعد ترحيل العمليات العادية، وقبل قيود التسوية في نهاية الفترة.' + (regularDone ? '' : ' (لم تُرحَّل كل العمليات بعد)'));
+    html += tbTable(balances(onlyRegular), L('ميزان المراجعة قبل التسويات', 'Unadjusted Trial Balance'), L('أرصدة الحسابات بعد ترحيل العمليات العادية، وقبل قيود التسوية في نهاية الفترة.', 'Account balances after posting the regular transactions, before the end-of-period adjusting entries.') + (regularDone ? '' : L(' (لم تُرحَّل كل العمليات بعد)', ' (not all transactions are posted yet)')));
     html += adjDone || scenario.txs.some(t => t.adjusting && isPosted(t.id))
-      ? tbTable(balances(onlyTx), 'ميزان المراجعة بعد التسويات', 'الأرصدة بعد قيود التسوية. منه تُعَد القوائم المالية.' + (adjDone ? '' : ' (لم تُرحَّل كل قيود التسوية بعد)'))
-      : '<p class="text-slate-600">يظهر «ميزان المراجعة بعد التسويات» بعد ترحيل قيود التسوية.</p>';
+      ? tbTable(balances(onlyTx), L('ميزان المراجعة بعد التسويات', 'Adjusted Trial Balance'), L('الأرصدة بعد قيود التسوية. منه تُعَد القوائم المالية.', 'Balances after the adjusting entries. The financial statements are prepared from it.') + (adjDone ? '' : L(' (لم تُرحَّل كل قيود التسوية بعد)', ' (not all adjusting entries are posted yet)')))
+      : `<p class="text-slate-600">${L('يظهر «ميزان المراجعة بعد التسويات» بعد ترحيل قيود التسوية.', 'The Adjusted Trial Balance appears once the adjusting entries are posted.')}</p>`;
   } else {
-    html += tbTable(balances(onlyTx), 'ميزان المراجعة', 'لا توجد قيود تسوية في هذا المثال، لذلك الميزان قبل التسويات وبعدها واحد.');
+    html += tbTable(balances(onlyTx), L('ميزان المراجعة', 'Trial Balance'), L('لا توجد قيود تسوية في هذا المثال، لذلك الميزان قبل التسويات وبعدها واحد.', 'There are no adjusting entries in this example, so the unadjusted and adjusted trial balances are the same.'));
   }
   el.innerHTML = html;
 }
@@ -2251,7 +2284,7 @@ function traceRow(label, amount, lines, opts = {}) {
   const amt = opts.paren ? `(${num(amount)})` : num(amount);
   if (!lines || !lines.length) return `<div class="st-row ${opts.cls || ''}"><span>${label}</span><span>${amt}</span></div>`;
   return `<details class="st-trace ${opts.cls || ''}"><summary class="st-row"><span>${label}</span><span>${amt}</span></summary>
-    <ul class="st-src">${lines.map(x => `<li><span>${esc(itemShort(x.item))}: ${esc(x.item.kind === 'closing' ? x.item.title : (x.item.title || x.item.text))}</span><span>${x.dr ? 'مدين ' + num(x.dr) : 'دائن ' + num(x.cr)}</span></li>`).join('')}</ul></details>`;
+    <ul class="st-src">${lines.map(x => `<li><span>${esc(itemShort(x.item))}: ${esc(x.item.kind === 'closing' ? tr(x.item, 'title') : (tr(x.item, 'title') || tr(x.item, 'text')))}</span><span>${x.dr ? L('مدين ', 'Dr ') + num(x.dr) : L('دائن ', 'Cr ') + num(x.cr)}</span></li>`).join('')}</ul></details>`;
 }
 function totalRow(label, amount, cls) { return `<div class="st-row st-total ${cls || ''}"><span>${label}</span><span>${amount < 0 ? `(${num(amount)})` : num(amount)}</span></div>`; }
 
@@ -2289,51 +2322,51 @@ function renderStatements() {
   const S = computeStatements(), b = S.b;
   const done = scenario.txs.filter(t => isPosted(t.id)).length, all = scenario.txs.length;
   document.getElementById('statements-note').innerHTML = done < all
-    ? `القوائم مبنية على القيود المرحّلة حتى الآن (${num(done)} من ${num(all)}). تكتمل بعد ترحيل كل العمليات وقيود التسوية.`
-    : 'القوائم مبنية على ميزان المراجعة بعد التسويات. الضغط على أي بند يعرض العمليات التي كوّنته.';
-  const head = (t) => `<div class="text-center mb-3"><p class="font-black text-slate-900">${esc(scenario.company)}</p><p class="font-bold">${t}</p>${scenario.period ? `<p class="text-sm text-slate-600">${esc(scenario.period)}</p>` : ''}</div>`;
+    ? L(`القوائم مبنية على القيود المرحّلة حتى الآن (${num(done)} من ${num(all)}). تكتمل بعد ترحيل كل العمليات وقيود التسوية.`, `The statements are built from the entries posted so far (${num(done)} of ${num(all)}). They are complete once all transactions and adjusting entries are posted.`)
+    : L('القوائم مبنية على ميزان المراجعة بعد التسويات. الضغط على أي بند يعرض العمليات التي كوّنته.', 'The statements are built from the adjusted trial balance. Tap any line to see the transactions behind it.');
+  const head = (t) => `<div class="text-center mb-3"><p class="font-black text-slate-900">${esc(tr(scenario, 'company'))}</p><p class="font-bold">${t}</p>${scenario.period ? `<p class="text-sm text-slate-600">${lang === 'en' ? `For the month of ${esc(tr(scenario, 'period'))}` : esc(scenario.period)}</p>` : ''}</div>`;
   const lines = k => b[k] ? b[k].lines : [];
 
   // قائمة الدخل
-  let inc = head('قائمة الدخل') + '<p class="st-sec">الإيرادات</p>';
-  inc += S.rev.map(k => traceRow(esc(acct(k).ar), -net(b, k), lines(k))).join('') || '<p class="text-slate-500 text-sm">لا توجد إيرادات بعد.</p>';
-  inc += totalRow('إجمالي الإيرادات', S.totalRev);
-  inc += '<p class="st-sec">المصاريف</p>';
-  inc += S.exp.map(k => traceRow(esc(acct(k).ar), net(b, k), lines(k))).join('') || '<p class="text-slate-500 text-sm">لا توجد مصاريف بعد.</p>';
-  inc += totalRow('إجمالي المصاريف', S.totalExp);
-  inc += totalRow(S.ni >= 0 ? 'صافي الدخل (الربح)' : 'صافي الخسارة', S.ni, 'st-grand');
-  inc += `<p class="text-sm text-slate-600 mt-2">صافي الدخل = ${num(S.totalRev)} − ${num(S.totalExp)} = ${S.ni < 0 ? '−' : ''}${num(S.ni)}</p>`;
+  let inc = head(L('قائمة الدخل', 'Income Statement')) + `<p class="st-sec">${L('الإيرادات', 'Revenues')}</p>`;
+  inc += S.rev.map(k => traceRow(esc(accName(k)), -net(b, k), lines(k))).join('') || `<p class="text-slate-500 text-sm">${L('لا توجد إيرادات بعد.', 'No revenues yet.')}</p>`;
+  inc += totalRow(L('إجمالي الإيرادات', 'Total revenues'), S.totalRev);
+  inc += `<p class="st-sec">${L('المصاريف', 'Expenses')}</p>`;
+  inc += S.exp.map(k => traceRow(esc(accName(k)), net(b, k), lines(k))).join('') || `<p class="text-slate-500 text-sm">${L('لا توجد مصاريف بعد.', 'No expenses yet.')}</p>`;
+  inc += totalRow(L('إجمالي المصاريف', 'Total expenses'), S.totalExp);
+  inc += totalRow(S.ni >= 0 ? L('صافي الدخل (الربح)', 'Net income') : L('صافي الخسارة', 'Net loss'), S.ni, 'st-grand');
+  inc += `<p class="text-sm text-slate-600 mt-2">${L('صافي الدخل', 'Net income')} = ${num(S.totalRev)} − ${num(S.totalExp)} = ${S.ni < 0 ? '−' : ''}${num(S.ni)}</p>`;
   document.getElementById('sheet-income').innerHTML = inc;
 
   // قائمة التغيرات في حقوق الملكية
-  let eq = head('قائمة التغيرات في حقوق الملكية') + '<p class="st-sec">رأس المال</p>';
-  eq += traceRow('رأس المال أول الفترة', 0);
-  eq += S.capKeys.map(k => traceRow('يُضاف: استثمارات المالك خلال الفترة', -net(b, k), lines(k))).join('');
-  eq += totalRow('رأس المال آخر الفترة', S.capital);
-  eq += '<p class="st-sec">الأرباح المحتجزة</p>';
-  eq += traceRow('الأرباح المحتجزة أول الفترة', S.reOpen);
-  eq += traceRow(S.ni >= 0 ? 'يُضاف: صافي الدخل (من قائمة الدخل)' : 'يُطرح: صافي الخسارة (من قائمة الدخل)', S.ni, null, { paren: S.ni < 0 });
-  eq += S.drw.map(k => traceRow('يُطرح: ' + esc(acct(k).ar), net(b, k), lines(k), { paren: true })).join('');
-  eq += totalRow('الأرباح المحتجزة آخر الفترة', S.reEnd);
-  eq += totalRow('إجمالي حقوق الملكية آخر الفترة', S.equity, 'st-grand');
+  let eq = head(L('قائمة التغيرات في حقوق الملكية', 'Statement of Changes in Equity')) + `<p class="st-sec">${L('رأس المال', 'Capital')}</p>`;
+  eq += traceRow(L('رأس المال أول الفترة', 'Capital, beginning of period'), 0);
+  eq += S.capKeys.map(k => traceRow(L('يُضاف: استثمارات المالك خلال الفترة', 'Add: owner investments during the period'), -net(b, k), lines(k))).join('');
+  eq += totalRow(L('رأس المال آخر الفترة', 'Capital, end of period'), S.capital);
+  eq += `<p class="st-sec">${L('الأرباح المحتجزة', 'Retained Earnings')}</p>`;
+  eq += traceRow(L('الأرباح المحتجزة أول الفترة', 'Retained earnings, beginning of period'), S.reOpen);
+  eq += traceRow(S.ni >= 0 ? L('يُضاف: صافي الدخل (من قائمة الدخل)', 'Add: net income (from the income statement)') : L('يُطرح: صافي الخسارة (من قائمة الدخل)', 'Less: net loss (from the income statement)'), S.ni, null, { paren: S.ni < 0 });
+  eq += S.drw.map(k => traceRow(L('يُطرح: ', 'Less: ') + esc(accName(k)), net(b, k), lines(k), { paren: true })).join('');
+  eq += totalRow(L('الأرباح المحتجزة آخر الفترة', 'Retained earnings, end of period'), S.reEnd);
+  eq += totalRow(L('إجمالي حقوق الملكية آخر الفترة', 'Total equity, end of period'), S.equity, 'st-grand');
   document.getElementById('sheet-equity').innerHTML = eq;
 
   // قائمة المركز المالي
-  let bal = head('قائمة المركز المالي (الميزانية)') + '<p class="st-sec">الأصول</p>';
+  let bal = head(L('قائمة المركز المالي (الميزانية)', 'Balance Sheet (Statement of Financial Position)')) + `<p class="st-sec">${L('الأصول', 'Assets')}</p>`;
   bal += S.assets.map(k => acct(k).type === 'contra'
-    ? traceRow('ناقص: ' + esc(acct(k).ar), -net(b, k), lines(k), { paren: true })
-    : traceRow(esc(acct(k).ar), net(b, k), lines(k))).join('') || '<p class="text-slate-500 text-sm">لا توجد أصول بعد.</p>';
-  bal += totalRow('إجمالي الأصول', S.totalAssets, 'st-grand');
-  bal += '<p class="st-sec">الالتزامات</p>';
-  bal += S.liab.map(k => traceRow(esc(acct(k).ar), -net(b, k), lines(k))).join('') || '<p class="text-slate-500 text-sm">لا توجد التزامات.</p>';
-  bal += totalRow('إجمالي الالتزامات', S.totalLiab);
-  bal += '<p class="st-sec">حقوق الملكية</p>';
-  bal += traceRow('رأس المال (من قائمة التغيرات)', S.capital);
-  bal += traceRow('الأرباح المحتجزة (من قائمة التغيرات)', S.reEnd, null, { paren: S.reEnd < 0 });
-  bal += totalRow('إجمالي حقوق الملكية', S.equity);
-  bal += totalRow('إجمالي الالتزامات وحقوق الملكية', r2(S.totalLiab + S.equity), 'st-grand');
+    ? traceRow(L('ناقص: ', 'Less: ') + esc(accName(k)), -net(b, k), lines(k), { paren: true })
+    : traceRow(esc(accName(k)), net(b, k), lines(k))).join('') || `<p class="text-slate-500 text-sm">${L('لا توجد أصول بعد.', 'No assets yet.')}</p>`;
+  bal += totalRow(L('إجمالي الأصول', 'Total assets'), S.totalAssets, 'st-grand');
+  bal += `<p class="st-sec">${L('الالتزامات', 'Liabilities')}</p>`;
+  bal += S.liab.map(k => traceRow(esc(accName(k)), -net(b, k), lines(k))).join('') || `<p class="text-slate-500 text-sm">${L('لا توجد التزامات.', 'No liabilities.')}</p>`;
+  bal += totalRow(L('إجمالي الالتزامات', 'Total liabilities'), S.totalLiab);
+  bal += `<p class="st-sec">${L('حقوق الملكية', 'Equity')}</p>`;
+  bal += traceRow(L('رأس المال (من قائمة التغيرات)', 'Capital (from the statement of changes in equity)'), S.capital);
+  bal += traceRow(L('الأرباح المحتجزة (من قائمة التغيرات)', 'Retained earnings (from the statement of changes in equity)'), S.reEnd, null, { paren: S.reEnd < 0 });
+  bal += totalRow(L('إجمالي حقوق الملكية', 'Total equity'), S.equity);
+  bal += totalRow(L('إجمالي الالتزامات وحقوق الملكية', 'Total liabilities and equity'), r2(S.totalLiab + S.equity), 'st-grand');
   const ok = S.totalAssets === r2(S.totalLiab + S.equity);
-  bal += `<p class="mt-3 font-bold ${ok ? 'text-emerald-700' : 'text-red-700'}">الأصول ${num(S.totalAssets)} = الالتزامات ${num(S.totalLiab)} + حقوق الملكية ${num(S.equity)} ${ok ? '(متوازنة)' : '(غير متوازنة)'}</p>`;
+  bal += `<p class="mt-3 font-bold ${ok ? 'text-emerald-700' : 'text-red-700'}">${L('الأصول', 'Assets')} ${num(S.totalAssets)} = ${L('الالتزامات', 'Liabilities')} ${num(S.totalLiab)} + ${L('حقوق الملكية', 'Equity')} ${num(S.equity)} ${ok ? L('(متوازنة)', '(balanced)') : L('(غير متوازنة)', '(not balanced)')}</p>`;
   document.getElementById('sheet-balance').innerHTML = bal;
   switchStatement(activeStatement);
 }
@@ -2341,23 +2374,23 @@ function renderStatements() {
 function renderClosing() {
   const el = document.getElementById('closing-content');
   if (!allTxPosted()) {
-    el.innerHTML = `<p class="text-slate-700 leading-relaxed">تظهر قيود الإقفال بعد ترحيل كل العمليات وقيود التسوية (${num(scenario.txs.filter(t => isPosted(t.id)).length)} من ${num(scenario.txs.length)} حتى الآن).</p>`;
+    el.innerHTML = `<p class="text-slate-700 leading-relaxed">${L(`تظهر قيود الإقفال بعد ترحيل كل العمليات وقيود التسوية (${num(scenario.txs.filter(t => isPosted(t.id)).length)} من ${num(scenario.txs.length)} حتى الآن).`, `The closing entries appear once all transactions and adjusting entries are posted (${num(scenario.txs.filter(t => isPosted(t.id)).length)} of ${num(scenario.txs.length)} so far).`)}</p>`;
     return;
   }
   const items = closingItems();
   let html = `<ol class="flex flex-col gap-3">${items.map(it => `<li class="op">
       <div class="flex flex-wrap justify-between gap-2 text-sm"><span class="font-bold text-slate-500">${esc(itemLabel(it))}</span>${statusText(it)}</div>
-      <p class="font-black text-slate-900 mt-1">${esc(it.title)}</p>
-      <p class="text-slate-700 leading-relaxed">${esc(it.text)}</p>
-      ${isPosted(it.id) ? `<div class="mt-2">${solutionTable(it.entry)}</div>` : isOpen(it) ? `<button type="button" class="btn-main mt-2" onclick="openJournal('${it.id}')">تسجيل القيد</button>` : ''}
+      <p class="font-black text-slate-900 mt-1">${esc(tr(it, 'title'))}</p>
+      <p class="text-slate-700 leading-relaxed">${esc(tr(it, 'text'))}</p>
+      ${isPosted(it.id) ? `<div class="mt-2">${solutionTable(it.entry)}</div>` : isOpen(it) ? `<button type="button" class="btn-main mt-2" onclick="openJournal('${it.id}')">${L('تسجيل القيد', 'Record entry')}</button>` : ''}
     </li>`).join('')}</ol>`;
-  if (!items.length) html = '<p class="text-slate-600">لا توجد حسابات مؤقتة بأرصدة، فلا حاجة لقيود إقفال.</p>';
+  if (!items.length) html = `<p class="text-slate-600">${L('لا توجد حسابات مؤقتة بأرصدة، فلا حاجة لقيود إقفال.', 'No temporary accounts have balances, so no closing entries are needed.')}</p>`;
   if (items.every(it => isPosted(it.id))) {
     const b = balances(null, true);
     const leftover = Object.keys(b).filter(k => TEMPORARY.includes(acct(k).type) && net(b, k) !== 0);
-    html += tbTable(b, 'ميزان المراجعة بعد الإقفال', 'بعد الإقفال تبقى الحسابات الدائمة فقط: الأصول والالتزامات وحقوق الملكية. هذه الأرصدة تنتقل إلى الفترة القادمة.');
-    html += leftover.length ? `<p class="text-red-700 font-bold">ما زالت حسابات مؤقتة بأرصدة: ${leftover.map(k => esc(acct(k).ar)).join('، ')}</p>`
-      : '<p class="text-emerald-700 font-bold">كل الحسابات المؤقتة (الإيرادات والمصاريف والتوزيعات وملخص الدخل) أصبحت صفراً. اكتملت الدورة المحاسبية.</p>';
+    html += tbTable(b, L('ميزان المراجعة بعد الإقفال', 'Post-Closing Trial Balance'), L('بعد الإقفال تبقى الحسابات الدائمة فقط: الأصول والالتزامات وحقوق الملكية. هذه الأرصدة تنتقل إلى الفترة القادمة.', 'After closing, only the permanent accounts remain: assets, liabilities and equity. These balances carry forward to the next period.'));
+    html += leftover.length ? `<p class="text-red-700 font-bold">${L('ما زالت حسابات مؤقتة بأرصدة: ', 'Temporary accounts still have balances: ')}${leftover.map(k => esc(accName(k))).join(L('، ', ', '))}</p>`
+      : `<p class="text-emerald-700 font-bold">${L('كل الحسابات المؤقتة (الإيرادات والمصاريف والتوزيعات وملخص الدخل) أصبحت صفراً. اكتملت الدورة المحاسبية.', 'All temporary accounts (revenues, expenses, dividends and Income Summary) are now zero. The accounting cycle is complete.')}</p>`;
   }
   el.innerHTML = html;
 }
@@ -2379,16 +2412,16 @@ function toggleNewAccount() { document.getElementById('cb-new-account').classLis
 function addCustomAccount() {
   const name = document.getElementById('cb-acc-name').value.trim().slice(0, 60);
   const type = document.getElementById('cb-acc-type').value;
-  if (!name) { showToast('يُكتب اسم الحساب أولاً'); return; }
+  if (!name) { showToast(L('يُكتب اسم الحساب أولاً', 'Enter the account name first')); return; }
   if (!TYPE_INFO[type] || type === 'summary') return;
   const exists = Object.keys(ACCOUNTS).concat(Object.keys(custom.accounts)).find(k => acct(k).ar === name);
-  if (exists) { showToast('هذا الحساب موجود في القائمة'); return; }
+  if (exists) { showToast(L('هذا الحساب موجود في القائمة', 'This account is already in the list')); return; }
   const key = 'u' + Date.now().toString(36);
   custom.accounts[key] = { ar: name, en: '', type };
   document.getElementById('cb-acc-name').value = '';
   save(); buildScenario(); renderCustomBuilder(); renderJournal();
   document.getElementById('cb-new-account').classList.add('hidden');
-  showToast('أُضيف الحساب إلى القائمة');
+  showToast(L('أُضيف الحساب إلى القائمة', 'Account added to the list'));
 }
 function addCustomTx() {
   const text = document.getElementById('cb-text').value.trim().slice(0, 300);
@@ -2396,17 +2429,17 @@ function addCustomTx() {
   const amount = toNumber(document.getElementById('cb-amount').value);
   const dr = document.getElementById('cb-debit').value, cr = document.getElementById('cb-credit').value;
   const adjusting = document.getElementById('cb-adjusting').checked;
-  const msg = !text ? 'يُكتب وصف العملية أولاً.' : !(amount > 0) ? 'المبلغ يجب أن يكون رقماً أكبر من صفر.' : !dr || !cr ? 'يُختار الحساب المدين والحساب الدائن.' : dr === cr ? 'الحساب المدين والدائن لا يكونان نفس الحساب.' : '';
+  const msg = !text ? L('يُكتب وصف العملية أولاً.', 'Enter the transaction description first.') : !(amount > 0) ? L('المبلغ يجب أن يكون رقماً أكبر من صفر.', 'The amount must be a number greater than zero.') : !dr || !cr ? L('يُختار الحساب المدين والحساب الدائن.', 'Choose the debit account and the credit account.') : dr === cr ? L('الحساب المدين والدائن لا يكونان نفس الحساب.', 'The debit and credit accounts cannot be the same account.') : '';
   if (msg) { showToast(msg); return; }
   if (progress.custom && progress.custom.some(id => id[0] === 'C')) {
     progress.custom = progress.custom.filter(id => id[0] !== 'C');
-    showToast('أُعيد فتح قيود الإقفال لأن عملية جديدة أُضيفت');
+    showToast(L('أُعيد فتح قيود الإقفال لأن عملية جديدة أُضيفت', 'Closing entries were reopened because a new transaction was added'));
   }
   custom.transactions.push({ id: custom.nextId++, date, text, adjusting, entry: [[dr, amount, 0], [cr, 0, amount]] });
   ['cb-text', 'cb-amount'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('cb-adjusting').checked = false;
   save(); buildScenario(); renderAll();
-  showToast('أُضيفت العملية إلى مثالك');
+  showToast(L('أُضيفت العملية إلى مثالك', 'Transaction added to your example'));
 }
 function deleteCustomTx(id) {
   if (isPosted(id)) return;
@@ -2414,7 +2447,7 @@ function deleteCustomTx(id) {
   save(); buildScenario(); renderAll();
 }
 function resetCustom() {
-  if (!confirm('حذف مثالك الخاص بالكامل والبدء من جديد؟')) return;
+  if (!confirm(L('حذف مثالك الخاص بالكامل والبدء من جديد؟', 'Delete your whole example and start again?'))) return;
   custom = emptyCustom(); progress.custom = [];
   save(); buildScenario(); renderAll();
 }
@@ -2540,7 +2573,7 @@ function loadGlossary() {
   c.innerHTML = glossaryDatabase.map(g => {
     const en = lang === 'en' && g.en_desc;
     const head = en
-      ? `<div class="gl-head" dir="ltr"><span class="gl-term">${esc(g.en || g.ar)}</span><span class="gl-en" dir="rtl" lang="ar">${esc(g.ar)}</span></div>`
+      ? `<div class="gl-head" dir="ltr"><span class="gl-term">${esc(g.en || g.ar)}</span></div>`
       : `<div class="gl-head"><span class="gl-term">${esc(g.ar)}</span>${g.en ? `<span class="gl-en" dir="ltr" lang="en">${esc(g.en)}</span>` : ''}</div>`;
     return `<article class="gl-card glossary-item-row" ${en ? 'dir="ltr" lang="en"' : ''}>${head}<p class="gl-def">${esc(en ? g.en_desc : g.desc)}</p></article>`;
   }).join('');
@@ -2554,12 +2587,12 @@ function addNewTerm() {
   const ar = document.getElementById('term-ar-input').value.trim();
   const en = document.getElementById('term-en-input').value.trim();
   const desc = document.getElementById('term-desc-input').value.trim();
-  if (!ar || !desc) { showToast('يُكتب المصطلح بالعربي وشرحه على الأقل'); return; }
+  if (!ar || !desc) { showToast(L('يُكتب المصطلح بالعربي وشرحه على الأقل', 'Enter at least the Arabic term and its definition')); return; }
   glossaryDatabase.push({ ar, en, desc });
   const extra = restore('cycle.terms', []); extra.push({ ar, en, desc }); store('cycle.terms', extra);
   ['term-ar-input', 'term-en-input', 'term-desc-input'].forEach(id => document.getElementById(id).value = '');
   loadGlossary();
-  showToast('أُضيف المصطلح');
+  showToast(L('أُضيف المصطلح', 'Term added'));
 }
 
 // ---------- الاختبار ----------
@@ -2592,7 +2625,7 @@ function answerQuiz(i, j) {
   quizState[i] = st;
   renderQuiz();
 }
-function resetQuiz() { quizState = {}; renderQuiz(); showToast('تم تصفير الاختبار'); }
+function resetQuiz() { quizState = {}; renderQuiz(); showToast(L('تم تصفير الاختبار', 'Quiz reset')); }
 
 // =====================================================================
 //  البدء
@@ -2612,16 +2645,16 @@ const TOUR_STEPS = [
     en: { t: 'The 6 steps, in order', b: '<ol><li>Transactions</li><li>Journal</li><li>Ledger</li><li>Trial balance</li><li>Financial statements</li><li>Closing</li></ol>Tap any step to open it.' } },
   { target: () => { const b = document.querySelector('#journal-work .btn-main'); return b ? b.parentElement : document.getElementById('tab-journal'); }, view: 'practical', tab: 'journal',
     ar: { t: 'داخل كل خطوة', b: 'بعد كتابة القيد:<br><b>«التحقق»</b> يراجع الإجابة ويوضّح مكان الخطأ إن وُجد.<br><b>«عرض الحل»</b> يُظهر الحل مع الشرح.<br>الخطأ جزء من التعلّم، فالتجربة مفتوحة دائماً 💪' },
-    en: { t: 'Inside each step', b: 'After writing the entry:<br><b>«التحقق» (Check)</b> reviews your answer and points to any mistake.<br><b>«عرض الحل» (Show solution)</b> reveals the answer with its explanation.<br>Mistakes are part of learning, so try freely 💪' } },
+    en: { t: 'Inside each step', b: 'After writing the entry:<br><b>“Check”</b> reviews your answer and points to any mistake.<br><b>“Show solution”</b> reveals the answer with its explanation.<br>Mistakes are part of learning, so try freely 💪' } },
   { target: () => document.getElementById('mode-btn-theoretical'),
     ar: { t: 'الجانب النظري 📖', b: 'هنا الشرح: الدورة المحاسبية، المدين والدائن، <b>المعادلة المحاسبية</b> بمؤشر تفاعلي، و<b>المصطلحات</b> مع تعريفاتها.' },
     en: { t: 'The theory side 📖', b: 'All the explanations: the accounting cycle, debit and credit, the <b>accounting equation</b> with an interactive indicator, and a <b>glossary</b> of terms.' } },
   { target: () => document.querySelector('.lang-btn'),
-    ar: { t: 'الشرح بالإنجليزي 🌐', b: 'هذا الزر يعرض الشرح والملاحظات بالإنجليزية، وضغطة ثانية ترجعها للعربية.' },
-    en: { t: 'Explanations in English 🌐', b: 'This button shows the explanations and feedback in English; tap again to switch back to Arabic.' } },
+    ar: { t: 'الأداة بالإنجليزي 🌐', b: 'هذا الزر يعرض الأداة كاملة بالإنجليزية: الواجهة والشرح والملاحظات، وضغطة ثانية ترجعها للعربية.' },
+    en: { t: 'The tool in English 🌐', b: 'This button switches the whole tool to English: the interface, explanations and feedback. Tap again to switch back to Arabic.' } },
   { target: null, finish: true,
     ar: { t: 'يلا نبدأ بمثال يُسر 👇', b: 'أول عملية بانتظارك.<br>والجولة موجودة دائماً من زر «كيف أستخدم الأداة؟» في الأعلى.', go: 'ابدأ بمثال يُسر' },
-    en: { t: 'Ready? Start with the Yusr example 👇', b: 'The first transaction is waiting.<br>You can replay this tour any time from the «How to use» button at the top.', go: 'Start with Yusr' } }
+    en: { t: 'Ready? Start with the Yusr example 👇', b: 'The first transaction is waiting.<br>You can replay this tour any time from the “How to use this tool” button at the top.', go: 'Start with Yusr' } }
 ];
 let tourIdx = -1, tourEl = null, tourPrev = null, tourRaf = 0;
 
